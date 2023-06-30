@@ -3,7 +3,7 @@
 import { useModalState } from "@/src/store";
 import { useEffect } from "react";
 
-const SetupPage = () => {
+const Home = () => {
     const { isOpen, toggleModal } = useModalState();
 
     useEffect(() => {
@@ -12,7 +12,7 @@ const SetupPage = () => {
         }
     }, [isOpen, toggleModal]);
 
-    return <div className={"p-4"}>Root Page</div>;
+    return <div className={"p-4"}>hello world</div>;
 };
 
-export default SetupPage;
+export default Home;
