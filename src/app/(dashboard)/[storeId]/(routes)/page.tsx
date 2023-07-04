@@ -11,7 +11,7 @@ const DashboardPage = async ({ params }: Props) => {
         },
     });
 
-    return <div>{store?.id}</div>;
+    return <div>{store?.name}</div>;
 };
 
 export default DashboardPage;

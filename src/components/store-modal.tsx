@@ -8,7 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 import { useModalState } from "@/src/store";
-import Modal from "@/src/components/ui/modal";
+import Modal from "@/src/components/modal";
 import {
     Form,
     FormControl,
