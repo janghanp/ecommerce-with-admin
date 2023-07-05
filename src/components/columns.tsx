@@ -17,6 +17,13 @@ export type CategoryColumn = {
     createdAt: string;
 };
 
+export type SizeColumn = {
+    id: string;
+    name: string;
+    value: string;
+    createdAt: string;
+};
+
 export const billboardColumns: ColumnDef<BillboardColumn>[] = [
     {
         accessorKey: "label",
@@ -49,5 +56,24 @@ export const categoryColumns: ColumnDef<CategoryColumn>[] = [
     {
         id: "actions",
         cell: ({ row }) => <CellAction data={row.original} type="category" />,
+    },
+];
+
+export const sizeColumns: ColumnDef<SizeColumn>[] = [
+    {
+        accessorKey: "name",
+        header: "Name",
+    },
+    {
+        accessorKey: "value",
+        header: "Value",
+    },
+    {
+        accessorKey: "createdAt",
+        header: "Date",
+    },
+    {
+        id: "actions",
+        cell: ({ row }) => <CellAction data={row.original} type="size" />,
     },
 ];
