@@ -64,7 +64,7 @@ const SettingsForm = ({ initialData }: Props) => {
         try {
             setIsLoading(true);
             await axios.delete(`/api/stores/${params.storeId}`);
-            
+
             router.refresh();
             router.push("/");
         } catch (error) {
