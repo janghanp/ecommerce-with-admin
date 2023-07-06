@@ -6,15 +6,15 @@ import { Plus } from "lucide-react";
 import Heading from "@/src/components/heading";
 import { Button } from "@/src/components/ui/button";
 import { Separator } from "@/src/components/ui/separator";
-import { colorColumns, ColorColumn } from "@/src/components/columns";
+import { ProductColumn, productsColumns } from "@/src/components/columns";
 import { DataTable } from "@/src/components/data-table";
 import ApiList from "./api-list";
 
 interface Props {
-    colors: ColorColumn[];
+    products: ProductColumn[];
 }
 
-const ColorClient = ({ colors }: Props) => {
+const ProductClient = ({ products }: Props) => {
     const router = useRouter();
     const params = useParams();
 
@@ -22,22 +22,22 @@ const ColorClient = ({ colors }: Props) => {
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Colors (${colors.length})`}
-                    description="Manage colors for your store"
+                    title={`Products (${products.length})`}
+                    description="Manage products for your store"
                 />
 
-                <Button onClick={() => router.push(`/${params.storeId}/colors/new`)}>
+                <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
                     <Plus className="mr-2 h-4 w-4" />
                     Add New
                 </Button>
             </div>
             <Separator />
-            <DataTable columns={colorColumns} data={colors} searchKey="name" />
-            <Heading title="API" description="API calls for Colors" />
+            <DataTable columns={productsColumns} data={products} searchKey="name" />
+            <Heading title="API" description="API calls for Products" />
             <Separator />
-            <ApiList entityName="colors" entityId="colorId" />
+            <ApiList entityName="products" entityId="productId" />
         </>
     );
 };
 
-export default ColorClient;
+export default ProductClient;
