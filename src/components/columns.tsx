@@ -43,6 +43,16 @@ export type ProductColumn = {
     createdAt: string;
 };
 
+export type OrderColumn = {
+    id: string;
+    phone: string;
+    address: string;
+    isPaid: boolean;
+    totalPrice: string;
+    products: string;
+    createdAt: string;
+};
+
 export const billboardColumns: ColumnDef<BillboardColumn>[] = [
     {
         accessorKey: "label",
@@ -170,5 +180,32 @@ export const productsColumns: ColumnDef<ProductColumn>[] = [
     {
         id: "actions",
         cell: ({ row }) => <CellAction data={row.original} type="product" />,
+    },
+];
+
+export const orderColumns: ColumnDef<OrderColumn>[] = [
+    {
+        accessorKey: "products",
+        header: "Products",
+    },
+    {
+        accessorKey: "phone",
+        header: "Phone",
+    },
+    {
+        accessorKey: "address",
+        header: "Address",
+    },
+    {
+        accessorKey: "totalPrice",
+        header: "Total price",
+    },
+    {
+        accessorKey: "isPaid",
+        header: "Paid",
+    },
+    {
+        accessorKey: "createdAt",
+        header: "Date",
     },
 ];
