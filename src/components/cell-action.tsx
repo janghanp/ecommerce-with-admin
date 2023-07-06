@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { BillboardColumn, CategoryColumn, SizeColumn } from "./columns";
+import { BillboardColumn, CategoryColumn, ColorColumn, SizeColumn } from "./columns";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -18,8 +18,8 @@ import axios from "axios";
 import AlertModal from "./alert-modal";
 
 interface Props {
-    data: BillboardColumn | CategoryColumn | SizeColumn;
-    type: "billboard" | "category" | "size";
+    data: BillboardColumn | CategoryColumn | SizeColumn | ColorColumn;
+    type: "billboard" | "category" | "size" | "color";
 }
 
 const CellAction = ({ data, type }: Props) => {
@@ -44,6 +44,11 @@ const CellAction = ({ data, type }: Props) => {
             navigator.clipboard.writeText(id);
             toast.success("Size id copied to the clipboard");
         }
+
+        if (type === "color") {
+            navigator.clipboard.writeText(id);
+            toast.success("Color id copied to the clipboard");
+        }
     };
 
     const updateHandler = () => {
@@ -57,6 +62,10 @@ const CellAction = ({ data, type }: Props) => {
 
         if (type === "size") {
             router.push(`/${params.storeId}/sizes/${data.id}`);
+        }
+
+        if (type === "color") {
+            router.push(`/${params.storeId}/colors/${data.id}`);
         }
     };
 
@@ -76,6 +85,10 @@ const CellAction = ({ data, type }: Props) => {
                 await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
             }
 
+            if (type === "color") {
+                await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
+            }
+
             router.refresh();
             router.push("");
 
@@ -90,6 +103,10 @@ const CellAction = ({ data, type }: Props) => {
             if (type === "category") {
                 toast.success("Size deleted.");
             }
+
+            if (type === "color") {
+                toast.success("Color deleted.");
+            }
         } catch (error) {
             if (type === "billboard") {
                 toast.error("Make sure you removed all categories using this billboard first.");
@@ -101,6 +118,10 @@ const CellAction = ({ data, type }: Props) => {
 
             if (type === "size") {
                 toast.error("Make sure you removed all products using this size first.");
+            }
+
+            if (type === "color") {
+                toast.error("Make sure you removed all products using this color first.");
             }
         } finally {
             setIsLoading(false);
