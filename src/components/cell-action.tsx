@@ -113,7 +113,7 @@ const CellAction = ({ data, type }: Props) => {
                 toast.success("Category deleted.");
             }
 
-            if (type === "category") {
+            if (type === "size") {
                 toast.success("Size deleted.");
             }
 
