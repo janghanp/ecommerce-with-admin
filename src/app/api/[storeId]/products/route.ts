@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/src/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
     try {
@@ -95,7 +96,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         const product = await prisma.product.create({
             data: {
                 name,
-                price,
+                price: new Prisma.Decimal(price),
                 isFeatured,
                 isArchived,
                 categoryId,

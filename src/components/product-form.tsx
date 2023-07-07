@@ -50,7 +50,7 @@ type ProductFormValue = z.infer<typeof formSchema>;
 
 const formSchema = z.object({
     name: z.string().min(1),
-    images: z.object({ url: z.string() }).array(),
+    images: z.object({ url: z.string() }).array().min(1, { message: "Image is required" }),
     price: z.coerce.number().min(1),
     categoryId: z.string().min(1),
     colorId: z.string().min(1),
@@ -82,6 +82,7 @@ const ProductForm = ({ initialData, categories, colors, sizes }: Props) => {
                   name: "",
                   images: [],
                   categoryId: "",
+                  price: 0,
                   colorId: "",
                   sizeId: "",
                   isFeatured: false,
@@ -103,6 +104,7 @@ const ProductForm = ({ initialData, categories, colors, sizes }: Props) => {
             router.push(`/${params.storeId}/products`);
             toast.success(toastMessage);
         } catch (error) {
+            console.log(error);
             toast.error("Something went wrong...");
         } finally {
             setIsLoading(false);

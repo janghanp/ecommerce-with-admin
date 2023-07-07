@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 
 import { prisma } from "@/src/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 export async function GET(req: Request, { params }: { params: { productId: string } }) {
     try {
@@ -91,12 +92,12 @@ export async function PATCH(
             },
             data: {
                 name,
-                price,
+                price: new Prisma.Decimal(price),
                 categoryId,
                 colorId,
                 sizeId,
                 images: {
-                    deleteMany: [],
+                    deleteMany: {},
                 },
                 isFeatured,
                 isArchived,

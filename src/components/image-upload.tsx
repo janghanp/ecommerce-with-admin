@@ -22,6 +22,7 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: Props) => {
     }, []);
 
     const onUpload = (result: any) => {
+        //Response from Cloudinary when uploading an image.
         onChange(result.info.secure_url);
     };
 
@@ -47,7 +48,7 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: Props) => {
                                 <Trash className="h-4 w-4" />
                             </Button>
                         </div>
-                        <Image fill className="object-cover" src={url} alt={"Image"} />
+                        <Image fill className="object-cover" src={url} alt={"Image"} priority />
                     </div>
                 ))}
             </div>

@@ -33,7 +33,7 @@ const ProductPage = async ({ params }: { params: { productId: string; storeId: s
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
                 <ProductForm
-                    initialData={product}
+                    initialData={JSON.parse(JSON.stringify(product))}
                     categories={categories}
                     sizes={sizes}
                     colors={colors}
