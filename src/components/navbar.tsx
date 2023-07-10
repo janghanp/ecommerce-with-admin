@@ -1,34 +1,105 @@
-import { UserButton, auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+"use client";
+import { useParams, usePathname } from "next/navigation";
+import {
+    Home,
+    Tag,
+    AppWindow,
+    Palette,
+    ReceiptIcon,
+    Package,
+    Settings,
+    Scaling,
+} from "lucide-react";
 
-import { prisma } from "@/src/lib/prisma";
-import { MainNav } from "@/src/components/main-nav";
-import StoreSwitcher from "@/src/components/store-switcher";
-import { ThemeToggle } from "@/src/components/theme-toggle";
+import { Button } from "@/src/components/ui/button";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/src/components/ui/tooltip";
+import Link from "next/link";
+import { cn } from "@/src/lib/utils";
 
-const Navbar = async () => {
-    const { userId } = auth();
+const Navbar = () => {
+    const pathname = usePathname();
+    const params = useParams();
 
-    if (!userId) {
-        redirect("/sign-in;");
-    }
-
-    const stores = await prisma.store.findMany({
-        where: {
-            userId,
+    const routes = [
+        {
+            href: `/${params.storeId}`,
+            label: "Overview",
+            isActive: pathname === `/${params.storeId}`,
+            icon: <Home className="w-4 h-4" />,
         },
-    });
-
+        {
+            href: `/${params.storeId}/billboards`,
+            label: "Billboards",
+            isActive: pathname === `/${params.storeId}/billboards`,
+            icon: <AppWindow className="w-4 h-4" />,
+        },
+        {
+            href: `/${params.storeId}/categories`,
+            label: "Categories",
+            isActive: pathname === `/${params.storeId}/categories`,
+            icon: <Tag className="w-4 h-4" />,
+        },
+        {
+            href: `/${params.storeId}/sizes`,
+            label: "Sizes",
+            isActive: pathname === `/${params.storeId}/sizes`,
+            icon: <Scaling className="w-4 h-4" />,
+        },
+        {
+            href: `/${params.storeId}/colors`,
+            label: "Colors",
+            isActive: pathname === `/${params.storeId}/colors`,
+            icon: <Palette className="w-4 h-4" />,
+        },
+        {
+            href: `/${params.storeId}/products`,
+            label: "Products",
+            isActive: pathname === `/${params.storeId}/products`,
+            icon: <Package className="w-4 h-4" />,
+        },
+        {
+            href: `/${params.storeId}/orders`,
+            label: "Orders",
+            isActive: pathname === `/${params.storeId}/orders`,
+            icon: <ReceiptIcon className="w-4 h-4" />,
+        },
+        {
+            href: `/${params.storeId}/settings`,
+            label: "Settings",
+            isActive: pathname === `/${params.storeId}/settings`,
+            icon: <Settings className="w-4 h-4" />,
+        },
+    ];
     return (
-        <div className="border-b">
-            <div className="flex h-16 items-center px-4">
-                <StoreSwitcher items={stores} />
-                <MainNav className="mx-6" />
-                <div className="ml-auto flex items-center space-x-4">
-                    <ThemeToggle />
-                    <UserButton afterSignOutUrl="/" />
-                </div>
-            </div>
+        <div className="flex flex-col items-center justify-center py-6 h-full gap-y-8">
+            {routes.map((route) => (
+                <Link
+                    key={route.href}
+                    href={route.href}
+                    className={cn(
+                        "text-sm font-medium transition-colors hover:text-primary",
+                        route.isActive ? "text-black dark:text-white" : "text-muted-foreground"
+                    )}
+                >
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Button variant="outline" size="icon">
+                                    {route.icon}
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{route.label}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                </Link>
+            ))}
         </div>
     );
 };
