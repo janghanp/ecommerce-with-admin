@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
+import axios from "axios";
 
 import Heading from "@/src/components/heading";
 import { Button } from "@/src/components/ui/button";
@@ -16,7 +17,11 @@ interface Props {
 
 const SizeClient = ({ sizes }: Props) => {
     const router = useRouter();
-    const params = useParams();
+    const { storeId } = useParams();
+
+    const deleteHandler = async (sizeIds: string[]) => {
+        await axios.delete(`/api/${storeId}/sizes?ids=${sizeIds.join(",")}`);
+    };
 
     return (
         <>
@@ -26,13 +31,18 @@ const SizeClient = ({ sizes }: Props) => {
                     description="Manage sizes for your store"
                 />
 
-                <Button onClick={() => router.push(`/${params.storeId}/sizes/new`)}>
+                <Button onClick={() => router.push(`/${storeId}/sizes/new`)}>
                     <Plus className="mr-2 h-4 w-4" />
                     Add New
                 </Button>
             </div>
             <Separator />
-            <DataTable columns={sizeColumns} data={sizes} searchKey="name" />
+            <DataTable
+                columns={sizeColumns}
+                data={sizes}
+                searchKey="name"
+                deleteHandler={deleteHandler}
+            />
             <Heading title="API" description="API calls for Sizes" />
             <Separator />
             <ApiList entityName="sizes" entityId="sizeId" />

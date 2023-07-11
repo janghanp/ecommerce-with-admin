@@ -117,3 +117,34 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         return new NextResponse("Internal error", { status: 500 });
     }
 }
+
+export async function DELETE(req: Request, { params }: { params: { storeId: string } }) {
+    // @ts-ignore
+    const ids = req.nextUrl.searchParams.get("ids").split(",");
+
+    try {
+        if (!params.storeId) {
+            return new NextResponse("Store id is required", { status: 400 });
+        }
+
+        if (!ids) {
+            return new NextResponse("Ids are required", { status: 400 });
+        }
+
+        const products = await prisma.product.deleteMany({
+            where: {
+                storeId: params.storeId,
+                id: {
+                    in: ids,
+                },
+            },
+        });
+
+        //TODO: delete images from Cloudinary
+
+        return NextResponse.json(products);
+    } catch (error) {
+        console.log("[PRODUCTS_DELETE]", error);
+        return new NextResponse("Internal error", { status: 500 });
+    }
+}

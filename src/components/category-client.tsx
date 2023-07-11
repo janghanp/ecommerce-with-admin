@@ -9,6 +9,7 @@ import { Separator } from "@/src/components/ui/separator";
 import { CategoryColumn, categoryColumns } from "@/src/components/columns";
 import { DataTable } from "@/src/components/data-table";
 import ApiList from "./api-list";
+import axios from "axios";
 
 interface Props {
     categories: CategoryColumn[];
@@ -16,7 +17,11 @@ interface Props {
 
 const CategoryClient = ({ categories }: Props) => {
     const router = useRouter();
-    const params = useParams();
+    const { storeId } = useParams();
+
+    const deleteHandler = async (categoryIds: string[]) => {
+        await axios.delete(`/api/${storeId}/categories?ids=${categoryIds.join(",")}`);
+    };
 
     return (
         <>
@@ -26,13 +31,18 @@ const CategoryClient = ({ categories }: Props) => {
                     description="Manage categories for your store"
                 />
 
-                <Button onClick={() => router.push(`/${params.storeId}/categories/new`)}>
+                <Button onClick={() => router.push(`/${storeId}/categories/new`)}>
                     <Plus className="mr-2 h-4 w-4" />
                     Add New
                 </Button>
             </div>
             <Separator />
-            <DataTable columns={categoryColumns} data={categories} searchKey="name" />
+            <DataTable
+                columns={categoryColumns}
+                data={categories}
+                searchKey="name"
+                deleteHandler={deleteHandler}
+            />
             <Heading title="API" description="API calls for Categories" />
             <Separator />
             <ApiList entityName="categories" entityId="categoryId" />

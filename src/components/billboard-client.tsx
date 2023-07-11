@@ -9,6 +9,7 @@ import { Separator } from "@/src/components/ui/separator";
 import { BillboardColumn, billboardColumns } from "@/src/components/columns";
 import { DataTable } from "@/src/components/data-table";
 import ApiList from "./api-list";
+import axios from "axios";
 
 interface Props {
     billboards: BillboardColumn[];
@@ -16,7 +17,11 @@ interface Props {
 
 const BillboardClient = ({ billboards }: Props) => {
     const router = useRouter();
-    const params = useParams();
+    const { storeId } = useParams();
+
+    const deleteHandler = async (billboardIds: string[]) => {
+        await axios.delete(`/api/${storeId}/billboards?ids=${billboardIds.join(",")}`);
+    };
 
     return (
         <>
@@ -26,13 +31,18 @@ const BillboardClient = ({ billboards }: Props) => {
                     description="Manage billboards for your store"
                 />
 
-                <Button onClick={() => router.push(`/${params.storeId}/billboards/new`)}>
+                <Button onClick={() => router.push(`/${storeId}/billboards/new`)}>
                     <Plus className="mr-2 h-4 w-4" />
                     Add New
                 </Button>
             </div>
             <Separator />
-            <DataTable columns={billboardColumns} data={billboards} searchKey="label" />
+            <DataTable
+                columns={billboardColumns}
+                data={billboards}
+                searchKey="label"
+                deleteHandler={deleteHandler}
+            />
             <Heading title="API" description="API calls for Billboards" />
             <Separator />
             <ApiList entityName="billboards" entityId="billboardId" />

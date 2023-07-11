@@ -1,5 +1,5 @@
 import { auth } from "@clerk/nextjs";
-import { NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 import { prisma } from "@/src/lib/prisma";
 
@@ -67,6 +67,37 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         return NextResponse.json(billboard);
     } catch (error) {
         console.log("[BILLBOARDS_POST]", error);
+        return new NextResponse("Internal error", { status: 500 });
+    }
+}
+
+export async function DELETE(req: Request, { params }: { params: { storeId: string } }) {
+    // @ts-ignore
+    const ids = req.nextUrl.searchParams.get("ids").split(",");
+
+    try {
+        if (!params.storeId) {
+            return new NextResponse("Store id is required", { status: 400 });
+        }
+
+        if (!ids) {
+            return new NextResponse("Ids are required", { status: 400 });
+        }
+
+        const billboards = await prisma.billboard.deleteMany({
+            where: {
+                storeId: params.storeId,
+                id: {
+                    in: ids,
+                },
+            },
+        });
+
+        //TODO: delete images from Cloudinary.
+
+        return NextResponse.json(billboards);
+    } catch (error) {
+        console.log("[BILLBOARDS_DELETE]", error);
         return new NextResponse("Internal error", { status: 500 });
     }
 }

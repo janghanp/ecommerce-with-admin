@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
+import axios from "axios";
 
 import Heading from "@/src/components/heading";
 import { Button } from "@/src/components/ui/button";
@@ -16,7 +17,11 @@ interface Props {
 
 const ColorClient = ({ colors }: Props) => {
     const router = useRouter();
-    const params = useParams();
+    const { storeId } = useParams();
+
+    const deleteHandler = async (colorIds: string[]) => {
+        await axios.delete(`/api/${storeId}/colors?ids=${colorIds.join(",")}`);
+    };
 
     return (
         <>
@@ -26,13 +31,18 @@ const ColorClient = ({ colors }: Props) => {
                     description="Manage colors for your store"
                 />
 
-                <Button onClick={() => router.push(`/${params.storeId}/colors/new`)}>
+                <Button onClick={() => router.push(`/${storeId}/colors/new`)}>
                     <Plus className="mr-2 h-4 w-4" />
                     Add New
                 </Button>
             </div>
             <Separator />
-            <DataTable columns={colorColumns} data={colors} searchKey="name" />
+            <DataTable
+                columns={colorColumns}
+                data={colors}
+                searchKey="name"
+                deleteHandler={deleteHandler}
+            />
             <Heading title="API" description="API calls for Colors" />
             <Separator />
             <ApiList entityName="colors" entityId="colorId" />
