@@ -6,7 +6,8 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "prettier": "prettier --write ."
     },
     "dependencies": {
         "@clerk/nextjs": "^4.21.12",
@@ -27,7 +28,9 @@
         "@types/react-dom": "18.2.6",
         "autoprefixer": "10.4.14",
         "axios": "^1.4.0",
+        "chart.js": "^4.3.0",
         "class-variance-authority": "^0.6.1",
+        "cloudinary": "^1.37.3",
         "clsx": "^1.2.1",
         "cmdk": "^0.2.0",
         "date-fns": "^2.30.0",
@@ -39,6 +42,7 @@
         "next-themes": "^0.2.1",
         "postcss": "8.4.24",
         "react": "18.2.0",
+        "react-chartjs-2": "^5.2.0",
         "react-dom": "18.2.0",
         "react-hook-form": "^7.45.1",
         "react-hot-toast": "^2.4.1",

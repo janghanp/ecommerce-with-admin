@@ -29,16 +29,14 @@ export default async function DashboardLayout({ children, params }: Props) {
     }
 
     return (
-        <>
-            <div className="flex">
-                <div className="h-screen border w-14 sticky top-0 bottom-0">
-                    <Navbar />
-                </div>
-                <div className="flex flex-col flex-1 w-full overflow-x-hidden">
-                    <Header />
-                    {children}
-                </div>
+        <div className="flex">
+            <div className="h-screen border w-14 sticky top-0 bottom-0">
+                <Navbar />
             </div>
-        </>
+            <div className="flex flex-col flex-1 w-full overflow-x-hidden">
+                <Header />
+                {children}
+            </div>
+        </div>
     );
 }

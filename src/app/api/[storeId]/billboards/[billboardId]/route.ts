@@ -1,7 +1,9 @@
+import cloudinary from "cloudinary";
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 
 import { prisma } from "@/src/lib/prisma";
+import { getPublicIdFromUrl } from "@/src/lib/utils";
 
 export async function GET(req: Request, { params }: { params: { billboardId: string } }) {
     try {
@@ -80,6 +82,10 @@ export async function DELETE(
     req: Request,
     { params }: { params: { storeId: string; billboardId: string } }
 ) {
+    cloudinary.v2.config({
+        secure: true,
+    });
+
     try {
         const { userId } = auth();
 
@@ -107,6 +113,13 @@ export async function DELETE(
                 id: params.billboardId,
             },
         });
+
+        const public_id = getPublicIdFromUrl(billboard.imageUrl);
+
+        cloudinary.v2.uploader
+            .destroy(public_id)
+            .then((response) => console.log(response))
+            .catch((error) => console.log(error));
 
         return NextResponse.json(billboard);
     } catch (error) {

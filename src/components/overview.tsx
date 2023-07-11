@@ -1,12 +1,12 @@
 "use client";
 
-import {Bar, BarChart, ResponsiveContainer, XAxis, YAxis} from "recharts";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 interface Props {
-    data: any[];
+    data: any;
 }
 
-const Overview = ({data}: Props) => {
+const Overview = ({ data }: Props) => {
     return (
         <ResponsiveContainer width="100%" height={350}>
             <BarChart data={data}>
@@ -24,7 +24,7 @@ const Overview = ({data}: Props) => {
                     axisLine={false}
                     tickFormatter={(value) => `$${value}`}
                 />
-                <Bar dataKey={"total"} fill={"#3498db"} radius={[4, 4, 0, 0]}/>
+                <Bar dataKey={"total"} fill={"#3498db"} radius={[4, 4, 0, 0]} />
             </BarChart>
         </ResponsiveContainer>
     );

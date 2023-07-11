@@ -8,7 +8,7 @@ import { getTotalRevenue } from "@/src/actions/get-total-revenue";
 import { getSalesCount } from "@/src/actions/get-sales-count";
 import { getStockCount } from "@/src/actions/get-stock-count";
 import Overview from "@/src/components/overview";
-import {getGraphRevenue} from "@/src/actions/get-graph-revenue";
+import { getGraphRevenue } from "@/src/actions/get-graph-revenue";
 
 interface Props {
     params: { storeId: string };

@@ -1,4 +1,5 @@
 "use client";
+
 import { useParams, usePathname } from "next/navigation";
 import {
     Home,
@@ -78,27 +79,28 @@ const Navbar = () => {
     return (
         <div className="flex flex-col items-center justify-center py-6 h-full gap-y-8">
             {routes.map((route) => (
-                <Link
-                    key={route.href}
-                    href={route.href}
-                    className={cn(
-                        "text-sm font-medium transition-colors hover:text-primary",
-                        route.isActive ? "text-black dark:text-white" : "text-muted-foreground"
-                    )}
-                >
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger>
+                <TooltipProvider key={route.href}>
+                    <Tooltip>
+                        <TooltipTrigger asChild={true}>
+                            <Link
+                                href={route.href}
+                                className={cn(
+                                    "text-sm font-medium transition-colors hover:text-primary",
+                                    route.isActive
+                                        ? "text-black dark:text-white"
+                                        : "text-muted-foreground"
+                                )}
+                            >
                                 <Button variant="outline" size="icon">
                                     {route.icon}
                                 </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>{route.label}</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                </Link>
+                            </Link>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>{route.label}</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
             ))}
         </div>
     );
