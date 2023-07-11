@@ -26,7 +26,7 @@ const variantMap: Record<Props["variant"], BadgeProps["variant"]> = {
 const ApiAlert = ({ title, description, variant = "public" }: Props) => {
     const copyHandler = () => {
         navigator.clipboard.writeText(description);
-        toast.success("API Route copied to the clipboard");
+        toast.success("Copied!");
     };
 
     return (

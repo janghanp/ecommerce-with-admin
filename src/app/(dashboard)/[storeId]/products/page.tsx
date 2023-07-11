@@ -4,7 +4,11 @@ import { ProductColumn } from "@/src/components/columns";
 import { formatter } from "@/src/lib/utils";
 import ProductClient from "@/src/components/product-client";
 
-const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
+interface Props {
+    params: { storeId: string };
+}
+
+const ProductsPage = async ({ params }: Props) => {
     const products = await prisma.product.findMany({
         where: {
             storeId: params.storeId,

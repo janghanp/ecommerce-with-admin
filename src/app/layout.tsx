@@ -13,7 +13,11 @@ export const metadata = {
     description: "Admin Dashboard",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+interface Props {
+    children: React.ReactNode;
+}
+
+export default function RootLayout({ children }: Props) {
     return (
         <ClerkProvider>
             <html lang="en" suppressHydrationWarning>

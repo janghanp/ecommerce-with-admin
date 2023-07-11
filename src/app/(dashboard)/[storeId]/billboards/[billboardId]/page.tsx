@@ -1,7 +1,11 @@
 import { prisma } from "@/src/lib/prisma";
 import BillboardForm from "@/src/components/billboard-form";
 
-const BillboardPage = async ({ params }: { params: { billboardId: string } }) => {
+interface Props {
+    params: { billboardId: string };
+}
+
+const BillboardPage = async ({ params }: Props) => {
     const billboard = await prisma.billboard.findUnique({
         where: {
             id: params.billboardId,

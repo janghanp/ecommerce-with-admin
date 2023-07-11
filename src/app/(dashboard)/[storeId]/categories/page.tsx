@@ -4,7 +4,11 @@ import { prisma } from "@/src/lib/prisma";
 import { CategoryColumn } from "@/src/components/columns";
 import CategoryClient from "@/src/components/category-client";
 
-const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
+interface Props {
+    params: { storeId: string };
+}
+
+const CategoriesPage = async ({ params }: Props) => {
     const categories = await prisma.category.findMany({
         where: {
             storeId: params.storeId,

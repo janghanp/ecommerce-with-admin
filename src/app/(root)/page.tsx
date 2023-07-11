@@ -1,7 +1,8 @@
 "use client";
 
-import { useModalState } from "@/src/store";
 import { useEffect } from "react";
+
+import { useModalState } from "@/src/store";
 
 const SetupPage = () => {
     const { isOpen, toggleModal } = useModalState();

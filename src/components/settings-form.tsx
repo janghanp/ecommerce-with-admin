@@ -23,7 +23,6 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import AlertModal from "@/src/components/alert-modal";
-import ApiAlert from "@/src/components/api-alert";
 
 interface Props {
     initialData: Store;
@@ -123,12 +122,6 @@ const SettingsForm = ({ initialData }: Props) => {
                     </Button>
                 </form>
             </Form>
-            <Separator />
-            <ApiAlert
-                title={"NEXT_PUBLIC_API_URL"}
-                description={`${process.env.NEXT_PUBLIC_URL}/api/${params.storeId}`}
-                variant="public"
-            />
         </>
     );
 };

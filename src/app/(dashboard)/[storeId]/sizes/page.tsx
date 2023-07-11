@@ -4,7 +4,11 @@ import { prisma } from "@/src/lib/prisma";
 import { SizeColumn } from "@/src/components/columns";
 import SizeClient from "@/src/components/size-client";
 
-const SizesPage = async ({ params }: { params: { storeId: string } }) => {
+interface Props {
+    params: { storeId: string };
+}
+
+const SizesPage = async ({ params }: Props) => {
     const sizes = await prisma.size.findMany({
         where: {
             storeId: params.storeId,

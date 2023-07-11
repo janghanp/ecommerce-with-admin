@@ -53,6 +53,7 @@ model Category {
   billboard Billboard @relation(fields: [billboardId], references: [id])
   products  Product[] @relation("CategoryToProduct")
 
+  // sizes     Size[]    @relation("SizeToCategory")
   @@index([storeId])
   @@index([billboardId])
 }
@@ -65,10 +66,13 @@ model Size {
   updatedAt DateTime @updatedAt
 
   storeId String
+  // categoryId String
 
   store    Store     @relation("StoreToSize", fields: [storeId], references: [id])
   products Product[]
+  // @@index([categoryId])
 
+  // category Category  @relation("SizeToCategory", fields: [categoryId], references: [id])
   @@index([storeId])
 }
 

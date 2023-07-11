@@ -4,7 +4,11 @@ import { OrderColumn } from "@/src/components/columns";
 import { formatter } from "@/src/lib/utils";
 import OrderClient from "@/src/components/order-client";
 
-const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
+interface Props {
+    params: { storeId: string };
+}
+
+const OrdersPage = async ({ params }: Props) => {
     const orders = await prisma.order.findMany({
         where: {
             storeId: params.storeId,

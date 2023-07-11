@@ -1,7 +1,11 @@
 import { prisma } from "@/src/lib/prisma";
 import CategoryForm from "@/src/components/category-form";
 
-const CategoryPage = async ({ params }: { params: { categoryId: string; storeId: string } }) => {
+interface Props {
+    params: { categoryId: string; storeId: string };
+}
+
+const CategoryPage = async ({ params }: Props) => {
     const category = await prisma.category.findUnique({
         where: {
             id: params.categoryId,

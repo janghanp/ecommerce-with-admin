@@ -4,7 +4,11 @@ import { prisma } from "@/src/lib/prisma";
 import { ColorColumn } from "@/src/components/columns";
 import ColorClient from "@/src/components/color-client";
 
-const ColorsPage = async ({ params }: { params: { storeId: string } }) => {
+interface Props {
+    params: { storeId: string };
+}
+
+const ColorsPage = async ({ params }: Props) => {
     const colors = await prisma.color.findMany({
         where: {
             storeId: params.storeId,
