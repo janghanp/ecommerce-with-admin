@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Trash } from "lucide-react";
+import { Loader2, Trash } from "lucide-react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,8 +50,8 @@ const SettingsForm = ({ initialData }: Props) => {
         try {
             setIsLoading(true);
             await axios.patch(`/api/stores/${params.storeId}`, data);
-            router.refresh();
-            toast.success("Store updated!");
+            router.push(`/${params.storeId}`);
+            toast.success("Successfully updated!");
         } catch (error) {
             toast.error("Something went wrong...");
         } finally {
@@ -118,6 +118,7 @@ const SettingsForm = ({ initialData }: Props) => {
                         />
                     </div>
                     <Button disabled={isLoading} type="submit">
+                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Save changes
                     </Button>
                 </form>

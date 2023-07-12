@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 
 import { useModalState } from "@/src/store";
 import Modal from "@/src/components/modal";
@@ -92,6 +93,7 @@ const StoreModal = () => {
                                     Cancel
                                 </Button>
                                 <Button disabled={isLoading} type="submit">
+                                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                     Continue
                                 </Button>
                             </div>

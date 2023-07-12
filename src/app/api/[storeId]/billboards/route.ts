@@ -4,6 +4,7 @@ import cloudinary from "cloudinary";
 
 import { prisma } from "@/src/lib/prisma";
 import { getPublicIdFromUrl } from "@/src/lib/utils";
+import { Prisma } from ".prisma/client";
 
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
     try {
@@ -120,6 +121,11 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
         return NextResponse.json(count);
     } catch (error) {
         console.log("[BILLBOARDS_DELETE]", error);
+
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            return new NextResponse("Make sure you removed all categories first.", { status: 400 });
+        }
+
         return new NextResponse("Internal error", { status: 500 });
     }
 }

@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/src/lib/prisma";
+import { Prisma } from ".prisma/client";
 
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
     try {
@@ -71,7 +72,6 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     }
 }
 
-
 export async function DELETE(req: Request, { params }: { params: { storeId: string } }) {
     // @ts-ignore
     const ids = req.nextUrl.searchParams.get("ids").split(",");
@@ -97,7 +97,11 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
         return NextResponse.json(sizes);
     } catch (error) {
         console.log("[SIZES_DELETE]", error);
+
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+            return new NextResponse("Make sure you removed all products first.", { status: 400 });
+        }
+
         return new NextResponse("Internal error", { status: 500 });
     }
 }
-

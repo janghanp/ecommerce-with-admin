@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Trash } from "lucide-react";
+import { Loader2, Trash } from "lucide-react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,7 +23,6 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import AlertModal from "@/src/components/alert-modal";
-import ImageUpload from "@/src/components/image-upload";
 
 interface Props {
     initialData: Size | null;
@@ -153,6 +152,7 @@ const SizeForm = ({ initialData }: Props) => {
                         />
                     </div>
                     <Button disabled={isLoading} type="submit">
+                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {action}
                     </Button>
                 </form>

@@ -1,3 +1,5 @@
+import { Loader2 } from "lucide-react";
+
 import Modal from "@/src/components/modal";
 import { Button } from "@/src/components/ui/button";
 
@@ -21,6 +23,7 @@ const AlertModal = ({ isOpen, onClose, onConfirm, isLoading }: Props) => {
                     Cancel
                 </Button>
                 <Button disabled={isLoading} variant="destructive" onClick={onConfirm}>
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Continue
                 </Button>
             </div>

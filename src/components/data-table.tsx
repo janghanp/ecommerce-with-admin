@@ -25,12 +25,13 @@ import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import AlertModal from "@/src/components/alert-modal";
 import toast from "react-hot-toast";
+import { AxiosError } from "axios";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     searchKey: string;
-    deleteHandler: (ids: string[]) => void;
+    deleteHandler?: (ids: string[]) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -69,13 +70,17 @@ export function DataTable<TData, TValue>({
                 return row.original.id as string;
             });
 
-            await deleteHandler(ids);
+            if (deleteHandler) {
+                await deleteHandler(ids);
+            }
 
             router.refresh();
             toast.success("Successfully deleted!");
         } catch (error) {
-            console.log(error);
-            toast.error("Something went wrong....");
+            if (error instanceof AxiosError) {
+                console.log(error.response?.data);
+                toast.error(error.response?.data);
+            }
         } finally {
             setIsOpen(false);
             setIsLoading(false);
