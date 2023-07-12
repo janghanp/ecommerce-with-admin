@@ -61,7 +61,7 @@ const DashboardPage = async ({ params }: Props) => {
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>
                     <CardContent className="pl-2">
-                        <Overview data={graphRevenue} />
+                        <Overview graphRevenue={graphRevenue} />
                     </CardContent>
                 </Card>
             </div>

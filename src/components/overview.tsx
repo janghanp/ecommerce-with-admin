@@ -1,32 +1,53 @@
 "use client";
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
 interface Props {
-    data: any;
+    graphRevenue: { name: string; total: number }[];
 }
 
-const Overview = ({ data }: Props) => {
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+const Overview = ({ graphRevenue }: Props) => {
+    const labels: string[] = [];
+    const values: number[] = [];
+
+    graphRevenue.forEach((revenue) => {
+        labels.push(revenue.name);
+        values.push(revenue.total);
+    });
+
+    const data = {
+        labels,
+        datasets: [
+            {
+                label: "Revenue",
+                data: values,
+                backgroundColor: "#BEF853",
+                borderWidth: 1,
+                borderRadius: 5,
+            },
+        ],
+    };
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+    };
+
     return (
-        <ResponsiveContainer width="100%" height={350}>
-            <BarChart data={data}>
-                <XAxis
-                    dataKey={"name"}
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                />
-                <YAxis
-                    stroke="#888888"
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={(value) => `$${value}`}
-                />
-                <Bar dataKey={"total"} fill={"#3498db"} radius={[4, 4, 0, 0]} />
-            </BarChart>
-        </ResponsiveContainer>
+        <div style={{ position: "relative", height: "400px", width: "100%" }}>
+            <Bar data={data} options={options}></Bar>
+        </div>
     );
 };
 
