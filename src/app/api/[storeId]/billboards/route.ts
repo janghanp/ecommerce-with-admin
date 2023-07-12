@@ -1,7 +1,9 @@
 import { auth } from "@clerk/nextjs";
-import {  NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import cloudinary from "cloudinary";
 
 import { prisma } from "@/src/lib/prisma";
+import { getPublicIdFromUrl } from "@/src/lib/utils";
 
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
     try {
@@ -72,6 +74,10 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 }
 
 export async function DELETE(req: Request, { params }: { params: { storeId: string } }) {
+    cloudinary.v2.config({
+        secure: true,
+    });
+
     // @ts-ignore
     const ids = req.nextUrl.searchParams.get("ids").split(",");
 
@@ -84,7 +90,7 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
             return new NextResponse("Ids are required", { status: 400 });
         }
 
-        const billboards = await prisma.billboard.deleteMany({
+        const billboards = await prisma.billboard.findMany({
             where: {
                 storeId: params.storeId,
                 id: {
@@ -93,9 +99,25 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
             },
         });
 
-        //TODO: delete images from Cloudinary.
+        const public_ids = billboards.map((billboard) => {
+            return getPublicIdFromUrl(billboard.imageUrl);
+        });
 
-        return NextResponse.json(billboards);
+        const count = await prisma.billboard.deleteMany({
+            where: {
+                storeId: params.storeId,
+                id: {
+                    in: ids,
+                },
+            },
+        });
+
+        cloudinary.v2.api
+            .delete_resources(public_ids)
+            .then((response) => console.log(response))
+            .catch((error) => console.log(error));
+
+        return NextResponse.json(count);
     } catch (error) {
         console.log("[BILLBOARDS_DELETE]", error);
         return new NextResponse("Internal error", { status: 500 });

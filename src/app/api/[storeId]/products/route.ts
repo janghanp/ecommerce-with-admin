@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 
 import { prisma } from "@/src/lib/prisma";
 import { Prisma } from "@prisma/client";
+import cloudinary from "cloudinary";
+import { getPublicIdFromUrl } from "@/src/lib/utils";
 
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
     try {
@@ -119,6 +121,10 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 }
 
 export async function DELETE(req: Request, { params }: { params: { storeId: string } }) {
+    cloudinary.v2.config({
+        secure: true,
+    });
+
     // @ts-ignore
     const ids = req.nextUrl.searchParams.get("ids").split(",");
 
@@ -131,7 +137,27 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
             return new NextResponse("Ids are required", { status: 400 });
         }
 
-        const products = await prisma.product.deleteMany({
+        const products = await prisma.product.findMany({
+            where: {
+                storeId: params.storeId,
+                id: {
+                    in: ids,
+                },
+            },
+            include: {
+                images: true,
+            },
+        });
+
+        const public_ids_with_depth = products.map((product) => {
+            return product.images.map((image) => {
+                return getPublicIdFromUrl(image.url);
+            });
+        });
+
+        const public_ids = public_ids_with_depth.flat();
+
+        const count = await prisma.product.deleteMany({
             where: {
                 storeId: params.storeId,
                 id: {
@@ -140,9 +166,12 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
             },
         });
 
-        //TODO: delete images from Cloudinary
+        cloudinary.v2.api
+            .delete_resources(public_ids)
+            .then((response) => console.log(response))
+            .catch((error) => console.log(error));
 
-        return NextResponse.json(products);
+        return NextResponse.json(count);
     } catch (error) {
         console.log("[PRODUCTS_DELETE]", error);
         return new NextResponse("Internal error", { status: 500 });

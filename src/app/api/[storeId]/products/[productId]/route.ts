@@ -165,14 +165,14 @@ export async function DELETE(
             },
         });
 
-        product.images.forEach((image) => {
-            const public_id = getPublicIdFromUrl(image.url);
-
-            cloudinary.v2.uploader
-                .destroy(public_id)
-                .then((response) => console.log(response))
-                .catch((error) => console.log(error));
+        const public_ids = product.images.map((image) => {
+            return getPublicIdFromUrl(image.url);
         });
+
+        cloudinary.v2.api
+            .delete_resources(public_ids)
+            .then((response) => console.log(response))
+            .catch((error) => console.log(error));
 
         return NextResponse.json(product);
     } catch (error) {

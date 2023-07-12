@@ -24,6 +24,7 @@ import {
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import AlertModal from "@/src/components/alert-modal";
+import toast from "react-hot-toast";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -71,8 +72,10 @@ export function DataTable<TData, TValue>({
             await deleteHandler(ids);
 
             router.refresh();
+            toast.success("Successfully deleted!");
         } catch (error) {
             console.log(error);
+            toast.error("Something went wrong....");
         } finally {
             setIsOpen(false);
             setIsLoading(false);
@@ -106,8 +109,18 @@ export function DataTable<TData, TValue>({
                     </div>
 
                     {table.getFilteredSelectedRowModel().rows.length > 0 && (
-                        <Button variant="outline" size="icon" onClick={() => setIsOpen(true)}>
+                        <Button
+                            className="flex items-center"
+                            variant="outline"
+                            onClick={() => setIsOpen(true)}
+                        >
                             <Trash className="w-4 h-4" />
+                            <span className="ml-2">
+                                Delete {table.getFilteredSelectedRowModel().rows.length} &nbsp;
+                                {table.getFilteredSelectedRowModel().rows.length < 2
+                                    ? "item"
+                                    : "items"}
+                            </span>
                         </Button>
                     )}
                 </div>
