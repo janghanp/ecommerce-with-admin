@@ -77,7 +77,7 @@ const Navbar = () => {
         },
     ];
     return (
-        <div className="flex flex-col items-center justify-center py-6 h-full gap-y-8">
+        <div className="flex flex-col items-center justify-center py-6 h-screen gap-y-8">
             {routes.map((route) => (
                 <TooltipProvider key={route.label}>
                     <Tooltip>

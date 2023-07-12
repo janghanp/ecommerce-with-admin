@@ -82,7 +82,7 @@ const SettingsForm = ({ initialData }: Props) => {
                 onConfirm={onDelete}
                 isLoading={isLoading}
             />
-            <div className={"flex items-center justify-between"}>
+            <div className="flex flex-col md:flex-row items-start gap-y-5 md:gap-y-0 md:items-center justify-between">
                 <Heading title={"Settings"} description={"Manage store preferences"} />
                 <Button
                     disabled={isLoading}
@@ -103,7 +103,7 @@ const SettingsForm = ({ initialData }: Props) => {
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem>
+                                <FormItem className="max-w-[200px] min-w-[150px]">
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
                                         <Input

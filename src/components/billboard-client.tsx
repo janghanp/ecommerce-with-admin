@@ -25,7 +25,7 @@ const BillboardClient = ({ billboards }: Props) => {
 
     return (
         <>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-y-5 md:gap-y-0 md:flex-row items-start md:items-center justify-between">
                 <Heading
                     title={`Billboards (${billboards.length})`}
                     description="Manage billboards for your store"

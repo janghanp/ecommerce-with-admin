@@ -25,7 +25,7 @@ const ProductClient = ({ products }: Props) => {
 
     return (
         <>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-y-5 md:gap-y-0 md:flex-row items-start md:items-center justify-between">
                 <Heading
                     title={`Products (${products.length})`}
                     description="Manage products for your store"
