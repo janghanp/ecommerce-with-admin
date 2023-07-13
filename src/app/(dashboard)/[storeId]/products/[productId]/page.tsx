@@ -12,16 +12,11 @@ const ProductPage = async ({ params }: Props) => {
         },
         include: {
             images: true,
+            sizes: true,
         },
     });
 
     const categories = await prisma.category.findMany({
-        where: {
-            storeId: params.storeId,
-        },
-    });
-
-    const sizes = await prisma.size.findMany({
         where: {
             storeId: params.storeId,
         },
@@ -39,7 +34,6 @@ const ProductPage = async ({ params }: Props) => {
                 <ProductForm
                     initialData={JSON.parse(JSON.stringify(product))}
                     categories={categories}
-                    sizes={sizes}
                     colors={colors}
                 />
             </div>

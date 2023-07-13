@@ -119,7 +119,7 @@ export function DataTable<TData, TValue>({
                             variant="outline"
                             onClick={() => setIsOpen(true)}
                         >
-                            <Trash className="h-4 w-4" />
+                            <Trash className="h-4 w-4 text-red-500" />
                             <span className="ml-2">
                                 Delete {table.getFilteredSelectedRowModel().rows.length} &nbsp;
                                 {table.getFilteredSelectedRowModel().rows.length < 2

@@ -37,7 +37,6 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
                 images: true,
                 category: true,
                 color: true,
-                size: true,
             },
             orderBy: {
                 createdAt: "desc",
@@ -56,7 +55,17 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         const { userId } = auth();
         const body = await req.json();
 
-        const { name, price, categoryId, sizeId, colorId, images, isFeatured, isArchived } = body;
+        const {
+            name,
+            price,
+            categoryId,
+            colorId,
+            images,
+            isFeatured,
+            isArchived,
+            sizes,
+            quantities,
+        } = body;
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 401 });
@@ -78,12 +87,16 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             return new NextResponse("Category id is required", { status: 400 });
         }
 
-        if (!sizeId) {
+        if (!colorId) {
+            return new NextResponse("Color id is required", { status: 400 });
+        }
+
+        if (!sizes) {
             return new NextResponse("Size id is required", { status: 400 });
         }
 
-        if (!colorId) {
-            return new NextResponse("Color id is required", { status: 400 });
+        if (!quantities) {
+            return new NextResponse("Quantity id is required", { status: 400 });
         }
 
         if (!params.storeId) {
@@ -101,6 +114,19 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             return new NextResponse("Unauthorized", { status: 403 });
         }
 
+        let sizesAndQuantities: { size: string; quantity: number }[] = [];
+
+        sizes.forEach((size: { value: string }) => {
+            sizesAndQuantities.push({ size: size.value!, quantity: 0 });
+        });
+
+        quantities.forEach((quantity: { value: string }, index: number) => {
+            sizesAndQuantities[index] = {
+                ...sizesAndQuantities[index],
+                quantity: Number(quantity.value),
+            };
+        });
+
         const product = await prisma.product.create({
             data: {
                 name,
@@ -109,11 +135,19 @@ export async function POST(req: Request, { params }: { params: { storeId: string
                 isArchived,
                 categoryId,
                 colorId,
-                sizeId,
                 storeId: params.storeId,
                 images: {
                     createMany: {
                         data: [...images.map((image: { url: string }) => image)],
+                    },
+                },
+                sizes: {
+                    createMany: {
+                        data: [
+                            ...sizesAndQuantities.map((set) => {
+                                return { name: set.size, quantity: set.quantity };
+                            }),
+                        ],
                     },
                 },
             },

@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { Loader2, Trash } from "lucide-react";
 import * as z from "zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Product, Image, Category, Size, Color } from "@prisma/client";
+import { Product, Image, Category, Color } from "@prisma/client";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
@@ -33,6 +33,7 @@ import {
     SelectValue,
 } from "@/src/components/ui/select";
 import { Checkbox } from "@/src/components/ui/checkbox";
+import { cn } from "@/src/lib/utils";
 
 interface Props {
     initialData:
@@ -42,7 +43,6 @@ interface Props {
         | null;
 
     categories: Category[];
-    sizes: Size[];
     colors: Color[];
 }
 
@@ -54,12 +54,13 @@ const formSchema = z.object({
     price: z.coerce.number().min(1),
     categoryId: z.string().min(1),
     colorId: z.string().min(1),
-    sizeId: z.string().min(1),
     isFeatured: z.boolean().default(false).optional(),
     isArchived: z.boolean().default(false).optional(),
+    sizes: z.array(z.object({ value: z.string().min(1) })).min(1),
+    quantities: z.array(z.object({ value: z.coerce.number().min(1) })).min(1),
 });
 
-const ProductForm = ({ initialData, categories, colors, sizes }: Props) => {
+const ProductForm = ({ initialData, categories, colors }: Props) => {
     const params = useParams();
     const router = useRouter();
 
@@ -84,10 +85,29 @@ const ProductForm = ({ initialData, categories, colors, sizes }: Props) => {
                   categoryId: "",
                   price: 0,
                   colorId: "",
-                  sizeId: "",
+                  sizes: [{ value: "" }],
+                  quantities: [{ value: 0 }],
                   isFeatured: false,
                   isArchived: false,
               },
+    });
+
+    const {
+        fields: sizeFields,
+        append: sizeAppend,
+        remove: sizeRemove,
+    } = useFieldArray({
+        name: "sizes",
+        control: form.control,
+    });
+
+    const {
+        fields: quantityFields,
+        append: quantityAppend,
+        remove: quantityRemove,
+    } = useFieldArray({
+        name: "quantities",
+        control: form.control,
     });
 
     const onSubmit = async (data: ProductFormValue) => {
@@ -126,6 +146,16 @@ const ProductForm = ({ initialData, categories, colors, sizes }: Props) => {
             setIsLoading(false);
             setIsOpen(false);
         }
+    };
+
+    const appendSizeAndQuantityField = () => {
+        sizeAppend({ value: "" });
+        quantityAppend({ value: 0 });
+    };
+
+    const removeSizeAndQuantityField = (index: number) => {
+        sizeRemove(index);
+        quantityRemove(index);
     };
 
     return (
@@ -250,38 +280,6 @@ const ProductForm = ({ initialData, categories, colors, sizes }: Props) => {
                         />
                         <FormField
                             control={form.control}
-                            name="sizeId"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Size</FormLabel>
-                                    <Select
-                                        disabled={isLoading}
-                                        onValueChange={field.onChange}
-                                        value={field.value}
-                                        defaultValue={field.value}
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue
-                                                    defaultValue={field.value}
-                                                    placeholder="Select a Size"
-                                                ></SelectValue>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            {sizes.map((size) => (
-                                                <SelectItem key={size.id} value={size.id}>
-                                                    {size.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
                             name="colorId"
                             render={({ field }) => (
                                 <FormItem>
@@ -312,6 +310,90 @@ const ProductForm = ({ initialData, categories, colors, sizes }: Props) => {
                                 </FormItem>
                             )}
                         />
+                        <div className="">
+                            <div className="flex items-center gap-x-5">
+                                <div className="">
+                                    {sizeFields.map((field, index) => (
+                                        <FormField
+                                            control={form.control}
+                                            key={field.id}
+                                            name={`sizes.${index}.value`}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel
+                                                        className={cn(index !== 0 && "sr-only")}
+                                                    >
+                                                        Sizes
+                                                    </FormLabel>
+                                                    <FormDescription
+                                                        className={cn(index !== 0 && "sr-only")}
+                                                    ></FormDescription>
+                                                    <div className="flex items-center gap-x-2">
+                                                        <FormControl>
+                                                            <Input {...field} type="text" />
+                                                        </FormControl>
+                                                    </div>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    ))}
+                                </div>
+                                <div>
+                                    {quantityFields.map((field, index) => (
+                                        <FormField
+                                            control={form.control}
+                                            key={field.id}
+                                            name={`quantities.${index}.value`}
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel
+                                                        className={cn(index !== 0 && "sr-only")}
+                                                    >
+                                                        Quantity
+                                                    </FormLabel>
+                                                    <FormDescription
+                                                        className={cn(index !== 0 && "sr-only")}
+                                                    ></FormDescription>
+                                                    <div className="relative flex items-center gap-x-2">
+                                                        <FormControl>
+                                                            <Input {...field} type="number" />
+                                                        </FormControl>
+                                                        {index > 0 && (
+                                                            <Button
+                                                                variant="outline"
+                                                                size="icon"
+                                                                type="button"
+                                                                className="absolute -right-12"
+                                                                onClick={() =>
+                                                                    removeSizeAndQuantityField(
+                                                                        index
+                                                                    )
+                                                                }
+                                                            >
+                                                                <Trash className="h-4 w-4 text-red-500" />
+                                                            </Button>
+                                                        )}
+                                                    </div>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                className="mt-2"
+                                onClick={appendSizeAndQuantityField}
+                            >
+                                Add Size & Quantity
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="flex w-full max-w-[420px] flex-col gap-y-5">
                         <FormField
                             control={form.control}
                             name="isFeatured"

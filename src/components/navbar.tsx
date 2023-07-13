@@ -9,7 +9,6 @@ import {
     ReceiptIcon,
     Package,
     Settings,
-    Scaling,
 } from "lucide-react";
 
 import { Button } from "@/src/components/ui/button";
@@ -44,12 +43,6 @@ const Navbar = () => {
             label: "Categories",
             isActive: pathname === `/${params.storeId}/categories`,
             icon: <Tag className="h-4 w-4" />,
-        },
-        {
-            href: `/${params.storeId}/sizes`,
-            label: "Sizes",
-            isActive: pathname === `/${params.storeId}/sizes`,
-            icon: <Scaling className="h-4 w-4" />,
         },
         {
             href: `/${params.storeId}/colors`,

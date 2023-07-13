@@ -53,7 +53,10 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: Props) => {
                     </div>
                 ))}
             </div>
-            <CldUploadWidget onUpload={onUpload} uploadPreset={"gnzbfs3l"}>
+            <CldUploadWidget
+                onUpload={onUpload}
+                uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
+            >
                 {({ open }) => {
                     const onClick = () => {
                         open();

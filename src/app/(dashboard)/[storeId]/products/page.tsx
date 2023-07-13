@@ -14,13 +14,19 @@ const ProductsPage = async ({ params }: Props) => {
             storeId: params.storeId,
         },
         include: {
+            sizes: true,
             category: true,
-            size: true,
             color: true,
         },
         orderBy: {
             createdAt: "desc",
         },
+    });
+
+    console.log(products);
+
+    products.forEach((product) => {
+        console.log(product.sizes);
     });
 
     const formattedProducts: ProductColumn[] = products.map((product) => ({
@@ -30,7 +36,8 @@ const ProductsPage = async ({ params }: Props) => {
         isArchived: product.isArchived,
         price: formatter.format(product.price.toNumber()),
         category: product.category.name,
-        size: product.size.name,
+        sizes: product.sizes.map((size) => size.name),
+        quantities: product.sizes.map((size) => size.quantity),
         color: product.color.value,
         createdAt: format(product.createdAt, "MMMM do, yyyy"),
     }));
