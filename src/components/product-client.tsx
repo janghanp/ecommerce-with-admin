@@ -23,6 +23,10 @@ const ProductClient = ({ products }: Props) => {
         await axios.delete(`/api/${storeId}/products?ids=${productIds.join(",")}`);
     };
 
+    const updateHandler = async (productId: string) => {
+        router.push(`/${storeId}/products/${productId}`);
+    };
+
     return (
         <>
             <div className="flex flex-col items-start justify-between gap-y-5 md:flex-row md:items-center md:gap-y-0">
@@ -42,10 +46,8 @@ const ProductClient = ({ products }: Props) => {
                 data={products}
                 searchKey="name"
                 deleteHandler={deleteHandler}
+                updateHandler={updateHandler}
             />
-            <Heading title="API" description="API calls for Products" />
-            <Separator />
-            <ApiList entityName="products" entityId="productId" />
         </>
     );
 };

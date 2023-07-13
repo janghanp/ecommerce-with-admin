@@ -23,22 +23,24 @@ const ProductsPage = async ({ params }: Props) => {
         },
     });
 
-    products.forEach((product) => {
-        console.log(product.sizes);
-    });
+    const formattedProducts: ProductColumn[] = products.map((product) => {
+        const stock = product.sizes
+            .map((size) => size.quantity)
+            .reduce((acc, curr) => acc + curr, 0);
 
-    const formattedProducts: ProductColumn[] = products.map((product) => ({
-        id: product.id,
-        name: product.name,
-        isFeatured: product.isFeatured,
-        isArchived: product.isArchived,
-        price: formatter.format(product.price.toNumber()),
-        category: product.category.name,
-        sizes: product.sizes.map((size) => size.name),
-        quantities: product.sizes.map((size) => size.quantity),
-        color: product.color.value,
-        createdAt: format(product.createdAt, "MMMM do, yyyy"),
-    }));
+        return {
+            id: product.id,
+            name: product.name,
+            isFeatured: product.isFeatured,
+            isArchived: product.isArchived,
+            price: formatter.format(product.price.toNumber()),
+            category: product.category.name,
+            sizes: product.sizes.map((size) => size.name),
+            stock: `${stock} in stock for ${product.sizes.length} sizes`,
+            color: product.color.value,
+            createdAt: format(product.createdAt, "MMMM do, yyyy"),
+        };
+    });
 
     return (
         <div className="flex-col ">

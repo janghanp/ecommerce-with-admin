@@ -23,6 +23,10 @@ const CategoryClient = ({ categories }: Props) => {
         await axios.delete(`/api/${storeId}/categories?ids=${categoryIds.join(",")}`);
     };
 
+    const updateHandler = async (categoryId: string) => {
+        router.push(`/${storeId}/categories/${categoryId}`);
+    };
+
     return (
         <>
             <div className="flex flex-col items-start justify-between gap-y-5 md:flex-row md:items-center md:gap-y-0">
@@ -42,10 +46,8 @@ const CategoryClient = ({ categories }: Props) => {
                 data={categories}
                 searchKey="name"
                 deleteHandler={deleteHandler}
+                updateHandler={updateHandler}
             />
-            <Heading title="API" description="API calls for Categories" />
-            <Separator />
-            <ApiList entityName="categories" entityId="categoryId" />
         </>
     );
 };

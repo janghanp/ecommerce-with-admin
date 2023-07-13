@@ -23,6 +23,10 @@ const ColorClient = ({ colors }: Props) => {
         await axios.delete(`/api/${storeId}/colors?ids=${colorIds.join(",")}`);
     };
 
+    const updateHandler = async (colorId: string) => {
+        router.push(`/${storeId}/colors/${colorId}`);
+    };
+
     return (
         <>
             <div className="flex flex-col items-start justify-between gap-y-5 md:flex-row md:items-center md:gap-y-0">
@@ -42,10 +46,8 @@ const ColorClient = ({ colors }: Props) => {
                 data={colors}
                 searchKey="name"
                 deleteHandler={deleteHandler}
+                updateHandler={updateHandler}
             />
-            <Heading title="API" description="API calls for Colors" />
-            <Separator />
-            <ApiList entityName="colors" entityId="colorId" />
         </>
     );
 };

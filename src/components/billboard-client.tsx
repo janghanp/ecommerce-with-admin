@@ -23,6 +23,10 @@ const BillboardClient = ({ billboards }: Props) => {
         await axios.delete(`/api/${storeId}/billboards?ids=${billboardIds.join(",")}`);
     };
 
+    const updateHandler = async (billboardId: string) => {
+        router.push(`/${storeId}/billboards/${billboardId}`);
+    };
+
     return (
         <>
             <div className="flex flex-col items-start justify-between gap-y-5 md:flex-row md:items-center md:gap-y-0">
@@ -42,10 +46,8 @@ const BillboardClient = ({ billboards }: Props) => {
                 data={billboards}
                 searchKey="label"
                 deleteHandler={deleteHandler}
+                updateHandler={updateHandler}
             />
-            <Heading title="API" description="API calls for Billboards" />
-            <Separator />
-            <ApiList entityName="billboards" entityId="billboardId" />
         </>
     );
 };

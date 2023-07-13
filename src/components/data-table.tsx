@@ -32,6 +32,7 @@ interface DataTableProps<TData, TValue> {
     data: TData[];
     searchKey: string;
     deleteHandler?: (ids: string[]) => void;
+    updateHandler?: (id: string) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -39,6 +40,7 @@ export function DataTable<TData, TValue>({
     data,
     searchKey,
     deleteHandler,
+    updateHandler,
 }: DataTableProps<TData, TValue>) {
     const router = useRouter();
 
@@ -156,6 +158,13 @@ export function DataTable<TData, TValue>({
                                     <TableRow
                                         key={row.id}
                                         data-state={row.getIsSelected() && "selected"}
+                                        className="hover:cursor-pointer"
+                                        onClick={() => {
+                                            if (updateHandler) {
+                                                // @ts-ignore
+                                                updateHandler(row.original.id as string);
+                                            }
+                                        }}
                                     >
                                         {row.getVisibleCells().map((cell) => (
                                             <TableCell key={cell.id}>
@@ -169,12 +178,7 @@ export function DataTable<TData, TValue>({
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell
-                                        colSpan={columns.length}
-                                        className="h-24 text-center"
-                                    >
-                                        No results.
-                                    </TableCell>
+                                    <TableCell colSpan={columns.length}>No results.</TableCell>
                                 </TableRow>
                             )}
                         </TableBody>

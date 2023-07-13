@@ -22,7 +22,6 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: Props) => {
     }, []);
 
     const onUpload = (result: any) => {
-        console.log(result);
         //Response from Cloudinary when uploading an image.
         onChange(result.info.secure_url);
     };
