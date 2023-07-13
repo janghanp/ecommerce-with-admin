@@ -1,15 +1,7 @@
 "use client";
 
 import { useParams, usePathname } from "next/navigation";
-import {
-    Home,
-    Tag,
-    AppWindow,
-    Palette,
-    ReceiptIcon,
-    Package,
-    Settings,
-} from "lucide-react";
+import { Home, Tag, AppWindow, Palette, ReceiptIcon, Package, Settings } from "lucide-react";
 
 import { Button } from "@/src/components/ui/button";
 import {

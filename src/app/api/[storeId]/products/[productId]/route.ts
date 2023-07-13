@@ -19,7 +19,7 @@ export async function GET(req: Request, { params }: { params: { productId: strin
             include: {
                 images: true,
                 category: true,
-                size: true,
+                sizes: true,
                 color: true,
             },
         });
@@ -39,7 +39,17 @@ export async function PATCH(
         const { userId } = auth();
         const body = await req.json();
 
-        const { name, price, categoryId, sizeId, colorId, images, isFeatured, isArchived } = body;
+        const {
+            name,
+            price,
+            categoryId,
+            colorId,
+            images,
+            isFeatured,
+            isArchived,
+            sizes,
+            quantities,
+        } = body;
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 401 });
@@ -61,8 +71,12 @@ export async function PATCH(
             return new NextResponse("Category id is required", { status: 400 });
         }
 
-        if (!sizeId) {
+        if (!sizes) {
             return new NextResponse("Size id is required", { status: 400 });
+        }
+
+        if (!quantities) {
+            return new NextResponse("Quantity id is required", { status: 400 });
         }
 
         if (!colorId) {
@@ -88,6 +102,19 @@ export async function PATCH(
             return new NextResponse("Unauthorized", { status: 403 });
         }
 
+        let sizesAndQuantities: { size: string; quantity: number }[] = [];
+
+        sizes.forEach((size: { value: string }) => {
+            sizesAndQuantities.push({ size: size.value!, quantity: 0 });
+        });
+
+        quantities.forEach((quantity: { value: string }, index: number) => {
+            sizesAndQuantities[index] = {
+                ...sizesAndQuantities[index],
+                quantity: Number(quantity.value),
+            };
+        });
+
         await prisma.product.update({
             where: {
                 id: params.productId,
@@ -97,8 +124,10 @@ export async function PATCH(
                 price: new Prisma.Decimal(price),
                 categoryId,
                 colorId,
-                sizeId,
                 images: {
+                    deleteMany: {},
+                },
+                sizes: {
                     deleteMany: {},
                 },
                 isFeatured,
@@ -114,6 +143,15 @@ export async function PATCH(
                 images: {
                     createMany: {
                         data: [...images.map((image: { url: string }) => image)],
+                    },
+                },
+                sizes: {
+                    createMany: {
+                        data: [
+                            ...sizesAndQuantities.map((item) => {
+                                return { name: item.size, quantity: item.quantity };
+                            }),
+                        ],
                     },
                 },
             },

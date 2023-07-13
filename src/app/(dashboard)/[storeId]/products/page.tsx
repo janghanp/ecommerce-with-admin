@@ -23,8 +23,6 @@ const ProductsPage = async ({ params }: Props) => {
         },
     });
 
-    console.log(products);
-
     products.forEach((product) => {
         console.log(product.sizes);
     });

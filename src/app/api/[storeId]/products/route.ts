@@ -144,8 +144,8 @@ export async function POST(req: Request, { params }: { params: { storeId: string
                 sizes: {
                     createMany: {
                         data: [
-                            ...sizesAndQuantities.map((set) => {
-                                return { name: set.size, quantity: set.quantity };
+                            ...sizesAndQuantities.map((item) => {
+                                return { name: item.size, quantity: item.quantity };
                             }),
                         ],
                     },

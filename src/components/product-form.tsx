@@ -5,7 +5,7 @@ import { Loader2, Trash } from "lucide-react";
 import * as z from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Product, Image, Category, Color } from "@prisma/client";
+import { Product, Image, Category, Color, Size } from "@prisma/client";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
@@ -39,6 +39,7 @@ interface Props {
     initialData:
         | (Product & {
               images: Image[];
+              sizes: Size[];
           })
         | null;
 
@@ -77,6 +78,8 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
         defaultValues: initialData
             ? {
                   ...initialData,
+                  sizes: initialData.sizes.map((size) => ({ value: size.name })),
+                  quantities: initialData.sizes.map((size) => ({ value: size.quantity })),
                   price: parseFloat(String(initialData?.price)),
               }
             : {
@@ -359,7 +362,7 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
                                                         <FormControl>
                                                             <Input {...field} type="number" />
                                                         </FormControl>
-                                                        {index > 0 && (
+                                                        {sizeFields.length > 1 && (
                                                             <Button
                                                                 variant="outline"
                                                                 size="icon"
@@ -389,7 +392,7 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
                                 className="mt-2"
                                 onClick={appendSizeAndQuantityField}
                             >
-                                Add Size & Quantity
+                                Add size & quantity
                             </Button>
                         </div>
                     </div>

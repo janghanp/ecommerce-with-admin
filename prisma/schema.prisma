@@ -102,7 +102,7 @@ model Size {
   quantity Int
 
   productId String
-  product   Product @relation("SizeToProduct", fields: [productId], references: [id])
+  product   Product @relation("SizeToProduct", fields: [productId], references: [id], onDelete: Cascade)
 
   @@index([productId])
 }
