@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { prisma } from "@/src/lib/prisma";
 import StoreSwitcher from "@/src/components/store-switcher";
 import { ThemeToggle } from "@/src/components/theme-toggle";
+import MobileSidebar from "@/src/components/mobile-sidebar";
 
 const Header = async () => {
     const { userId } = auth();
@@ -19,9 +20,12 @@ const Header = async () => {
     });
 
     return (
-        <div className="border-b">
+        <div className="relative border-b">
+            <MobileSidebar stores={stores} />
             <div className="flex h-14 items-center px-4">
-                <StoreSwitcher items={stores} />
+                <div className="hidden md:block">
+                    <StoreSwitcher items={stores} />
+                </div>
                 <div className="ml-auto flex items-center space-x-4">
                     <ThemeToggle />
                     <UserButton afterSignOutUrl="/" />
