@@ -116,7 +116,7 @@ const ColorForm = ({ initialData }: Props) => {
             </div>
             <Separator />
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
                     <div className="grid grid-cols-3 gap-8">
                         <FormField
                             control={form.control}
@@ -149,7 +149,7 @@ const ColorForm = ({ initialData }: Props) => {
                                                 {...field}
                                             />
                                             <div
-                                                className="border p-4 rounded-full"
+                                                className="rounded-full border p-4"
                                                 style={{ backgroundColor: field.value }}
                                             />
                                         </div>

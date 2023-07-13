@@ -18,7 +18,7 @@ const AlertModal = ({ isOpen, onClose, onConfirm, isLoading }: Props) => {
             isOpen={isOpen}
             onClose={onClose}
         >
-            <div className="pt-6 flex space-x-2 items-center justify-end w-full">
+            <div className="flex w-full items-center justify-end space-x-2 pt-6">
                 <Button disabled={isLoading} variant="outline" onClick={onClose}>
                     Cancel
                 </Button>

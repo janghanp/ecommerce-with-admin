@@ -37,8 +37,8 @@ const ApiAlert = ({ title, description, variant = "public" }: Props) => {
                 <Badge variant={variantMap[variant]}>{textMap[variant]}</Badge>
             </AlertTitle>
             <AlertDescription className="mt-4 flex items-center justify-between overflow-x-auto">
-                <div className="flex items-center gap-x-5 justify-between w-full">
-                    <span className="relative font-mono text-sm font-bold whitespace-nowrap">
+                <div className="flex w-full items-center justify-between gap-x-5">
+                    <span className="relative whitespace-nowrap font-mono text-sm font-bold">
                         {description}
                     </span>
                     <Button

@@ -57,6 +57,7 @@
     "devDependencies": {
         "critters": "^0.0.19",
         "prettier": "^2.8.8",
+        "prettier-plugin-tailwindcss": "^0.4.0",
         "prisma": "^4.16.2"
     }
 }

@@ -107,7 +107,7 @@ export function DataTable<TData, TValue>({
                     />
                 </div>
 
-                <div className="flex items-center mb-3 h-10 gap-x-5">
+                <div className="mb-3 flex h-10 items-center gap-x-5">
                     <div className="text-sm text-muted-foreground">
                         {table.getFilteredSelectedRowModel().rows.length} of{" "}
                         {table.getFilteredRowModel().rows.length} row(s) selected.
@@ -119,7 +119,7 @@ export function DataTable<TData, TValue>({
                             variant="outline"
                             onClick={() => setIsOpen(true)}
                         >
-                            <Trash className="w-4 h-4" />
+                            <Trash className="h-4 w-4" />
                             <span className="ml-2">
                                 Delete {table.getFilteredSelectedRowModel().rows.length} &nbsp;
                                 {table.getFilteredSelectedRowModel().rows.length < 2

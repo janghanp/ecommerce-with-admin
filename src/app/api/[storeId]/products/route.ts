@@ -10,8 +10,9 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
     try {
         const { searchParams } = new URL(req.url);
         const categoryId = searchParams.get("categoryId") || undefined;
-        const colorId = searchParams.get("colorId") || undefined;
-        const sizeId = searchParams.get("sizeId") || undefined;
+        const colorName = searchParams.get("colorName") || undefined;
+        const minPrice = searchParams.get("minPrice") || undefined;
+        const maxPrice = searchParams.get("maxPrice") || undefined;
         const isFeatured = searchParams.get("isFeatured");
 
         if (!params.storeId) {
@@ -21,9 +22,14 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
         const products = await prisma.product.findMany({
             where: {
                 storeId: params.storeId,
+                price: {
+                    gte: minPrice,
+                    lte: maxPrice,
+                },
                 categoryId,
-                colorId,
-                sizeId,
+                color: {
+                    name: colorName,
+                },
                 isFeatured: isFeatured ? true : undefined,
                 isArchived: false,
             },

@@ -30,10 +30,10 @@ export default async function DashboardLayout({ children, params }: Props) {
 
     return (
         <div className="flex">
-            <div className="w-14 h-screen sticky top-0 border-r">
+            <div className="sticky top-0 h-screen w-14 border-r">
                 <Navbar />
             </div>
-            <div className="flex flex-col flex-1 w-full overflow-x-hidden">
+            <div className="flex w-full flex-1 flex-col overflow-x-hidden">
                 <Header />
                 {children}
             </div>

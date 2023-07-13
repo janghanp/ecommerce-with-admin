@@ -25,7 +25,7 @@ const CategoryClient = ({ categories }: Props) => {
 
     return (
         <>
-            <div className="flex flex-col gap-y-5 md:gap-y-0 md:flex-row items-start md:items-center justify-between">
+            <div className="flex flex-col items-start justify-between gap-y-5 md:flex-row md:items-center md:gap-y-0">
                 <Heading
                     title={`Categories (${categories.length})`}
                     description="Manage categories for your store"

@@ -31,53 +31,53 @@ const Navbar = () => {
             href: `/${params.storeId}`,
             label: "Overview",
             isActive: pathname === `/${params.storeId}`,
-            icon: <Home className="w-4 h-4" />,
+            icon: <Home className="h-4 w-4" />,
         },
         {
             href: `/${params.storeId}/billboards`,
             label: "Billboards",
             isActive: pathname === `/${params.storeId}/billboards`,
-            icon: <AppWindow className="w-4 h-4" />,
+            icon: <AppWindow className="h-4 w-4" />,
         },
         {
             href: `/${params.storeId}/categories`,
             label: "Categories",
             isActive: pathname === `/${params.storeId}/categories`,
-            icon: <Tag className="w-4 h-4" />,
+            icon: <Tag className="h-4 w-4" />,
         },
         {
             href: `/${params.storeId}/sizes`,
             label: "Sizes",
             isActive: pathname === `/${params.storeId}/sizes`,
-            icon: <Scaling className="w-4 h-4" />,
+            icon: <Scaling className="h-4 w-4" />,
         },
         {
             href: `/${params.storeId}/colors`,
             label: "Colors",
             isActive: pathname === `/${params.storeId}/colors`,
-            icon: <Palette className="w-4 h-4" />,
+            icon: <Palette className="h-4 w-4" />,
         },
         {
             href: `/${params.storeId}/products`,
             label: "Products",
             isActive: pathname === `/${params.storeId}/products`,
-            icon: <Package className="w-4 h-4" />,
+            icon: <Package className="h-4 w-4" />,
         },
         {
             href: `/${params.storeId}/orders`,
             label: "Orders",
             isActive: pathname === `/${params.storeId}/orders`,
-            icon: <ReceiptIcon className="w-4 h-4" />,
+            icon: <ReceiptIcon className="h-4 w-4" />,
         },
         {
             href: `/${params.storeId}/settings`,
             label: "Settings",
             isActive: pathname === `/${params.storeId}/settings`,
-            icon: <Settings className="w-4 h-4" />,
+            icon: <Settings className="h-4 w-4" />,
         },
     ];
     return (
-        <div className="flex flex-col items-center justify-center py-6 h-screen gap-y-8">
+        <div className="flex h-screen flex-col items-center justify-center gap-y-8 py-6">
             {routes.map((route) => (
                 <TooltipProvider key={route.label}>
                     <Tooltip>

@@ -52,7 +52,7 @@ export default function StoreSwitcher({ className, items = [] }: Props) {
                     role="combobox"
                     aria-expanded={isOpen}
                     aria-label="Select a store"
-                    className={cn("w-[150px] md:w-[200px] justify-between", className)}
+                    className={cn("w-[150px] justify-between md:w-[200px]", className)}
                 >
                     <StoreIcon className="mr-2 h-4 w-4" />
                     {currentStore?.label}

@@ -82,7 +82,7 @@ const SettingsForm = ({ initialData }: Props) => {
                 onConfirm={onDelete}
                 isLoading={isLoading}
             />
-            <div className="flex flex-col md:flex-row items-start gap-y-5 md:gap-y-0 md:items-center justify-between">
+            <div className="flex flex-col items-start justify-between gap-y-5 md:flex-row md:items-center md:gap-y-0">
                 <Heading title={"Settings"} description={"Manage store preferences"} />
                 <Button
                     disabled={isLoading}
@@ -97,13 +97,13 @@ const SettingsForm = ({ initialData }: Props) => {
             </div>
             <Separator />
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
                     <div className="grid grid-cols-3 gap-8">
                         <FormField
                             control={form.control}
                             name="name"
                             render={({ field }) => (
-                                <FormItem className="max-w-[200px] min-w-[150px]">
+                                <FormItem className="min-w-[150px] max-w-[200px]">
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
                                         <Input

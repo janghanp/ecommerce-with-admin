@@ -115,7 +115,7 @@ const BillboardForm = ({ initialData }: Props) => {
             </div>
             <Separator />
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
                     <FormField
                         control={form.control}
                         name="imageUrl"
