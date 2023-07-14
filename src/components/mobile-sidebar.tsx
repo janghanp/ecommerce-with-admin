@@ -1,6 +1,7 @@
 "use client";
 
 import { AlignJustify, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 import { useMobileSidebar } from "../store";
 import { Store } from "@prisma/client";
@@ -30,10 +31,15 @@ const MobileSidebar = ({ stores }: Props) => {
             {isOpen && (
                 <>
                     <div
-                        className="fixed inset-0 bg-black z-30 bg-opacity-50"
+                        className="fixed inset-0 z-30 bg-black bg-opacity-50"
                         onClick={() => toggle(false)}
                     />
-                    <div className="fixed bottom-0 left-0 top-0 z-50 w-52 bg-white dark:bg-[#020816]">
+                    <motion.div
+                        initial={{ x: -50 }}
+                        animate={{ x: 0 }}
+                        transition={{ type: "just" }}
+                        className="fixed bottom-0 left-0 top-0 z-50 w-52 bg-white dark:bg-[#020816]"
+                    >
                         <div className="mt-5">
                             <StoreSwitcher items={stores} />
                         </div>
@@ -48,7 +54,7 @@ const MobileSidebar = ({ stores }: Props) => {
                                 <X className="h-4 w-4" />
                             </Button>
                         </div>
-                    </div>
+                    </motion.div>
                 </>
             )}
         </div>

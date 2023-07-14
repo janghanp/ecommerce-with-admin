@@ -169,7 +169,7 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
                 onConfirm={onDelete}
                 isLoading={isLoading}
             />
-            <div className={"flex items-center justify-between w-full"}>
+            <div className={"flex w-full items-center justify-between"}>
                 <Heading title={title} description={description} />
                 {initialData && (
                     <Button
@@ -315,8 +315,8 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
                             </FormItem>
                         )}
                     />
-                    <div className="flex w-full max-w-md flex-col items-start">
-                        <div className="flex gap-x-5 w-full">
+                    <div className="w-full max-w-md ">
+                        <div className="flex w-full items-center gap-x-5">
                             <div className="w-full">
                                 {sizeFields.map((field, index) => (
                                     <FormField
@@ -349,33 +349,36 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
                                         key={field.id}
                                         name={`quantities.${index}.value`}
                                         render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel className={cn(index !== 0 && "sr-only")}>
-                                                    Quantity
-                                                </FormLabel>
-                                                <FormDescription
-                                                    className={cn(index !== 0 && "sr-only")}
-                                                ></FormDescription>
-                                                <div className="relative flex items-center gap-x-2">
-                                                    <FormControl>
-                                                        <Input {...field} type="number" />
-                                                    </FormControl>
-                                                    {sizeFields.length > 1 && (
-                                                        <Button
-                                                            variant="outline"
-                                                            size="icon"
-                                                            type="button"
-                                                            className="absolute -right-12"
-                                                            onClick={() =>
-                                                                removeSizeAndQuantityField(index)
-                                                            }
-                                                        >
-                                                            <Trash className="h-4 w-4 text-red-500" />
-                                                        </Button>
-                                                    )}
-                                                </div>
-                                                <FormMessage />
-                                            </FormItem>
+                                            <div className="relative flex items-end gap-x-5">
+                                                <FormItem className="flex-1">
+                                                    <FormLabel
+                                                        className={cn(index !== 0 && "sr-only")}
+                                                    >
+                                                        Quantity
+                                                    </FormLabel>
+                                                    <FormDescription
+                                                        className={cn(index !== 0 && "sr-only")}
+                                                    ></FormDescription>
+                                                    <div className="relative flex items-center gap-x-2">
+                                                        <FormControl>
+                                                            <Input {...field} type="number" />
+                                                        </FormControl>
+                                                    </div>
+                                                    <FormMessage />
+                                                </FormItem>
+                                                {sizeFields.length > 1 && (
+                                                    <Button
+                                                        variant="outline"
+                                                        size="icon"
+                                                        type="button"
+                                                        onClick={() =>
+                                                            removeSizeAndQuantityField(index)
+                                                        }
+                                                    >
+                                                        <Trash className="h-4 w-4 text-red-500" />
+                                                    </Button>
+                                                )}
+                                            </div>
                                         )}
                                     />
                                 ))}
