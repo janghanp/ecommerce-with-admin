@@ -10,6 +10,8 @@ interface Props {
 export default async function SetupLayout({ children }: Props) {
     const { userId } = auth();
 
+    console.log(userId);
+
     if (!userId) {
         redirect("/sign-in");
     }

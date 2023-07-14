@@ -98,7 +98,7 @@ const BillboardForm = ({ initialData }: Props) => {
                 onConfirm={onDelete}
                 isLoading={isLoading}
             />
-            <div className={"flex items-center justify-between w-full"}>
+            <div className={"flex w-full items-center justify-between"}>
                 <Heading title={title} description={description} />
                 {initialData && (
                     <Button

@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import cloudinary from "cloudinary";
+import { Billboard } from "@prisma/client";
 
 import { prisma } from "@/src/lib/prisma";
 import { getPublicIdFromUrl } from "@/src/lib/utils";
@@ -91,7 +92,7 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
             return new NextResponse("Ids are required", { status: 400 });
         }
 
-        const billboards = await prisma.billboard.findMany({
+        const billboards: Billboard[] = await prisma.billboard.findMany({
             where: {
                 storeId: params.storeId,
                 id: {
