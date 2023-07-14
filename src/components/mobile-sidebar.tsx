@@ -30,7 +30,7 @@ const MobileSidebar = ({ stores }: Props) => {
             {isOpen && (
                 <>
                     <div
-                        className="fixed inset-0 bg-black bg-opacity-50"
+                        className="fixed inset-0 bg-black z-30 bg-opacity-50"
                         onClick={() => toggle(false)}
                     />
                     <div className="fixed bottom-0 left-0 top-0 z-50 w-52 bg-white dark:bg-[#020816]">

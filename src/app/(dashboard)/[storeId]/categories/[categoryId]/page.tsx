@@ -19,10 +19,8 @@ const CategoryPage = async ({ params }: Props) => {
     });
 
     return (
-        <div className="flex-col">
-            <div className="flex-1 space-y-4 p-2 pt-6 md:p-8">
-                <CategoryForm initialData={category} billboards={billboards} />
-            </div>
+        <div className="flex items-center justify-center p-2 md:p-8">
+            <CategoryForm initialData={category} billboards={billboards} />
         </div>
     );
 };

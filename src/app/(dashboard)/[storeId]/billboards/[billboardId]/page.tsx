@@ -13,10 +13,8 @@ const BillboardPage = async ({ params }: Props) => {
     });
 
     return (
-        <div className="flex-col">
-            <div className="flex-1 space-y-4 p-2 md:p-8 pt-6">
-                <BillboardForm initialData={billboard} />
-            </div>
+        <div className="flex items-center justify-center p-2 md:p-8">
+            <BillboardForm initialData={billboard} />
         </div>
     );
 };

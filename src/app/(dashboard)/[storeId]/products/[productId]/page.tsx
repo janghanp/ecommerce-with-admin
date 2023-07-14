@@ -29,14 +29,12 @@ const ProductPage = async ({ params }: Props) => {
     });
 
     return (
-        <div className="flex-col">
-            <div className="flex-1 space-y-4 p-2 md:p-8 pt-6">
-                <ProductForm
-                    initialData={JSON.parse(JSON.stringify(product))}
-                    categories={categories}
-                    colors={colors}
-                />
-            </div>
+        <div className="flex items-center justify-center p-2 md:p-8">
+            <ProductForm
+                initialData={JSON.parse(JSON.stringify(product))}
+                categories={categories}
+                colors={colors}
+            />
         </div>
     );
 };

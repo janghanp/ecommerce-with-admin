@@ -92,14 +92,14 @@ const ColorForm = ({ initialData }: Props) => {
     };
 
     return (
-        <>
+        <div className="flex w-full max-w-2xl flex-col items-start justify-center">
             <AlertModal
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
                 onConfirm={onDelete}
                 isLoading={isLoading}
             />
-            <div className={"flex items-center justify-between"}>
+            <div className={"flex items-center justify-between w-full"}>
                 <Heading title={title} description={description} />
                 {initialData && (
                     <Button
@@ -114,58 +114,57 @@ const ColorForm = ({ initialData }: Props) => {
                     </Button>
                 )}
             </div>
-            <Separator />
+            <Separator className="my-5" />
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
-                    <div className="grid grid-cols-3 gap-8">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={isLoading}
-                                            placeholder="Color name"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="value"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Value</FormLabel>
-                                    <FormControl>
-                                        <div className="flex items-center gap-x-4">
-                                            <Input
-                                                disabled={isLoading}
-                                                placeholder="Color value"
-                                                {...field}
-                                            />
-                                            <div
-                                                className="rounded-full border p-4"
-                                                style={{ backgroundColor: field.value }}
-                                            />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex w-full max-w-lg flex-col items-start justify-center space-y-8"
+                >
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem className="w-full max-w-md">
+                                <FormLabel>Name</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        disabled={isLoading}
+                                        placeholder="Color name"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="value"
+                        render={({ field }) => (
+                            <FormItem className="w-full max-w-md">
+                                <FormLabel>Value</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        disabled={isLoading}
+                                        placeholder="Color value"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <div
+                                    className="w-5 rounded-full border p-4"
+                                    style={{ backgroundColor: field.value }}
+                                />
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <Button disabled={isLoading} type="submit">
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {action}
                     </Button>
                 </form>
             </Form>
-        </>
+        </div>
     );
 };
 

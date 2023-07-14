@@ -31,8 +31,8 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: Props) => {
     }
 
     return (
-        <div>
-            <div className="mb-4 flex items-center gap-4">
+        <>
+            <div className="mb-4 flex flex-wrap items-center gap-4">
                 {value.map((url) => (
                     <div
                         key={url}
@@ -74,7 +74,7 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: Props) => {
                     );
                 }}
             </CldUploadWidget>
-        </div>
+        </>
     );
 };
 

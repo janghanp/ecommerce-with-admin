@@ -13,10 +13,8 @@ const ColorPage = async ({ params }: Props) => {
     });
 
     return (
-        <div className="flex-col">
-            <div className="flex-1 space-y-4 p-2 md:p-8 pt-6">
-                <ColorForm initialData={color} />
-            </div>
+        <div className="flex items-center justify-center p-2 md:p-8">
+            <ColorForm initialData={color} />
         </div>
     );
 };

@@ -98,14 +98,14 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
     };
 
     return (
-        <>
+        <div className="flex w-full max-w-2xl flex-col items-start justify-center">
             <AlertModal
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
                 onConfirm={onDelete}
                 isLoading={isLoading}
             />
-            <div className={"flex items-center justify-between"}>
+            <div className="flex w-full items-center justify-between">
                 <Heading title={title} description={description} />
                 {initialData && (
                     <Button
@@ -120,67 +120,68 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
                     </Button>
                 )}
             </div>
-            <Separator />
+            <Separator className="my-5" />
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
-                    <div className="grid grid-cols-3 gap-8">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={isLoading}
-                                            placeholder="Category name"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="billboardId"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Billboard</FormLabel>
-                                    <Select
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex w-full max-w-lg flex-col items-start justify-center space-y-8"
+                >
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem className="w-full max-w-md">
+                                <FormLabel>Name</FormLabel>
+                                <FormControl>
+                                    <Input
                                         disabled={isLoading}
-                                        onValueChange={field.onChange}
-                                        value={field.value}
-                                        defaultValue={field.value}
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue
-                                                    defaultValue={field.value}
-                                                    placeholder="Select a billboard"
-                                                ></SelectValue>
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent>
-                                            {billboards.map((billboard) => (
-                                                <SelectItem key={billboard.id} value={billboard.id}>
-                                                    {billboard.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                                        placeholder="Category name"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="billboardId"
+                        render={({ field }) => (
+                            <FormItem className="w-full max-w-md">
+                                <FormLabel>Billboard</FormLabel>
+                                <Select
+                                    disabled={isLoading}
+                                    onValueChange={field.onChange}
+                                    value={field.value}
+                                    defaultValue={field.value}
+                                >
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue
+                                                defaultValue={field.value}
+                                                placeholder="Select a billboard"
+                                            ></SelectValue>
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent>
+                                        {billboards.map((billboard) => (
+                                            <SelectItem key={billboard.id} value={billboard.id}>
+                                                {billboard.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <Button disabled={isLoading} type="submit">
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {action}
                     </Button>
                 </form>
             </Form>
-        </>
+        </div>
     );
 };
 
