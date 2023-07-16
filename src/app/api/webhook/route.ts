@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     const addressString = addressComponents.filter((c) => c !== null).join(", ");
 
     if (event.type === "checkout.session.completed") {
-        const order = await prisma.order.update({
+        await prisma.order.update({
             where: {
                 id: session?.metadata?.orderId,
             },
@@ -40,22 +40,10 @@ export async function POST(req: Request) {
                 isPaid: true,
                 address: addressString,
                 phone: session?.customer_details?.phone || "",
+                payment_intent_id: session.payment_intent as string,
             },
             include: {
                 orderItems: true,
-            },
-        });
-
-        const productIds = order.orderItems.map((orderItem) => orderItem.productId);
-
-        await prisma.product.updateMany({
-            where: {
-                id: {
-                    in: [...productIds],
-                },
-            },
-            data: {
-                isArchived: true,
             },
         });
     }

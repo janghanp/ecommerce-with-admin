@@ -121,12 +121,13 @@ model Image {
 }
 
 model Order {
-  id        String   @id @default(uuid())
-  isPaid    Boolean  @default(false)
-  phone     String   @default("")
-  address   String   @default("")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                String   @id @default(uuid())
+  isPaid            Boolean  @default(false)
+  phone             String   @default("")
+  address           String   @default("")
+  payment_intent_id String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   storeId String
 

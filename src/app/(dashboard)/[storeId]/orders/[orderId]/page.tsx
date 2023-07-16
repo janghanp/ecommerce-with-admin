@@ -111,22 +111,23 @@ const OrderPage = async ({ params }: Props) => {
                         Total Price : &nbsp; {formatter.format(totalPrice)}
                     </div>
                     <Separator className="my-5" />
-                    {/* This information should be provided after payment.*/}
-                    <div className="flex flex-col gap-y-5">
-                        <h2 className="text-xl font-semibold">Customer Information</h2>
-                        <div>
-                            <h3 className="mb-1 text-lg font-semibold">Phone</h3>
-                            <span>0478686222</span>
+                    {order.isPaid && (
+                        <div className="flex flex-col gap-y-5">
+                            <h2 className="text-xl font-semibold">Customer Information</h2>
+                            <div>
+                                <h3 className="mb-1 text-lg font-semibold">Phone</h3>
+                                <span>{order.phone}</span>
+                            </div>
+                            <div>
+                                <h3 className="mb-1 text-lg font-semibold">Address</h3>
+                                <span>{order.address}</span>
+                            </div>
+                            <div>
+                                <h3 className="mb-1 text-lg font-semibold">Payment Id (Stripe)</h3>
+                                <span>{order.payment_intent_id}</span>
+                            </div>
                         </div>
-                        <div>
-                            <h3 className="mb-1 text-lg font-semibold">Address</h3>
-                            <span>Somewhere</span>
-                        </div>
-                        <div>
-                            <h3 className="mb-1 text-lg font-semibold">Payment Id (Stripe)</h3>
-                            <span>askdjnfaljskdnfaklsjdnfkljn</span>
-                        </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>
