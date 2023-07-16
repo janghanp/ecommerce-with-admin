@@ -6,9 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/ca
 import { formatter } from "@/src/lib/utils";
 import { getTotalRevenue } from "@/src/actions/get-total-revenue";
 import { getSalesCount } from "@/src/actions/get-sales-count";
-import { getStockCount } from "@/src/actions/get-stock-count";
 import Overview from "@/src/components/overview";
 import { getGraphRevenue } from "@/src/actions/get-graph-revenue";
+import { getProductsCount } from "@/src/actions/get-products-count";
 
 interface Props {
     params: { storeId: string };
@@ -17,7 +17,7 @@ interface Props {
 const DashboardPage = async ({ params }: Props) => {
     const totalRevenue = await getTotalRevenue(params.storeId);
     const salesCount = await getSalesCount(params.storeId);
-    const stockCount = await getStockCount(params.storeId);
+    const productsCount = await getProductsCount(params.storeId);
     const graphRevenue = await getGraphRevenue(params.storeId);
 
     return (
@@ -48,11 +48,11 @@ const DashboardPage = async ({ params }: Props) => {
                     </Card>
                     <Card className="flex-1">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Products In Stock</CardTitle>
+                            <CardTitle className="text-sm font-medium">Products</CardTitle>
                             <Package className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{stockCount}</div>
+                            <div className="text-2xl font-bold">{productsCount}</div>
                         </CardContent>
                     </Card>
                 </div>
