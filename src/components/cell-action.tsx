@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { BillboardColumn, CategoryColumn, ColorColumn, ProductColumn, SizeColumn } from "./columns";
+import { BillboardColumn, CategoryColumn, ColorColumn, ProductColumn } from "./columns";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -18,8 +18,8 @@ import axios from "axios";
 import AlertModal from "./alert-modal";
 
 interface Props {
-    data: BillboardColumn | CategoryColumn | SizeColumn | ColorColumn | ProductColumn;
-    type: "billboard" | "category" | "size" | "color" | "product";
+    data: BillboardColumn | CategoryColumn | ColorColumn | ProductColumn;
+    type: "billboard" | "category" | "color" | "product";
 }
 
 const CellAction = ({ data, type }: Props) => {
@@ -40,11 +40,6 @@ const CellAction = ({ data, type }: Props) => {
             toast.success("Category id copied to the clipboard");
         }
 
-        if (type === "size") {
-            navigator.clipboard.writeText(id);
-            toast.success("Size id copied to the clipboard");
-        }
-
         if (type === "color") {
             navigator.clipboard.writeText(id);
             toast.success("Color id copied to the clipboard");
@@ -63,10 +58,6 @@ const CellAction = ({ data, type }: Props) => {
 
         if (type === "category") {
             router.push(`/${params.storeId}/categories/${data.id}`);
-        }
-
-        if (type === "size") {
-            router.push(`/${params.storeId}/sizes/${data.id}`);
         }
 
         if (type === "color") {
@@ -90,10 +81,6 @@ const CellAction = ({ data, type }: Props) => {
                 await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
             }
 
-            if (type === "size") {
-                await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
-            }
-
             if (type === "color") {
                 await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
             }
@@ -113,10 +100,6 @@ const CellAction = ({ data, type }: Props) => {
                 toast.success("Category deleted.");
             }
 
-            if (type === "size") {
-                toast.success("Size deleted.");
-            }
-
             if (type === "color") {
                 toast.success("Color deleted.");
             }
@@ -131,10 +114,6 @@ const CellAction = ({ data, type }: Props) => {
 
             if (type === "category") {
                 toast.error("Make sure you removed all products using this category first.");
-            }
-
-            if (type === "size") {
-                toast.error("Make sure you removed all products using this size first.");
             }
 
             if (type === "color") {

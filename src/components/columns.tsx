@@ -125,44 +125,6 @@ export const categoryColumns: ColumnDef<CategoryColumn>[] = [
     },
 ];
 
-export const sizeColumns: ColumnDef<SizeColumn>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={table.getIsAllPageRowsSelected()}
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
-        accessorKey: "name",
-        header: "Name",
-    },
-    {
-        accessorKey: "value",
-        header: "Value",
-    },
-    {
-        accessorKey: "createdAt",
-        header: "Date",
-    },
-    {
-        id: "actions",
-        cell: ({ row }) => <CellAction data={row.original} type="size" />,
-    },
-];
-
 export const colorColumns: ColumnDef<ColorColumn>[] = [
     {
         id: "select",
