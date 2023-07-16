@@ -32,7 +32,7 @@ interface DataTableProps<TData, TValue> {
     data: TData[];
     searchKey: string;
     deleteHandler?: (ids: string[]) => void;
-    updateHandler?: (id: string) => void;
+    updateHandler: (id: string) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -160,10 +160,8 @@ export function DataTable<TData, TValue>({
                                         data-state={row.getIsSelected() && "selected"}
                                         className="hover:cursor-pointer"
                                         onClick={() => {
-                                            if (updateHandler) {
-                                                // @ts-ignore
-                                                updateHandler(row.original.id as string);
-                                            }
+                                            // @ts-ignore
+                                            updateHandler(row.original.id as string);
                                         }}
                                     >
                                         {row.getVisibleCells().map((cell) => (

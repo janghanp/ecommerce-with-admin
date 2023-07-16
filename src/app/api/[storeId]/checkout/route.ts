@@ -40,6 +40,8 @@ export async function POST(req: Request, { params }: { params: { storeId: string
                             id: cartItem.product.id,
                         },
                     },
+                    size: cartItem.selectedSize.name,
+                    quantity: cartItem.quantity,
                 })),
             },
         },
@@ -73,6 +75,8 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             orderId: order.id,
         },
     });
+
+    //Update order with session information?
 
     return NextResponse.json(
         { url: session.url },

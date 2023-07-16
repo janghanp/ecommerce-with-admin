@@ -88,8 +88,8 @@ model Product {
   category   Category    @relation("CategoryToProduct", fields: [categoryId], references: [id])
   color      Color       @relation(fields: [colorId], references: [id])
   images     Image[]     @relation("ProductToImage")
-  orderItems OrderItem[]
   sizes      Size[]      @relation("SizeToProduct")
+  orderItems OrderItem[]
 
   @@index([storeId])
   @@index([categoryId])
@@ -137,7 +137,9 @@ model Order {
 }
 
 model OrderItem {
-  id String @id @default(uuid())
+  id       String @id @default(uuid())
+  quantity Int
+  size     String
 
   orderId   String
   productId String

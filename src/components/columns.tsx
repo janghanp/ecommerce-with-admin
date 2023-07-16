@@ -47,11 +47,8 @@ export type ProductColumn = {
 
 export type OrderColumn = {
     id: string;
-    phone: string;
-    address: string;
     isPaid: boolean;
     totalPrice: string;
-    products: string;
     createdAt: string;
 };
 
@@ -286,24 +283,16 @@ export const productsColumns: ColumnDef<ProductColumn>[] = [
 
 export const orderColumns: ColumnDef<OrderColumn>[] = [
     {
-        accessorKey: "products",
-        header: "Products",
-    },
-    {
-        accessorKey: "phone",
-        header: "Phone",
-    },
-    {
-        accessorKey: "address",
-        header: "Address",
-    },
-    {
-        accessorKey: "totalPrice",
-        header: "Total price",
+        accessorKey: "id",
+        header: "Id",
     },
     {
         accessorKey: "isPaid",
         header: "Paid",
+    },
+    {
+        accessorKey: "totalPrice",
+        header: "Total price",
     },
     {
         accessorKey: "createdAt",

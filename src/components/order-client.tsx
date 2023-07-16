@@ -1,5 +1,7 @@
 "use client";
 
+import { useParams, useRouter } from "next/navigation";
+
 import Heading from "@/src/components/heading";
 import { Separator } from "@/src/components/ui/separator";
 import { OrderColumn, orderColumns } from "@/src/components/columns";
@@ -10,6 +12,13 @@ interface Props {
 }
 
 const OrderClient = ({ orders }: Props) => {
+    const router = useRouter();
+    const { storeId } = useParams();
+
+    const updateHandler = async (orderId: string) => {
+        router.push(`/${storeId}/orders/${orderId}`);
+    };
+
     return (
         <>
             <Heading
@@ -17,7 +26,12 @@ const OrderClient = ({ orders }: Props) => {
                 description="Manage orders for your store"
             />
             <Separator />
-            <DataTable columns={orderColumns} data={orders} searchKey="products" />
+            <DataTable
+                columns={orderColumns}
+                data={orders}
+                searchKey="id"
+                updateHandler={updateHandler}
+            />
         </>
     );
 };
