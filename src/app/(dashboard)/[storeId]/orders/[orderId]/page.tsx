@@ -73,6 +73,8 @@ const OrderPage = async ({ params }: Props) => {
                                     <div className="relative h-[100px] w-[100px] flex-none">
                                         <Image
                                             fill
+                                            priority
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                             className="rounded-md"
                                             src={orderItem.product.images[0].url}
                                             alt="image"

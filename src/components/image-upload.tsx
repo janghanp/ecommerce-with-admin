@@ -36,7 +36,7 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: Props) => {
                 {value.map((url) => (
                     <div
                         key={url}
-                        className="relative h-[200px] w-[200px] overflow-hidden rounded-md"
+                        className="relative h-[200px] w-[200px] overflow-hidden rounded-md border"
                     >
                         <div className="absolute right-2 top-2 z-10">
                             <Button
@@ -48,7 +48,14 @@ const ImageUpload = ({ disabled, onChange, onRemove, value }: Props) => {
                                 <Trash className="h-4 w-4" />
                             </Button>
                         </div>
-                        <Image fill className="object-cover" src={url} alt={"Image"} priority />
+                        <Image
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            className="object-cover"
+                            src={url}
+                            alt={"Image"}
+                            priority
+                        />
                     </div>
                 ))}
             </div>
