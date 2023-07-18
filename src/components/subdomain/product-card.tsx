@@ -26,7 +26,7 @@ const ProductCard = ({ product }: Props) => {
 
     return (
         <div
-            className="group cursor-pointer space-y-4 rounded-xl border p-3"
+            className="group cursor-pointer space-y-4 rounded-xl border p-3 transition duration-200 hover:shadow-lg"
             onClick={clickHandler}
         >
             <div className="relative aspect-square rounded-xl bg-gray-100">

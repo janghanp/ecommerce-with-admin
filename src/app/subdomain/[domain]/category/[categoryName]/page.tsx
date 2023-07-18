@@ -1,20 +1,23 @@
+import { notFound } from "next/navigation";
+
 import { prisma } from "@/src/lib/prisma";
 import { getSubdomain } from "@/src/lib/utils";
 import ProductList from "@/src/components/subdomain/product-list";
 import Billboard from "@/src/components/subdomain/billboard";
-import { notFound } from "next/navigation";
+import Filters from "@/src/components/subdomain/filters";
 
 interface Props {
     params: { categoryName: string; domain: string };
-    // searchParams: {
-    //   colorName: string;
-    //   minPrice: string;
-    //   maxPrice: string;
-    // };
+    searchParams: {
+        colorName: string;
+        minPrice: string;
+        maxPrice: string;
+    };
 }
 
-const CategoryPage = async ({ params }: Props) => {
+const CategoryPage = async ({ params, searchParams }: Props) => {
     const { domain, categoryName } = params;
+    const { colorName, minPrice, maxPrice } = searchParams;
 
     const subdomain = getSubdomain(domain);
 
@@ -35,6 +38,14 @@ const CategoryPage = async ({ params }: Props) => {
             category: {
                 name: categoryName,
             },
+            price: {
+                gte: Number(minPrice) || undefined,
+                lte: Number(maxPrice) || undefined,
+            },
+            color: {
+                name: colorName,
+            },
+            isArchived: false,
         },
         include: {
             images: true,
@@ -42,14 +53,27 @@ const CategoryPage = async ({ params }: Props) => {
         },
     });
 
-    if (!category || !products) {
+    const colors = await prisma.color.findMany({
+        where: {
+            store: {
+                name: subdomain as string,
+            },
+        },
+    });
+
+    if (!category) {
         notFound();
     }
 
     return (
-        <div>
+        <div className="px-4 pb-24 sm:px-6 lg:px-8">
             <Billboard billboard={category.billboard} />
-            <ProductList title={categoryName} products={products} />
+            <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
+                <Filters colors={colors} />
+                <div className="mt-6 lg:col-span-4 lg:mt-0">
+                    <ProductList title={category.name} products={products} />
+                </div>
+            </div>
         </div>
     );
 };
