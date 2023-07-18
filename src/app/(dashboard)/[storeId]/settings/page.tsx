@@ -34,13 +34,8 @@ const SettingsPage = async ({ params }: Props) => {
                 <SettingsForm initialData={store} />
                 <Separator />
                 <ApiAlert
-                    title={"API_URL"}
-                    description={`${process.env.NEXT_PUBLIC_URL}/api/${params.storeId}`}
-                    variant="public"
-                />
-                <ApiAlert
                     title={"STORE_URL"}
-                    description={`${process.env.STORE_URL}/${params.storeId}`}
+                    description={`http://${store.name}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
                     variant="public"
                 />
             </div>

@@ -5,8 +5,6 @@ interface Props {
 }
 
 const Billboard = ({ billboard }: Props) => {
-    console.log(billboard);
-
     return (
         <div className="overflow-hidden rounded-xl p-4 sm:p-6 lg:p-8">
             <div

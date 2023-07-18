@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 
 import NoResults from "@/src/components/subdomain/no-results";
-import ProductCard from "@/src/components/subdomain/ProductCard";
+import ProductCart from "@/src/components/subdomain/product-card";
 
 type ProductWithImagesAndCategory = Prisma.ProductGetPayload<{
     include: {
@@ -22,7 +22,7 @@ const ProductList = ({ title, products }: Props) => {
             {products.length === 0 && <NoResults />}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCart key={product.id} product={product} />
                 ))}
             </div>
         </div>

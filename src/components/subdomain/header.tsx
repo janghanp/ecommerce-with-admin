@@ -2,6 +2,8 @@ import Link from "next/link";
 
 import MainNav from "@/src/components/subdomain/main-nav";
 import { Category } from "@prisma/client";
+import CartButton from "@/src/components/subdomain/cart-button";
+import ThemeToggleButton from "@/src/components/subdomain/theme-toggle-button";
 
 interface Props {
     categories: Category[];
@@ -14,8 +16,13 @@ const Header = ({ categories }: Props) => {
                 <Link href={`/`} className="ml-4 flex gap-x-2 lg:ml-0">
                     <p className="text-xl font-bold">STORE</p>
                 </Link>
-                <MainNav data={categories} />
-                {/*<NavbarActions />*/}
+                <div className="flex w-full items-center justify-between md:ml-5">
+                    <MainNav data={categories} />
+                    <div className="flex items-center gap-x-4">
+                        <ThemeToggleButton />
+                        <CartButton />
+                    </div>
+                </div>
             </div>
         </div>
     );

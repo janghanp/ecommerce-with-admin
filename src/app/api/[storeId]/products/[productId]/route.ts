@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 
 import { prisma } from "@/src/lib/prisma";
-import { Prisma } from "@prisma/client";
 import { getPublicIdFromUrl } from "@/src/lib/utils";
 
 export async function GET(req: Request, { params }: { params: { productId: string } }) {
@@ -121,7 +120,7 @@ export async function PATCH(
             },
             data: {
                 name,
-                price: new Prisma.Decimal(price),
+                price: Number(price),
                 categoryId,
                 colorId,
                 images: {

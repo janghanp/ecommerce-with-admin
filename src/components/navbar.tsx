@@ -97,7 +97,7 @@ const Navbar = ({ stores }: Props) => {
                             }
                         }}
                         className={cn(
-                            "w-full rounded-md p-2 text-sm font-medium transition duration-200 hover:bg-gray-100 hover:text-primary",
+                            "w-full rounded-md p-2 text-sm font-medium transition duration-200 hover:bg-gray-200",
                             route.isActive ? "text-black dark:text-white" : "text-muted-foreground"
                         )}
                     >
@@ -116,7 +116,7 @@ const Navbar = ({ stores }: Props) => {
                         <UserButton afterSignOutUrl="/" />
                         <span className="text-sm font-medium">{user.user?.firstName}</span>
                         <div
-                            className="rounded-md p-2 transition duration-200 hover:cursor-pointer hover:bg-gray-100"
+                            className="rounded-md p-2 transition duration-200 hover:cursor-pointer hover:bg-gray-200"
                             onClick={() => auth.signOut()}
                         >
                             <LogOut className="h-4 w-4" />

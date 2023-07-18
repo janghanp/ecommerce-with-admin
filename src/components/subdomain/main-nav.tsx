@@ -27,7 +27,7 @@ const MainNav = ({ data }: Props) => {
                     href={route.href}
                     className={cn(
                         "text-sm font-medium transition-colors",
-                        route.isActive ? "text-primary" : "text-neutral-500"
+                        route.isActive ? "text-primary" : "text-muted-foreground"
                     )}
                 >
                     {route.label}

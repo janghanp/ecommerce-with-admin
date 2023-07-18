@@ -2,7 +2,6 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/src/lib/prisma";
-import { Prisma } from "@prisma/client";
 import cloudinary from "cloudinary";
 import { getPublicIdFromUrl } from "@/src/lib/utils";
 
@@ -23,8 +22,8 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
             where: {
                 storeId: params.storeId,
                 price: {
-                    gte: minPrice,
-                    lte: maxPrice,
+                    gte: Number(minPrice),
+                    lte: Number(maxPrice),
                 },
                 categoryId,
                 color: {
@@ -131,7 +130,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         const product = await prisma.product.create({
             data: {
                 name,
-                price: new Prisma.Decimal(price),
+                price: Number(price),
                 isFeatured,
                 isArchived,
                 categoryId,

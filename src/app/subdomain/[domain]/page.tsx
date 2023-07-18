@@ -1,7 +1,7 @@
 import { prisma } from "@/src/lib/prisma";
 import { getSubdomain } from "@/src/lib/utils";
 import Billboard from "@/src/components/subdomain/billboard";
-import ProductList from "@/src/components/subdomain/ProductList";
+import ProductList from "@/src/components/subdomain/product-list";
 
 interface Props {
     params: { domain: string };

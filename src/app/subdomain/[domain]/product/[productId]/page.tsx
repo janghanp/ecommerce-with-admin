@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/src/lib/prisma";
 import Gallery from "@/src/components/subdomain/gallery";
 import Info from "@/src/components/subdomain/info";
-import ProductList from "@/src/components/subdomain/ProductList";
+import ProductList from "@/src/components/subdomain/product-list";
 
 interface Props {
     params: { productId: string };
@@ -19,6 +19,7 @@ const ProductPage = async ({ params }: Props) => {
         include: {
             images: true,
             sizes: true,
+            color: true,
         },
     });
 

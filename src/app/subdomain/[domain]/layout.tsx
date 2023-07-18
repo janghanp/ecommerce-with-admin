@@ -13,7 +13,7 @@ interface Props {
 const Layout = async ({ children, params }: Props) => {
     const subdomain = getSubdomain(params.domain);
 
-    const store = await prisma.store.findFirst({
+    const store = await prisma.store.findUnique({
         where: {
             name: subdomain as string,
         },

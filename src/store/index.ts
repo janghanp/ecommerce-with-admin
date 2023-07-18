@@ -1,8 +1,14 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import toast from "react-hot-toast";
-import { Product } from "@prisma/client";
-import { Size } from "@/src/type";
+import { Prisma, Size } from "@prisma/client";
+
+type ProductWithImagesAndSizes = Prisma.ProductGetPayload<{
+    include: {
+        images: true;
+        sizes: true;
+    };
+}>;
 
 interface useModalState {
     isOpen: boolean;
@@ -15,8 +21,8 @@ interface useMobileSidebar {
 }
 
 interface CartState {
-    items: { product: Product; selectedSize: Size; quantity: number }[];
-    addItem: (data: Product, selectedSize: Size) => void;
+    items: { product: ProductWithImagesAndSizes; selectedSize: Size; quantity: number }[];
+    addItem: (data: ProductWithImagesAndSizes, selectedSize: Size) => void;
     updateItem: (productId: string, selectedSize: Size, quantity: number) => void;
     removeItem: (id: string) => void;
     emptyCart: () => void;
@@ -36,7 +42,7 @@ export const useCart = create(
     persist<CartState>(
         (set, get) => ({
             items: [],
-            addItem: (product: Product, selectedSize: Size) => {
+            addItem: (product: ProductWithImagesAndSizes, selectedSize: Size) => {
                 const isExisting = get().items.find((item) => item.product.id === product.id);
 
                 if (isExisting) {
