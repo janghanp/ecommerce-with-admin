@@ -4,31 +4,41 @@ import * as React from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
-import { Button } from "@/src/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/src/components/ui/dropdown-menu";
+import { Switch } from "@/src/components/ui/switch";
+import { useEffect, useState } from "react";
+import { useCheck } from "@/src/store";
 
 export function ThemeToggle() {
-    const { setTheme } = useTheme();
+    const { theme, setTheme } = useTheme();
+
+    const { isChecked, toggle } = useCheck();
+
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    const clickHandler = () => {
+        if (theme === "light") {
+            setTheme("dark");
+        } else {
+            setTheme("light");
+        }
+
+        toggle(!isChecked);
+    };
+
+    if (!isClient) {
+        return <></>;
+    }
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                    <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                    <span className="sr-only">Toggle theme</span>
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex w-full items-center justify-between p-1">
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="-ml-5 text-sm text-muted-foreground">{theme} mode</span>
+            <Switch checked={isChecked} onCheckedChange={clickHandler} />
+        </div>
     );
 }

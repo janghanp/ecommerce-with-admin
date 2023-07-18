@@ -8,7 +8,6 @@ import { Store } from "@prisma/client";
 import Navbar from "@/src/components/navbar";
 import { Button } from "@/src/components/ui/button";
 import { PopoverTrigger } from "@/src/components/ui/popover";
-import StoreSwitcher from "@/src/components/store-switcher";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
@@ -22,7 +21,7 @@ const MobileSidebar = ({ stores }: Props) => {
     return (
         <div className="block md:hidden">
             <div
-                className="absolute left-5 top-4 block hover:cursor-pointer md:hidden"
+                className="absolute left-2 top-2 block p-1 hover:cursor-pointer md:hidden"
                 onClick={() => toggle(true)}
             >
                 <AlignJustify />
@@ -37,13 +36,9 @@ const MobileSidebar = ({ stores }: Props) => {
                     <motion.div
                         initial={{ x: -50 }}
                         animate={{ x: 0 }}
-                        transition={{ type: "just" }}
                         className="fixed bottom-0 left-0 top-0 z-50 w-52 bg-white dark:bg-[#020816]"
                     >
-                        <div className="mt-5">
-                            <StoreSwitcher items={stores} />
-                        </div>
-                        <Navbar />
+                        <Navbar stores={stores} />
                         <div className="absolute -right-10 top-0 z-30">
                             <Button
                                 variant="secondary"

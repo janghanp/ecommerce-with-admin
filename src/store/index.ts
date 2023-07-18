@@ -10,6 +10,11 @@ interface useMobileSidebar {
     toggle: (value: boolean) => void;
 }
 
+interface useCheck {
+    isChecked: boolean;
+    toggle: (value: boolean) => void;
+}
+
 export const useModalState = create<useModalState>((set) => ({
     isOpen: false,
     toggleModal: (value: boolean) => set({ isOpen: value }),
@@ -18,4 +23,9 @@ export const useModalState = create<useModalState>((set) => ({
 export const useMobileSidebar = create<useMobileSidebar>((set) => ({
     isOpen: false,
     toggle: (value: boolean) => set({ isOpen: value }),
+}));
+
+export const useCheck = create<useCheck>((set) => ({
+    isChecked: false,
+    toggle: (value: boolean) => set({ isChecked: value }),
 }));

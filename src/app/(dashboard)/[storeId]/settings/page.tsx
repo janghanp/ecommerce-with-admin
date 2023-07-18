@@ -30,7 +30,7 @@ const SettingsPage = async ({ params }: Props) => {
 
     return (
         <div className="flex-col ">
-            <div className="flex-1 space-y-4 p-2 pt-6 md:p-8">
+            <div className="flex-1 space-y-4 p-2 pt-10 md:p-8">
                 <SettingsForm initialData={store} />
                 <Separator />
                 <ApiAlert

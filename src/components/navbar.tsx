@@ -1,15 +1,39 @@
 "use client";
 
-import { useParams, usePathname } from "next/navigation";
-import { Home, Tag, AppWindow, Palette, ReceiptIcon, Package, Settings } from "lucide-react";
-
 import Link from "next/link";
+import { useParams, usePathname } from "next/navigation";
+import {
+    Home,
+    Tag,
+    AppWindow,
+    Palette,
+    ReceiptIcon,
+    Package,
+    Settings,
+    LogOut,
+} from "lucide-react";
+import { useAuth, UserButton, useUser } from "@clerk/nextjs";
+
 import { cn } from "@/src/lib/utils";
 import { useMobileSidebar } from "../store";
+import { ThemeToggle } from "@/src/components/theme-toggle";
+import { Store } from "@prisma/client";
+import { PopoverTrigger } from "@/src/components/ui/popover";
+import StoreSwitcher from "@/src/components/store-switcher";
+import { Separator } from "@/src/components/ui/separator";
 
-const Navbar = () => {
+type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
+
+interface Props extends PopoverTriggerProps {
+    stores: Store[];
+}
+
+const Navbar = ({ stores }: Props) => {
     const pathname = usePathname();
     const params = useParams();
+
+    const user = useUser();
+    const auth = useAuth();
 
     const { isOpen, toggle } = useMobileSidebar();
 
@@ -58,27 +82,48 @@ const Navbar = () => {
         },
     ];
     return (
-        <div className="flex h-screen flex-col items-start justify-start gap-y-5 p-5 py-10">
-            {routes.map((route) => (
-                <Link
-                    key={route.label}
-                    href={route.href}
-                    onClick={() => {
-                        if (isOpen) {
-                            toggle(false);
-                        }
-                    }}
-                    className={cn(
-                        "w-full rounded-md p-2 text-sm font-medium transition duration-200 hover:bg-gray-100 hover:text-primary",
-                        route.isActive ? "text-black dark:text-white" : "text-muted-foreground"
-                    )}
-                >
-                    <div className="flex items-center gap-x-4">
-                        {route.icon}
-                        <span>{route.label}</span>
+        <div className="flex h-screen flex-col items-start justify-between px-2 py-5">
+            <div className="flex w-full flex-col gap-y-3">
+                <div className="mb-5">
+                    <StoreSwitcher stores={stores} />
+                </div>
+                {routes.map((route) => (
+                    <Link
+                        key={route.label}
+                        href={route.href}
+                        onClick={() => {
+                            if (isOpen) {
+                                toggle(false);
+                            }
+                        }}
+                        className={cn(
+                            "w-full rounded-md p-2 text-sm font-medium transition duration-200 hover:bg-gray-100 hover:text-primary",
+                            route.isActive ? "text-black dark:text-white" : "text-muted-foreground"
+                        )}
+                    >
+                        <div className="flex items-center gap-x-4">
+                            {route.icon}
+                            <span>{route.label}</span>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+            <div className="flex w-full flex-col items-center justify-center">
+                <ThemeToggle />
+                <Separator className="my-3" />
+                <div className="ml-auto flex w-full items-center space-x-4">
+                    <div className="flex w-full items-center gap-x-2 p-2 py-1">
+                        <UserButton afterSignOutUrl="/" />
+                        <span className="text-sm font-medium">{user.user?.fullName}</span>
+                        <div
+                            className="rounded-md p-2 transition duration-200 hover:cursor-pointer hover:bg-gray-100"
+                            onClick={() => auth.signOut()}
+                        >
+                            <LogOut className="h-4 w-4" />
+                        </div>
                     </div>
-                </Link>
-            ))}
+                </div>
+            </div>
         </div>
     );
 };

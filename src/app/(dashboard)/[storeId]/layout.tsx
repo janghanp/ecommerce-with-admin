@@ -2,43 +2,38 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import { prisma } from "@/src/lib/prisma";
-import Header from "@/src/components/header";
 import Navbar from "@/src/components/navbar";
 import MobileSidebar from "@/src/components/mobile-sidebar";
 
 interface Props {
     children: React.ReactNode;
-    params: { storeId: string };
 }
 
-export default async function DashboardLayout({ children, params }: Props) {
+export default async function DashboardLayout({ children }: Props) {
     const { userId } = auth();
 
     if (!userId) {
         redirect("/sign-in");
     }
 
-    const store = await prisma.store.findFirst({
+    const stores = await prisma.store.findMany({
         where: {
-            id: params.storeId,
             userId,
         },
     });
 
-    if (!store) {
+    if (stores.length === 0) {
         redirect("/");
     }
 
     return (
         <>
             <div className="flex">
+                <MobileSidebar stores={stores} />
                 <div className="sticky top-0 hidden h-screen w-52 border-r md:block">
-                    <Navbar />
+                    <Navbar stores={stores} />
                 </div>
-                <div className="flex w-full flex-1 flex-col overflow-x-hidden">
-                    <Header />
-                    {children}
-                </div>
+                <div className="flex w-full flex-1 flex-col overflow-x-hidden">{children}</div>
             </div>
         </>
     );

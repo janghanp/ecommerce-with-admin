@@ -22,16 +22,16 @@ import { useModalState } from "../store";
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
 interface Props extends PopoverTriggerProps {
-    items: Store[];
+    stores: Store[];
 }
 
-export default function StoreSwitcher({ className, items = [] }: Props) {
+export default function StoreSwitcher({ className, stores = [] }: Props) {
     const storeModal = useModalState();
     const params = useParams();
     const router = useRouter();
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const formattedItems = items.map((item) => ({
+    const formattedItems = stores.map((item) => ({
         label: item.name,
         value: item.id,
     }));
@@ -52,14 +52,14 @@ export default function StoreSwitcher({ className, items = [] }: Props) {
                     role="combobox"
                     aria-expanded={isOpen}
                     aria-label="Select a store"
-                    className={cn("ml-[16px] w-[170px] justify-between", className)}
+                    className={cn("w-full justify-between", className)}
                 >
                     <StoreIcon className="mr-2 h-4 w-4" />
                     {currentStore?.label}
                     <ChevronsUpDown className="ml-auto h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[170px] p-0">
+            <PopoverContent className="w-[191px] p-0">
                 <Command>
                     <CommandList>
                         <CommandInput placeholder="Search store..." />
