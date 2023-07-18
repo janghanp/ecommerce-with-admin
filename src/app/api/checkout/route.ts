@@ -19,19 +19,36 @@ export async function OPTIONS() {
     return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export async function POST(req: Request, { params }: { params: { storeId: string } }) {
+export async function POST(req: Request) {
     const {
         cartItems,
-    }: { cartItems: { product: ProductWithImages; selectedSize: Size; quantity: number }[] } =
-        await req.json();
+        subdomain,
+    }: {
+        cartItems: { product: ProductWithImages; selectedSize: Size; quantity: number }[];
+        subdomain: string;
+    } = await req.json();
 
     if (!cartItems || cartItems.length === 0) {
         return new NextResponse("Cart items are required", { status: 400 });
     }
 
+    if (!subdomain) {
+        return new NextResponse("Something went wrong...", { status: 400 });
+    }
+
+    const store = await prisma.store.findUnique({
+        where: {
+            name: subdomain,
+        },
+    });
+
+    if (!store) {
+        return new NextResponse("Something went wrong...", { status: 400 });
+    }
+
     const order = await prisma.order.create({
         data: {
-            storeId: params.storeId,
+            storeId: store.id,
             isPaid: false,
             orderItems: {
                 create: cartItems.map((cartItem) => ({
@@ -69,15 +86,14 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         phone_number_collection: {
             enabled: true,
         },
-        success_url: `${process.env.STORE_URL}/${params.storeId}/cart?success=1`,
-        cancel_url: `${process.env.STORE_URL}/${params.storeId}/cart?canceled=1`,
+        success_url: `${req.headers.get("origin")}/cart?success=1`,
+        cancel_url: `${req.headers.get("origin")}/cart?canceled=1`,
         metadata: {
             orderId: order.id,
         },
     });
 
     //Update order with session information?
-
     return NextResponse.json(
         { url: session.url },
         {

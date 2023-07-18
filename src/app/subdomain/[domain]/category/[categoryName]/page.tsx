@@ -66,7 +66,7 @@ const CategoryPage = async ({ params, searchParams }: Props) => {
     }
 
     return (
-        <div className="px-4 pb-24 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-y-20 p-10">
             <Billboard billboard={category.billboard} />
             <div className="lg:grid lg:grid-cols-5 lg:gap-x-8">
                 <Filters colors={colors} />

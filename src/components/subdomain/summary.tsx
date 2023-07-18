@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
@@ -11,7 +11,6 @@ import { Button } from "@/src/components/ui/button";
 import { formatter } from "@/src/lib/utils";
 
 const Summary = () => {
-    const params = useParams();
     const searchParams = useSearchParams();
 
     const cartItems = useCart((state) => state.items);
@@ -34,10 +33,13 @@ const Summary = () => {
         try {
             setIsLoading(true);
 
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_API_URL}/${params.storeId}/checkout`,
-                { cartItems }
-            );
+            const host = window.location.host;
+            const subdomain = host.split(".")[0];
+
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/checkout`, {
+                cartItems,
+                subdomain,
+            });
 
             window.location = response.data.url;
         } catch (e) {

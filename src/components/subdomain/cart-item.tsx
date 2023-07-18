@@ -8,7 +8,6 @@ import { Prisma, Size } from "@prisma/client";
 import { useCart } from "@/src/store";
 import { Button } from "@/src/components/ui/button";
 import { formatter } from "@/src/lib/utils";
-import SizeSelect from "@/src/components/subdomain/size-select";
 
 type ProductWithImagesAndSizes = Prisma.ProductGetPayload<{
     include: {
@@ -25,7 +24,7 @@ const CartItem = ({ item }: Props) => {
     const removeItemInCart = useCart((state) => state.removeItem);
     const updateItemInCart = useCart((state) => state.updateItem);
 
-    const [selectedSize, setSelectedSize] = useState<Size>(item.selectedSize);
+    const [selectedSize, _setSelectedSize] = useState<Size>(item.selectedSize);
     const [quantity, setQuantity] = useState(item.quantity);
 
     useEffect(() => {
@@ -34,13 +33,9 @@ const CartItem = ({ item }: Props) => {
         }
     }, [selectedSize, quantity, updateItemInCart, item.product.id]);
 
-    const changeHandler = (size: Size) => {
-        setSelectedSize(size);
-    };
-
     return (
         <li className="flex border-b py-6">
-            <div className="relative h-24 w-24 overflow-hidden rounded-md border sm:h-48 sm:w-48">
+            <div className="relative h-[100px] w-[100px] overflow-hidden rounded-md">
                 <Image
                     priority
                     fill
@@ -51,14 +46,10 @@ const CartItem = ({ item }: Props) => {
                 />
             </div>
             <div className="flex flex-1 flex-col items-start justify-between px-5">
-                <span className="text-lg font-semibold">{item.product.name}</span>
+                <span className="text-xl font-semibold">{item.product.name}</span>
                 <div className="flex items-center">
-                    <span>size: &nbsp;</span>
-                    <SizeSelect
-                        sizes={item.product.sizes}
-                        changeHandler={changeHandler}
-                        defaultValue={item.selectedSize.name}
-                    />
+                    <span>size:&nbsp;</span>
+                    <span>{item.selectedSize.name}</span>
                 </div>
                 <div className="flex items-center gap-x-5">
                     <Button

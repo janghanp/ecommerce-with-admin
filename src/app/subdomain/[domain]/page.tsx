@@ -23,6 +23,8 @@ const Page = async ({ params }: Props) => {
             store: {
                 name: subdomain as string,
             },
+            isFeatured: true,
+            isArchived: false,
         },
         include: {
             images: true,
@@ -31,7 +33,7 @@ const Page = async ({ params }: Props) => {
     });
 
     return (
-        <div>
+        <div className="flex flex-col gap-y-20 p-10">
             <Billboard billboard={billboard!} />
             <ProductList title="Featured Products" products={products} />
         </div>
