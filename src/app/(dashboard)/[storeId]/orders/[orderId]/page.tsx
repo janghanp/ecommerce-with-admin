@@ -40,7 +40,7 @@ const OrderPage = async ({ params }: Props) => {
         }, 0);
 
     return (
-        <div className="flex items-center justify-center p-2 md:p-8">
+        <div className="flex items-center justify-center p-4 md:p-8 pt-10">
             <div className="flex w-full max-w-2xl flex-col items-start justify-center">
                 <div className="flex items-center justify-between gap-x-5">
                     <Heading title={"Order"} description={"Order detail"} />

@@ -21,7 +21,7 @@ const MobileSidebar = ({ stores }: Props) => {
     return (
         <div className="block md:hidden">
             <div
-                className="absolute left-2 top-2 block p-1 hover:cursor-pointer md:hidden"
+                className="absolute left-3 top-2 block p-1 hover:cursor-pointer md:hidden"
                 onClick={() => toggle(true)}
             >
                 <AlignJustify />
