@@ -112,9 +112,9 @@ const Navbar = ({ stores }: Props) => {
                 <ThemeToggle />
                 <Separator className="my-3" />
                 <div className="ml-auto flex w-full items-center space-x-4">
-                    <div className="flex w-full items-center gap-x-2 p-2 py-1">
+                    <div className="flex w-full items-center justify-between gap-x-2 p-2 py-1">
                         <UserButton afterSignOutUrl="/" />
-                        <span className="text-sm font-medium">{user.user?.fullName}</span>
+                        <span className="text-sm font-medium">{user.user?.firstName}</span>
                         <div
                             className="rounded-md p-2 transition duration-200 hover:cursor-pointer hover:bg-gray-100"
                             onClick={() => auth.signOut()}

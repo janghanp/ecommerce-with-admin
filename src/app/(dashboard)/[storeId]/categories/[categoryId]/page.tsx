@@ -19,7 +19,7 @@ const CategoryPage = async ({ params }: Props) => {
     });
 
     return (
-        <div className="flex items-center justify-center p-4 md:p-8 pt-10">
+        <div className="flex items-center justify-center p-4 pt-10 md:p-8">
             <CategoryForm initialData={category} billboards={billboards} />
         </div>
     );

@@ -18,3 +18,11 @@ export const getPublicIdFromUrl = (url: string) => {
 
     return `${directory}/${filename}`;
 };
+
+export const getSubdomain = (domain: string) => {
+    const decodedDomain = decodeURIComponent(domain);
+
+    return decodedDomain.endsWith(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`)
+        ? decodedDomain.replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "")
+        : null;
+};
