@@ -9,6 +9,10 @@ const UserInfo = () => {
     const { signOut } = useClerk();
     const { isLoaded, isSignedIn, user } = useUser();
 
+    console.log(isLoaded);
+    console.log(isSignedIn);
+    console.log(user);
+
     if (!isLoaded || !isSignedIn) {
         return (
             <>
