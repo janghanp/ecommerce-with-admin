@@ -60,7 +60,7 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
             return new NextResponse("Store id is required", { status: 400 });
         }
 
-        const store = await prisma.store.deleteMany({
+        const store = await prisma.store.delete({
             where: {
                 id: params.storeId,
                 userId,

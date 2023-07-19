@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Loader2, Trash } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -82,29 +82,22 @@ const SettingsForm = ({ initialData }: Props) => {
     };
 
     return (
-        <>
+        <div className="flex w-full max-w-2xl flex-col items-start justify-center">
             <AlertModal
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
                 onConfirm={onDelete}
                 isLoading={isLoading}
             />
-            <div className="flex flex-col items-start justify-between gap-y-5 md:flex-row md:items-center md:gap-y-0">
+            <div className={"flex w-full items-center justify-between"}>
                 <Heading title={"Settings"} description={"Manage store preferences"} />
-                <Button
-                    disabled={isLoading}
-                    variant="destructive"
-                    size="icon"
-                    onClick={() => {
-                        setIsOpen(true);
-                    }}
-                >
-                    <Trash className="h-4 w-4" />
-                </Button>
             </div>
-            <Separator />
+            <Separator className="my-5" />
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex w-full max-w-lg flex-col items-start justify-center space-y-8"
+                >
                     <FormField
                         control={form.control}
                         name="name"
@@ -128,7 +121,7 @@ const SettingsForm = ({ initialData }: Props) => {
                     </Button>
                 </form>
             </Form>
-        </>
+        </div>
     );
 };
 
