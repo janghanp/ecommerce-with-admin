@@ -22,7 +22,7 @@ export default function RootLayout({ children }: Props) {
         <ClerkProvider>
             <html lang="en" suppressHydrationWarning>
                 <body className={inter.className}>
-                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
                         <Toaster />
                         <StoreModal />
                         {children}

@@ -16,6 +16,12 @@ export default authMiddleware({
             return;
         }
 
+        if (hostname === `${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+            return NextResponse.redirect(
+              `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
+            );
+        }
+
         return NextResponse.rewrite(new URL(`/subdomain/${hostname}${path}?${query}`, req.url));
     },
     publicRoutes: ["/subdomain/:domain*"],
