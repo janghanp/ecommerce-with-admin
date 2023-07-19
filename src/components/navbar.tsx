@@ -89,9 +89,10 @@ const Navbar = ({ stores }: Props) => {
         },
     ];
 
-    if (!isClient) {
+    if (!isClient || !user.isLoaded) {
         return;
     }
+
 
     return (
         <div className="flex h-screen flex-col items-start justify-between px-2 py-5">
