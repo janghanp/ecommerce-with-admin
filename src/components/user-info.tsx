@@ -1,23 +1,30 @@
 "use client";
 
-import { useAuth, UserButton } from "@clerk/nextjs";
+import { useClerk, UserButton, useUser } from "@clerk/nextjs";
 import { LogOut } from "lucide-react";
 
-interface Props {
-    firstName: string;
-}
+import { Skeleton } from "@/src/components/ui/skeleton";
 
-const UserInfo = ({ firstName }: Props) => {
-    const auth = useAuth();
+const UserInfo = () => {
+    const { signOut } = useClerk();
+    const { isLoaded, isSignedIn, user } = useUser();
+
+    if (!isLoaded || !isSignedIn) {
+        return (
+            <>
+                <Skeleton className="h-8 w-full" />
+            </>
+        );
+    }
 
     return (
         <div className="ml-auto flex w-full items-center space-x-4">
             <div className="flex w-full items-center justify-between gap-x-2 p-2 py-1">
                 <UserButton afterSignOutUrl="/" />
-                <span className="text-sm font-medium">{firstName}</span>
+                <span className="text-sm font-medium">{user?.firstName}</span>
                 <div
                     className="rounded-md p-2 transition duration-200 hover:cursor-pointer hover:bg-gray-200"
-                    onClick={() => auth.signOut()}
+                    onClick={() => signOut()}
                 >
                     <LogOut className="h-4 w-4" />
                 </div>

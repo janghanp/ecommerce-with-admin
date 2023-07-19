@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authMiddleware } from "@clerk/nextjs";
 
-
 export default authMiddleware({
     afterAuth(auth, req: NextRequest, _evt) {
         const url = req.nextUrl;
@@ -17,9 +16,7 @@ export default authMiddleware({
         }
 
         if (hostname === `${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
-            return NextResponse.redirect(
-              `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
-            );
+            return NextResponse.redirect(`http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`);
         }
 
         return NextResponse.rewrite(new URL(`/subdomain/${hostname}${path}?${query}`, req.url));

@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-import { currentUser } from "@clerk/nextjs";
 import { Store } from "@prisma/client";
 
 import { ThemeToggle } from "@/src/components/theme-toggle";
@@ -16,12 +14,6 @@ interface Props extends PopoverTriggerProps {
 }
 
 const Navbar = async ({ stores }: Props) => {
-    const user = await currentUser();
-
-    if (!user) {
-        redirect("/sign-in");
-    }
-
     return (
         <div className="flex h-screen flex-col items-start justify-between px-2 py-5">
             <div className="flex w-full flex-col gap-y-3">
@@ -33,7 +25,7 @@ const Navbar = async ({ stores }: Props) => {
             <div className="flex w-full flex-col items-center justify-center">
                 <ThemeToggle />
                 <Separator className="my-3" />
-                {/*<UserInfo firstName={user.firstName!} />*/}
+                <UserInfo />
             </div>
         </div>
     );
