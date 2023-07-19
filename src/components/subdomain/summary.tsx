@@ -37,7 +37,7 @@ const Summary = () => {
             const subdomain = host.split(".")[0];
 
             const response = await axios.post(
-                `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/checkout`,
+                `https://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/checkout`,
                 {
                     cartItems,
                     subdomain,
