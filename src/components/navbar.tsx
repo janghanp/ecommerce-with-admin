@@ -33,7 +33,7 @@ const Navbar = async ({ stores }: Props) => {
             <div className="flex w-full flex-col items-center justify-center">
                 <ThemeToggle />
                 <Separator className="my-3" />
-                <UserInfo firstName={user.firstName!} />
+                {/*<UserInfo firstName={user.firstName!} />*/}
             </div>
         </div>
     );
