@@ -1,20 +1,8 @@
-"use client";
-
-import { UserButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { UserButton, SignOutButton, currentUser } from "@clerk/nextjs";
 import { LogOut } from "lucide-react";
 
-import { Skeleton } from "@/src/components/ui/skeleton";
-
-const UserInfo = () => {
-    const { isLoaded, isSignedIn, user } = useUser();
-
-    if (!isLoaded || !isSignedIn) {
-        return (
-            <>
-                <Skeleton className="h-8 w-full" />
-            </>
-        );
-    }
+const UserInfo = async () => {
+    const user = await currentUser();
 
     return (
         <div className="ml-auto flex w-full items-center space-x-4">
