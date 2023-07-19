@@ -29,9 +29,9 @@ export default async function DashboardLayout({ children }: Props) {
     return (
         <>
             <div className="flex">
-                <MobileSidebar stores={stores} />
+                {/*<MobileSidebar stores={stores} />*/}
                 <div className="sticky top-0 hidden h-screen w-52 border-r md:block">
-                    <Navbar stores={stores} />
+                    {/*<Navbar stores={stores} />*/}
                 </div>
                 <div className="flex w-full flex-1 flex-col overflow-x-hidden">{children}</div>
             </div>
