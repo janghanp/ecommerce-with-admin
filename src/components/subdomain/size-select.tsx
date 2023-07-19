@@ -12,7 +12,7 @@ import { Size } from "@prisma/client";
 interface Props {
     sizes: Size[];
     changeHandler: (size: Size) => void;
-    defaultValue?: string;
+    defaultValue: Size;
 }
 
 const SizeSelect = ({ sizes, changeHandler, defaultValue }: Props) => {
@@ -23,7 +23,7 @@ const SizeSelect = ({ sizes, changeHandler, defaultValue }: Props) => {
     };
 
     return (
-        <Select onValueChange={valueChangeHandler} defaultValue={defaultValue}>
+        <Select onValueChange={valueChangeHandler} defaultValue={defaultValue.name}>
             <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select size" />
             </SelectTrigger>

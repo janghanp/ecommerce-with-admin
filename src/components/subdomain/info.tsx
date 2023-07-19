@@ -40,7 +40,11 @@ const Info = ({ product }: Props) => {
             <div className="flex flex-col gap-y-6">
                 <div className="flex items-center gap-x-4">
                     <h3 className="font-semibold">Size:</h3>
-                    <SizeSelect sizes={product.sizes} changeHandler={changeHandler} />
+                    <SizeSelect
+                        sizes={product.sizes}
+                        changeHandler={changeHandler}
+                        defaultValue={product.sizes[0]}
+                    />
                 </div>
                 <div className="flex items-center gap-x-4">
                     <h3 className="font-semibold">Color:</h3>

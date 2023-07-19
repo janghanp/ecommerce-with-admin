@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Store } from "@prisma/client";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import Heading from "@/src/components/heading";
 import { Button } from "@/src/components/ui/button";
@@ -50,10 +50,17 @@ const SettingsForm = ({ initialData }: Props) => {
         try {
             setIsLoading(true);
             await axios.patch(`/api/stores/${params.storeId}`, data);
-            router.push(`/${params.storeId}`);
+            router.refresh();
             toast.success("Successfully updated!");
         } catch (error) {
-            toast.error("Something went wrong...");
+            if (error instanceof AxiosError) {
+                if (error.response!.data.includes("already in use")) {
+                    form.setError("name", { message: error.response!.data });
+                    return;
+                }
+
+                toast.error("Something went wrong...");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -98,25 +105,23 @@ const SettingsForm = ({ initialData }: Props) => {
             <Separator />
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
-                    <div className="grid grid-cols-3 gap-8">
-                        <FormField
-                            control={form.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem className="min-w-[150px] max-w-[200px]">
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={isLoading}
-                                            placeholder="Store name"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem className="w-full max-w-md">
+                                <FormLabel>Name (Sub domain)</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        disabled={isLoading}
+                                        placeholder="Store name"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <Button disabled={isLoading} type="submit">
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Save changes

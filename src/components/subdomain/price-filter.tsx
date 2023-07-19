@@ -36,8 +36,8 @@ const PriceFilter = () => {
 
     return (
         <div>
-            <h1 className="text-2xl font-bold">Price</h1>
-            <hr className="my-5" />
+            <h1 className="text-xl font-semibold">Price</h1>
+            <hr className="my-2" />
             <div className="flex flex-col gap-y-3">
                 {priceRange.map((range) => {
                     return (

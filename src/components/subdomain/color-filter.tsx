@@ -32,9 +32,9 @@ const ColorFilter = ({ colors }: Props) => {
     };
 
     return (
-        <>
-            <h1 className="text-2xl font-bold">Colors</h1>
-            <hr className="my-5" />
+        <div>
+            <h1 className="text-xl font-semibold">Colors</h1>
+            <hr className="my-2" />
             <div className="flex flex-wrap gap-5">
                 {colors.map((color) => {
                     return (
@@ -44,12 +44,12 @@ const ColorFilter = ({ colors }: Props) => {
                                 style={{ backgroundColor: color.value }}
                                 onClick={() => clickHandler(color.name)}
                             />
-                            <span>{color.name}</span>
+                            <span className="text-sm font-medium">{color.name}</span>
                         </div>
                     );
                 })}
             </div>
-        </>
+        </div>
     );
 };
 

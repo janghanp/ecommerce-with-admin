@@ -21,7 +21,17 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
             return new NextResponse("Store id is required", { status: 400 });
         }
 
-        const store = await prisma.store.updateMany({
+        const store = await prisma.store.findUnique({
+            where: {
+                name,
+            },
+        });
+
+        if (store) {
+            return new NextResponse("This store name is already in use.", { status: 400 });
+        }
+
+        const updatedStore = await prisma.store.update({
             where: {
                 id: params.storeId,
                 userId,
@@ -31,7 +41,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
             },
         });
 
-        return NextResponse.json(store);
+        return NextResponse.json(updatedStore);
     } catch (error) {
         console.log("[STORES_PATCH]", error);
         return new NextResponse("Internal error", { status: 500 });

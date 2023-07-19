@@ -8,7 +8,6 @@ import { Button } from "@/src/components/ui/button";
 import { Separator } from "@/src/components/ui/separator";
 import { BillboardColumn, billboardColumns } from "@/src/components/columns";
 import { DataTable } from "@/src/components/data-table";
-import ApiList from "./api-list";
 import axios from "axios";
 
 interface Props {

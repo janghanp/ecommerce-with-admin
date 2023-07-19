@@ -9,10 +9,9 @@ interface Props {
 
 const Filters = ({ colors }: Props) => {
     return (
-        <div className="hidden flex-col lg:flex">
+        <div className="hidden flex-col gap-y-10 lg:flex">
             <CurrentFilters />
             <ColorFilter colors={colors} />
-            <hr className="my-8  border-b" />
             <PriceFilter />
         </div>
     );
