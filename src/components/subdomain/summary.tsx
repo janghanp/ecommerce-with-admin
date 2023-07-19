@@ -36,10 +36,13 @@ const Summary = () => {
             const host = window.location.host;
             const subdomain = host.split(".")[0];
 
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/api/checkout`, {
-                cartItems,
-                subdomain,
-            });
+            const response = await axios.post(
+                `http://app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/checkout`,
+                {
+                    cartItems,
+                    subdomain,
+                }
+            );
 
             window.location = response.data.url;
         } catch (e) {
