@@ -10,6 +10,14 @@ interface Props {
     params: { domain: string };
 }
 
+export async function generateMetadata({ params }: { params: { domain: string } }) {
+    const subdomain = getSubdomain(params.domain);
+
+    return {
+        title: subdomain,
+    };
+}
+
 const Layout = async ({ children, params }: Props) => {
     const subdomain = getSubdomain(params.domain);
 
