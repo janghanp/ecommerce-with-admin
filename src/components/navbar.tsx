@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import {
@@ -13,11 +14,11 @@ import {
     LogOut,
 } from "lucide-react";
 import { useAuth, UserButton, useUser } from "@clerk/nextjs";
+import { Store } from "@prisma/client";
 
 import { cn } from "@/src/lib/utils";
 import { useMobileSidebar } from "../store";
 import { ThemeToggle } from "@/src/components/theme-toggle";
-import { Store } from "@prisma/client";
 import { PopoverTrigger } from "@/src/components/ui/popover";
 import StoreSwitcher from "@/src/components/store-switcher";
 import { Separator } from "@/src/components/ui/separator";
@@ -36,6 +37,12 @@ const Navbar = ({ stores }: Props) => {
     const auth = useAuth();
 
     const { isOpen, toggle } = useMobileSidebar();
+
+    const [isClient, setIsClient] = useState(false);
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     const routes = [
         {
@@ -82,6 +89,10 @@ const Navbar = ({ stores }: Props) => {
         },
     ];
 
+    if (!isClient) {
+        return;
+    }
+
     return (
         <div className="flex h-screen flex-col items-start justify-between px-2 py-5">
             <div className="flex w-full flex-col gap-y-3">
@@ -115,9 +126,7 @@ const Navbar = ({ stores }: Props) => {
                 <div className="ml-auto flex w-full items-center space-x-4">
                     <div className="flex w-full items-center justify-between gap-x-2 p-2 py-1">
                         <UserButton afterSignOutUrl="/" />
-                        {/*{user.user?.firstName && (*/}
-                        {/*    <span className="text-sm font-medium">{user.user?.firstName}</span>*/}
-                        {/*)}*/}
+                        <span className="text-sm font-medium">{user.user?.firstName}</span>
                         <div
                             className="rounded-md p-2 transition duration-200 hover:cursor-pointer hover:bg-gray-200"
                             onClick={() => auth.signOut()}
