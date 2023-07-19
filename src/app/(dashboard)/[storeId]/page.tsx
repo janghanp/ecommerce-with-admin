@@ -33,7 +33,7 @@ const DashboardPage = async ({ params }: Props) => {
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">
-                                {formatter.format(totalRevenue)}
+                                {/*{formatter.format(totalRevenue)}*/}
                             </div>
                         </CardContent>
                     </Card>
@@ -61,7 +61,7 @@ const DashboardPage = async ({ params }: Props) => {
                         <CardTitle>Overview</CardTitle>
                     </CardHeader>
                     <CardContent className="pl-2">
-                        {/*<Overview graphRevenue={graphRevenue} />*/}
+                        <Overview graphRevenue={graphRevenue} />
                     </CardContent>
                 </Card>
             </div>
