@@ -15,6 +15,7 @@ export async function generateMetadata({ params }: { params: { domain: string } 
 
     return {
         title: subdomain,
+        description: "",
     };
 }
 
