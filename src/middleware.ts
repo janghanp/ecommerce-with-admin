@@ -11,7 +11,7 @@ export default authMiddleware({
 
         const query = url.searchParams.toString();
 
-        if (hostname == `${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
+        if (hostname == `app.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`) {
             return;
         }
 
