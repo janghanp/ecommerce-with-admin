@@ -1,7 +1,4 @@
-import { format } from "date-fns";
 import { prisma } from "@/src/lib/prisma";
-import { ProductColumn } from "@/src/components/columns";
-import { formatter } from "@/src/lib/utils";
 import ProductClient from "@/src/components/product-client";
 
 interface Props {
@@ -23,29 +20,10 @@ const ProductsPage = async ({ params }: Props) => {
         },
     });
 
-    const formattedProducts: ProductColumn[] = products.map((product) => {
-        const stock = product.sizes
-            .map((size) => size.quantity)
-            .reduce((acc, curr) => acc + curr, 0);
-
-        return {
-            id: product.id,
-            name: product.name,
-            isFeatured: product.isFeatured,
-            isArchived: product.isArchived,
-            price: formatter.format(product.price),
-            category: product.category.name,
-            sizes: product.sizes.map((size) => size.name),
-            stock: `${stock} in stock for ${product.sizes.length} sizes`,
-            color: product.color.value,
-            createdAt: format(product.createdAt, "MMMM do, yyyy"),
-        };
-    });
-
     return (
         <div className="flex-col ">
             <div className="flex-1 space-y-4 p-2 pt-10 md:p-8">
-                <ProductClient products={formattedProducts} />
+                <ProductClient products={products} />
             </div>
         </div>
     );

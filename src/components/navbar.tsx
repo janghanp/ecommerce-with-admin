@@ -82,8 +82,6 @@ const Navbar = ({ stores }: Props) => {
         },
     ];
 
-    console.log(user);
-
     return (
         <div className="flex h-screen flex-col items-start justify-between px-2 py-5">
             <div className="flex w-full flex-col gap-y-3">

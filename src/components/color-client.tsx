@@ -3,6 +3,8 @@
 import { useParams, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import axios from "axios";
+import { format } from "date-fns";
+import { Color } from "@prisma/client";
 
 import Heading from "@/src/components/heading";
 import { Button } from "@/src/components/ui/button";
@@ -11,12 +13,19 @@ import { colorColumns, ColorColumn } from "@/src/components/columns";
 import { DataTable } from "@/src/components/data-table";
 
 interface Props {
-    colors: ColorColumn[];
+    colors: Color[];
 }
 
 const ColorClient = ({ colors }: Props) => {
     const router = useRouter();
     const { storeId } = useParams();
+
+    const formattedColors: ColorColumn[] = colors.map((size) => ({
+        id: size.id,
+        name: size.name,
+        value: size.value,
+        createdAt: format(size.createdAt, "MMMM do, yyyy"),
+    }));
 
     const deleteHandler = async (colorIds: string[]) => {
         await axios.delete(`/api/${storeId}/colors?ids=${colorIds.join(",")}`);
@@ -42,7 +51,7 @@ const ColorClient = ({ colors }: Props) => {
             <Separator />
             <DataTable
                 columns={colorColumns}
-                data={colors}
+                data={formattedColors}
                 searchKey="name"
                 deleteHandler={deleteHandler}
                 updateHandler={updateHandler}

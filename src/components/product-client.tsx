@@ -3,20 +3,50 @@
 import { useParams, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import axios from "axios";
+import { format } from "date-fns";
+import { Prisma } from "@prisma/client";
 
 import Heading from "@/src/components/heading";
 import { Button } from "@/src/components/ui/button";
 import { Separator } from "@/src/components/ui/separator";
 import { ProductColumn, productsColumns } from "@/src/components/columns";
 import { DataTable } from "@/src/components/data-table";
+import { formatter } from "@/src/lib/utils";
+
+type ProductWithSizesAndCategoriesAndColors = Prisma.ProductGetPayload<{
+    include: {
+        sizes: true;
+        category: true;
+        color: true;
+    };
+}>;
 
 interface Props {
-    products: ProductColumn[];
+    products: ProductWithSizesAndCategoriesAndColors[];
 }
 
 const ProductClient = ({ products }: Props) => {
     const router = useRouter();
     const { storeId } = useParams();
+
+    const formattedProducts: ProductColumn[] = products.map((product) => {
+        const stock = product.sizes
+            .map((size) => size.quantity)
+            .reduce((acc, curr) => acc + curr, 0);
+
+        return {
+            id: product.id,
+            name: product.name,
+            isFeatured: product.isFeatured,
+            isArchived: product.isArchived,
+            price: formatter.format(product.price),
+            category: product.category.name,
+            sizes: product.sizes.map((size) => size.name),
+            stock: `${stock} in stock for ${product.sizes.length} sizes`,
+            color: product.color.value,
+            createdAt: format(product.createdAt, "MMMM do, yyyy"),
+        };
+    });
 
     const deleteHandler = async (productIds: string[]) => {
         await axios.delete(`/api/${storeId}/products?ids=${productIds.join(",")}`);
@@ -42,7 +72,7 @@ const ProductClient = ({ products }: Props) => {
             <Separator />
             <DataTable
                 columns={productsColumns}
-                data={products}
+                data={formattedProducts}
                 searchKey="name"
                 deleteHandler={deleteHandler}
                 updateHandler={updateHandler}

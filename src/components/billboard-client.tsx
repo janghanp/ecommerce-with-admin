@@ -9,14 +9,22 @@ import { Separator } from "@/src/components/ui/separator";
 import { BillboardColumn, billboardColumns } from "@/src/components/columns";
 import { DataTable } from "@/src/components/data-table";
 import axios from "axios";
+import { format } from "date-fns";
+import { Billboard } from "@prisma/client";
 
 interface Props {
-    billboards: BillboardColumn[];
+    billboards: Billboard[];
 }
 
 const BillboardClient = ({ billboards }: Props) => {
     const router = useRouter();
     const { storeId } = useParams();
+
+    const formattedBillboards: BillboardColumn[] = billboards.map((billboard) => ({
+        id: billboard.id,
+        label: billboard.label,
+        createdAt: format(billboard.createdAt, "MMMM do, yyyy"),
+    }));
 
     const deleteHandler = async (billboardIds: string[]) => {
         await axios.delete(`/api/${storeId}/billboards?ids=${billboardIds.join(",")}`);
@@ -42,7 +50,7 @@ const BillboardClient = ({ billboards }: Props) => {
             <Separator />
             <DataTable
                 columns={billboardColumns}
-                data={billboards}
+                data={formattedBillboards}
                 searchKey="label"
                 deleteHandler={deleteHandler}
                 updateHandler={updateHandler}

@@ -1,7 +1,4 @@
-import { format } from "date-fns";
-
 import { prisma } from "@/src/lib/prisma";
-import { ColorColumn } from "@/src/components/columns";
 import ColorClient from "@/src/components/color-client";
 
 interface Props {
@@ -18,17 +15,10 @@ const ColorsPage = async ({ params }: Props) => {
         },
     });
 
-    const formattedColors: ColorColumn[] = colors.map((size) => ({
-        id: size.id,
-        name: size.name,
-        value: size.value,
-        createdAt: format(size.createdAt, "MMMM do, yyyy"),
-    }));
-
     return (
         <div className="flex-col ">
             <div className="flex-1 space-y-4 p-2 pt-10 md:p-8">
-                <ColorClient colors={formattedColors} />
+                <ColorClient colors={colors} />
             </div>
         </div>
     );

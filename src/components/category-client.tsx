@@ -9,14 +9,29 @@ import { Separator } from "@/src/components/ui/separator";
 import { CategoryColumn, categoryColumns } from "@/src/components/columns";
 import { DataTable } from "@/src/components/data-table";
 import axios from "axios";
+import { format } from "date-fns";
+import { Prisma } from "@prisma/client";
+
+type CategoryWithBillboard = Prisma.CategoryGetPayload<{
+    include: {
+        billboard: true;
+    };
+}>;
 
 interface Props {
-    categories: CategoryColumn[];
+    categories: CategoryWithBillboard[];
 }
 
 const CategoryClient = ({ categories }: Props) => {
     const router = useRouter();
     const { storeId } = useParams();
+
+    const formattedCategories: CategoryColumn[] = categories.map((category) => ({
+        id: category.id,
+        name: category.name,
+        billboardLabel: category.billboard.label,
+        createdAt: format(category.createdAt, "MMMM do, yyyy"),
+    }));
 
     const deleteHandler = async (categoryIds: string[]) => {
         await axios.delete(`/api/${storeId}/categories?ids=${categoryIds.join(",")}`);
@@ -42,7 +57,7 @@ const CategoryClient = ({ categories }: Props) => {
             <Separator />
             <DataTable
                 columns={categoryColumns}
-                data={categories}
+                data={formattedCategories}
                 searchKey="name"
                 deleteHandler={deleteHandler}
                 updateHandler={updateHandler}
