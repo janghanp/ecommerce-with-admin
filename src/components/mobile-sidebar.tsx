@@ -5,9 +5,13 @@ import { motion } from "framer-motion";
 
 import { useMobileSidebar } from "../store";
 import { Store } from "@prisma/client";
-import Navbar from "@/src/components/navbar";
 import { Button } from "@/src/components/ui/button";
 import { PopoverTrigger } from "@/src/components/ui/popover";
+import NavList from "@/src/components/nav-list";
+import StoreSwitcher from "@/src/components/store-switcher";
+import { ThemeToggle } from "@/src/components/theme-toggle";
+import { Separator } from "@/src/components/ui/separator";
+import UserInfo from "@/src/components/user-info";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
@@ -21,7 +25,7 @@ const MobileSidebar = ({ stores }: Props) => {
     return (
         <div className="block md:hidden">
             <div
-                className="absolute left-3 top-2 block p-1 hover:cursor-pointer md:hidden"
+                className="absolute left-1.5 top-1.5 block p-1 hover:cursor-pointer md:hidden"
                 onClick={() => toggle(true)}
             >
                 <AlignJustify />
@@ -38,7 +42,19 @@ const MobileSidebar = ({ stores }: Props) => {
                         animate={{ x: 0 }}
                         className="fixed bottom-0 left-0 top-0 z-50 w-52 bg-white dark:bg-[#020816]"
                     >
-                        <Navbar stores={stores} />
+                        <div className="flex h-full w-full flex-col justify-between px-2 py-5">
+                            <div className="flex flex-col gap-y-3">
+                                <div className="mb-5">
+                                    <StoreSwitcher stores={stores} />
+                                </div>
+                                <NavList />
+                            </div>
+                            <div className="flex w-full flex-col items-center justify-center">
+                                <ThemeToggle />
+                                <Separator className="my-3" />
+                                <UserInfo />
+                            </div>
+                        </div>
                         <div className="absolute -right-10 top-0 z-30">
                             <Button
                                 variant="secondary"

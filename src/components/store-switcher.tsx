@@ -17,7 +17,7 @@ import {
     CommandList,
     CommandSeparator,
 } from "@/src/components/ui/command";
-import { useModalState } from "../store";
+import { useMobileSidebar, useModalState } from "../store";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
 
@@ -26,9 +26,13 @@ interface Props extends PopoverTriggerProps {
 }
 
 export default function StoreSwitcher({ className, stores = [] }: Props) {
-    const storeModal = useModalState();
     const params = useParams();
     const router = useRouter();
+
+    const storeModal = useModalState();
+
+    const { isOpen: isMobileSidebarOpen, toggle } = useMobileSidebar();
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const formattedItems = stores.map((item) => ({
@@ -40,6 +44,11 @@ export default function StoreSwitcher({ className, stores = [] }: Props) {
 
     const onStoreSelect = (store: { value: string; label: string }) => {
         setIsOpen(false);
+
+        if (isMobileSidebarOpen) {
+            toggle(false);
+        }
+
         router.push(`/${store.value}`);
     };
 
