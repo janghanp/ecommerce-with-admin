@@ -1,12 +1,12 @@
 "use client";
 
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-} from "@/src/components/ui/dialog";
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogDescription,
+} from "@/src/components/ui/alert-dialog";
 
 interface Props {
     title: string;
@@ -24,15 +24,15 @@ const Modal = ({ title, description, isOpen, onClose, children }: Props) => {
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={onChange}>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>{title}</DialogTitle>
-                    <DialogDescription>{description}</DialogDescription>
-                </DialogHeader>
+        <AlertDialog open={isOpen} onOpenChange={onChange}>
+            <AlertDialogContent className="border-0 shadow-none md:border-[1.5px] md:shadow-lg">
+                <AlertDialogHeader>
+                    <AlertDialogTitle>{title}</AlertDialogTitle>
+                    <AlertDialogDescription>{description}</AlertDialogDescription>
+                </AlertDialogHeader>
                 <div>{children}</div>
-            </DialogContent>
-        </Dialog>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 };
 

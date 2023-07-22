@@ -47,9 +47,18 @@ const SettingsForm = ({ initialData }: Props) => {
     });
 
     const onSubmit = async (data: SettingsFormValues) => {
+        const trimmedData = {
+            name: data.name.trim(),
+        };
+
+        if (trimmedData.name.includes(" ")) {
+            form.setError("name", { message: "Store name can't have space between letters. " });
+            return;
+        }
+
         try {
             setIsLoading(true);
-            await axios.patch(`/api/stores/${params.storeId}`, data);
+            await axios.patch(`/api/stores/${params.storeId}`, trimmedData);
             router.refresh();
             toast.success("Successfully updated!");
         } catch (error) {

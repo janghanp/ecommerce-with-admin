@@ -37,15 +37,24 @@ const StoreModal = () => {
         },
     });
 
-    const submitHandler = async (values: z.infer<typeof formSchema>) => {
+    const submitHandler = async (data: z.infer<typeof formSchema>) => {
+        const trimmedData = {
+            name: data.name.trim(),
+        };
+
+        if (trimmedData.name.includes(" ")) {
+            form.setError("name", { message: "Store name can't have space between letters. " });
+            return;
+        }
+
         try {
             setIsLoading(true);
 
-            const response = await axios.post("/api/stores", values);
+            const response = await axios.post("/api/stores", trimmedData);
 
             toast.success("Store created!");
 
-            window.location.assign(`/${response.data.id}`);
+            window.location.href = `/${response.data.id}`;
         } catch (error) {
             toast.error("Something went wrong.");
         } finally {
@@ -62,44 +71,34 @@ const StoreModal = () => {
                 storeModal.toggleModal(false);
             }}
         >
-            <div>
-                <div className="space-y-4 py-2 pb-4">
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(submitHandler)}>
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Name</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                disabled={isLoading}
-                                                placeholder="E-Commerce"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <div className="flex w-full items-center justify-end space-x-2 pt-6">
-                                <Button
-                                    disabled={isLoading}
-                                    type="button"
-                                    variant="outline"
-                                    onClick={() => storeModal.toggleModal(false)}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button disabled={isLoading} type="submit">
-                                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                    Continue
-                                </Button>
-                            </div>
-                        </form>
-                    </Form>
-                </div>
+            <div className="space-y-4 py-2 pb-4">
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(submitHandler)}>
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            disabled={isLoading}
+                                            placeholder="E-Commerce"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="flex w-full items-center justify-end space-x-2 pt-6">
+                            <Button disabled={isLoading} type="submit">
+                                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                Continue
+                            </Button>
+                        </div>
+                    </form>
+                </Form>
             </div>
         </Modal>
     );

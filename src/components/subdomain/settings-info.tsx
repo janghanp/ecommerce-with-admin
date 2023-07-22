@@ -52,8 +52,10 @@ const SettingsInfo = ({ store }: Props) => {
                             href={`http://${store.name}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`}
                             target="_blank"
                         >
-                            <div className="-ml-2 flex max-w-min items-center gap-x-2 rounded-md p-1 px-2 font-medium transition duration-200 hover:cursor-pointer hover:bg-gray-100">
-                                {store.name}.{process.env.NEXT_PUBLIC_ROOT_DOMAIN}
+                            <div className="-ml-2 flex max-w-max items-center gap-x-2 rounded-md p-1 px-2 font-medium transition duration-200 hover:cursor-pointer hover:bg-gray-100">
+                                <span>
+                                    {store.name}.{process.env.NEXT_PUBLIC_ROOT_DOMAIN}
+                                </span>
                                 <ExternalLink className="h-4 w-4" />
                             </div>
                         </a>
