@@ -34,7 +34,7 @@ const Page = async ({ params }: Props) => {
 
     return (
         <div className="flex flex-col gap-y-5 p-2 md:gap-y-10 md:p-10">
-            <Billboard billboard={billboard!} />
+            <Billboard billboard={billboard} />
             <ProductList title="Featured Products" products={products} />
         </div>
     );
