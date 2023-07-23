@@ -66,6 +66,7 @@ export const billboardColumns: ColumnDef<BillboardColumn>[] = [
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
+                onClick={(e) => e.stopPropagation()}
                 aria-label="Select row"
             />
         ),
@@ -100,6 +101,7 @@ export const categoryColumns: ColumnDef<CategoryColumn>[] = [
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
+                onClick={(e) => e.stopPropagation()}
                 aria-label="Select row"
             />
         ),
@@ -139,6 +141,7 @@ export const colorColumns: ColumnDef<ColorColumn>[] = [
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
+                onClick={(e) => e.stopPropagation()}
                 aria-label="Select row"
             />
         ),
@@ -186,6 +189,7 @@ export const productsColumns: ColumnDef<ProductColumn>[] = [
             <Checkbox
                 checked={row.getIsSelected()}
                 onCheckedChange={(value) => row.toggleSelected(!!value)}
+                onClick={(e) => e.stopPropagation()}
                 aria-label="Select row"
             />
         ),

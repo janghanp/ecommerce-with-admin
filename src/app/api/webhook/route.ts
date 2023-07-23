@@ -36,6 +36,9 @@ export async function POST(req: Request) {
     const addressString = addressComponents.filter((c) => c !== null).join(", ");
 
     if (event.type === "checkout.session.completed") {
+        const productsData: { product_id: string; size_id: string; quantity: number }[] =
+            JSON.parse(session.metadata!.info);
+
         await prisma.order.update({
             where: {
                 id: session?.metadata?.orderId,
@@ -46,10 +49,33 @@ export async function POST(req: Request) {
                 phone: session?.customer_details?.phone || "",
                 payment_intent_id: session.payment_intent as string,
             },
-            include: {
-                orderItems: true,
-            },
         });
+
+        const updateProduct = async (info: {
+            product_id: string;
+            size_id: string;
+            quantity: number;
+        }) => {
+            await prisma.product.update({
+                where: {
+                    id: info.product_id,
+                },
+                data: {
+                    sizes: {
+                        update: {
+                            where: {
+                                id: info.size_id,
+                            },
+                            data: {
+                                quantity: { decrement: info.quantity },
+                            },
+                        },
+                    },
+                },
+            });
+        };
+
+        await Promise.all(productsData.map((info) => updateProduct(info)));
     }
 
     return new NextResponse(null, { status: 200 });

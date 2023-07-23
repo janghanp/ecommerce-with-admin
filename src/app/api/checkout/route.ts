@@ -64,6 +64,14 @@ export async function POST(req: Request) {
         },
     });
 
+    const info = JSON.stringify(
+        cartItems.map((item) => ({
+            product_id: item.product.id,
+            size_id: item.selectedSize.id,
+            quantity: item.quantity,
+        }))
+    );
+
     const session = await stripe.checkout.sessions.create({
         line_items: cartItems.map((cartItem) => {
             return {
@@ -90,10 +98,10 @@ export async function POST(req: Request) {
         cancel_url: `${req.headers.get("origin")}/cart?canceled=1`,
         metadata: {
             orderId: order.id,
+            info,
         },
     });
 
-    //Update order with session information?
     return NextResponse.json(
         { url: session.url },
         {
