@@ -1,34 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
 
-## Getting Started
+  <h1 align="center">JPshop</h1>
 
-First, run the development server:
+  <h3 align="center">
+   A Fullstack shopping website with admin dashboard.
+  </h3>
+ <br />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+### Click here for live demo <a href="https://app.jpshop.xyz">jpshop</a>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</p>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+![alt text](https://github.com/janghanp/ecommerce-with-admin/blob/main/public/images/screenshot1.png?raw=true)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![alt text](https://github.com/janghanp/ecommerce-with-admin/blob/main/public/images/screenshot2.png?raw=true)
 
-## Learn More
+![alt text](https://github.com/janghanp/ecommerce-with-admin/blob/main/public/images/screenshot3.png?raw=true)
 
-To learn more about Next.js, take a look at the following resources:
+![alt text](https://github.com/janghanp/ecommerce-with-admin/blob/main/public/images/screenshot4.png?raw=true)
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![alt text](https://github.com/janghanp/ecommerce-with-admin/blob/main/public/images/screenshot5.png?raw=true)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+![alt text](https://github.com/janghanp/ecommerce-with-admin/blob/main/public/images/screenshot6.png?raw=true)
 
-## Deploy on Vercel
+## Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+-   Multi-tenant (e.g app.jpshop.xyz, hello.jpshop.xyz etc)
+-   Admin dashboard.
+-   Authentication with Clerk.
+-   Payment with Stripe.
+-   Deployed to Vercel.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Tech Stack
+
+-   **Typescript**
+-   **Nextjs13 (App router)**
+-   **Tailwindcss (shadecn/ui)**
+-   **Prisma**
+-   **Supabase**

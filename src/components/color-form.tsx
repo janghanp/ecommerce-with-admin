@@ -146,7 +146,7 @@ const ColorForm = ({ initialData }: Props) => {
                                 <FormControl>
                                     <Input
                                         disabled={isLoading}
-                                        placeholder="Color value"
+                                        placeholder="Color value (e.g #000000, #FFFFFF)"
                                         {...field}
                                     />
                                 </FormControl>
