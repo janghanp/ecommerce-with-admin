@@ -30,6 +30,8 @@ const Info = ({ product }: Props) => {
         setSelectedSize(e);
     };
 
+    const stock = product.sizes.map((size) => size.quantity).reduce((acc, curr) => acc + curr, 0);
+
     return (
         <div>
             <h1 className="text-3xl font-bold">{product.name}</h1>
@@ -39,12 +41,18 @@ const Info = ({ product }: Props) => {
             <hr className="my-4" />
             <div className="flex flex-col gap-y-6">
                 <div className="flex items-center gap-x-4">
-                    <h3 className="font-semibold">Size:</h3>
-                    <SizeSelect
-                        sizes={product.sizes}
-                        changeHandler={changeHandler}
-                        defaultValue={product.sizes[0]}
-                    />
+                    {stock > 0 ? (
+                        <>
+                            <h3 className="font-semibold">Size:</h3>
+                            <SizeSelect
+                                sizes={product.sizes}
+                                changeHandler={changeHandler}
+                                defaultValue={product.sizes[0]}
+                            />
+                        </>
+                    ) : (
+                        <div className="font-medium text-red-500">Out of stock</div>
+                    )}
                 </div>
                 <div className="flex items-center gap-x-4">
                     <h3 className="font-semibold">Color:</h3>
@@ -55,10 +63,15 @@ const Info = ({ product }: Props) => {
                 </div>
             </div>
             <div className="mt-10 flex items-center gap-x-3">
-                <Button variant="secondary" onClick={() => addItemToCart(product, selectedSize)}>
-                    <ShoppingCart className="mr-3" />
-                    <span>Add To Cart</span>
-                </Button>
+                {stock > 0 && (
+                    <Button
+                        variant="secondary"
+                        onClick={() => addItemToCart(product, selectedSize)}
+                    >
+                        <ShoppingCart className="mr-3" />
+                        <span>Add To Cart</span>
+                    </Button>
+                )}
             </div>
         </div>
     );

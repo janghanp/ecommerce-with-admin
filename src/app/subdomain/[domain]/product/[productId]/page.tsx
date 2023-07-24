@@ -18,7 +18,13 @@ const ProductPage = async ({ params }: Props) => {
         },
         include: {
             images: true,
-            sizes: true,
+            sizes: {
+                where: {
+                    quantity: {
+                        gt: 0,
+                    },
+                },
+            },
             color: true,
         },
     });

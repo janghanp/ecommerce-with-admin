@@ -58,7 +58,7 @@ const formSchema = z.object({
     isFeatured: z.boolean().default(false).optional(),
     isArchived: z.boolean().default(false).optional(),
     sizes: z.array(z.object({ value: z.string().min(1) })).min(1),
-    quantities: z.array(z.object({ value: z.coerce.number().min(1) })).min(1),
+    quantities: z.array(z.object({ value: z.coerce.number().min(0) })).min(1),
 });
 
 const ProductForm = ({ initialData, categories, colors }: Props) => {

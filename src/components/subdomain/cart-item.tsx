@@ -45,7 +45,7 @@ const CartItem = ({ item }: Props) => {
                 {
                     productId: item.product.id,
                     sizeId: item.selectedSize.id,
-                    quantity: isIncrement ? item.quantity + 1 : item.quantity - 1,
+                    quantity,
                 }
             );
 

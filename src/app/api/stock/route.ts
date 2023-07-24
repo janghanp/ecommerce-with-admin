@@ -30,11 +30,11 @@ export async function POST(req: Request) {
             },
         });
 
-        if (product!.sizes![0].quantity < Number(quantity)) {
-            return NextResponse.json({ result: false }, { headers: corsHeaders });
+        if (product!.sizes![0].quantity > Number(quantity)) {
+            return NextResponse.json({ result: true }, { headers: corsHeaders });
         }
 
-        return NextResponse.json({ result: true }, { headers: corsHeaders });
+        return NextResponse.json({ result: false }, { headers: corsHeaders });
     } catch (error) {
         console.log("[PRODUCT_GET]", error);
         return new NextResponse("Internal error", { status: 500, headers: corsHeaders });
