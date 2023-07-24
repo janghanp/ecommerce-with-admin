@@ -20,7 +20,7 @@ const CartPage = () => {
     }
 
     return (
-        <div className="">
+        <div className="h-screen">
             <div className="px-4 py-12 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-bold">Shopping Cart</h1>
                 <div className="mt-12 gap-x-12 lg:grid lg:grid-cols-12 lg:items-start">
