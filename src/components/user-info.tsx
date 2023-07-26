@@ -15,10 +15,6 @@ const UserInfo = () => {
         );
     }
 
-    console.log({ isLoaded });
-    console.log({ isSignedIn });
-    console.log(user);
-
     return (
         <div className="ml-auto flex w-full items-center space-x-4">
             <div className="flex w-full items-center justify-between gap-x-2 p-2 py-1">
