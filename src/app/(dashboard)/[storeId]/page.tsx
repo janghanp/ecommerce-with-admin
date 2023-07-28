@@ -4,11 +4,11 @@ import Heading from "@/src/components/heading";
 import { Separator } from "@/src/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
 import { formatter } from "@/src/lib/utils";
-import { getTotalRevenue } from "@/src/actions/get-total-revenue";
-import { getSalesCount } from "@/src/actions/get-sales-count";
+import { getTotalRevenue } from "@/src/fetchers/get-total-revenue";
+import { getSalesCount } from "@/src/fetchers/get-sales-count";
 import Overview from "@/src/components/overview";
-import { getGraphRevenue } from "@/src/actions/get-graph-revenue";
-import { getProductsCount } from "@/src/actions/get-products-count";
+import { getGraphRevenue } from "@/src/fetchers/get-graph-revenue";
+import { getProductsCount } from "@/src/fetchers/get-products-count";
 
 interface Props {
     params: { storeId: string };
