@@ -17,6 +17,16 @@ export async function POST(req: Request) {
             return new NextResponse("Name is required", { status: 400 });
         }
 
+        const existingStore = await prisma.store.findUnique({
+            where: {
+                name,
+            },
+        });
+
+        if (existingStore) {
+            return new NextResponse("The store name is already in use", { status: 400 });
+        }
+
         const store = await prisma.store.create({
             data: {
                 name,

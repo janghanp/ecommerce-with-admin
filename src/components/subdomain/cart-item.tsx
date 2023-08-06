@@ -47,17 +47,19 @@ const CartItem = ({ item }: Props) => {
                 {
                     productId: item.product.id,
                     sizeId: item.selectedSize.id,
-                    quantity,
+                    quantity: isIncrement ? quantity : quantity - 1,
                 },
                 {
                     headers: { Authorization: `Bearer ${await getToken()}` },
                 }
             );
 
-            if (response.data.result) {
-                if (isIncrement) {
+            if (isIncrement) {
+                if (response.data.result) {
                     setQuantity((prev) => prev + 1);
-                } else {
+                }
+            } else {
+                if (response.data.result) {
                     setQuantity((prev) => prev - 1);
                 }
             }

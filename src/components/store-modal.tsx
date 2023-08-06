@@ -21,6 +21,7 @@ import {
 import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
 import { useAuth } from "@clerk/nextjs";
+import { AxiosError } from "axios";
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -60,7 +61,13 @@ const StoreModal = () => {
 
             window.location.href = `/${response.data.id}`;
         } catch (error) {
-            toast.error("Something went wrong.");
+            if (error instanceof AxiosError) {
+                console.log(error);
+
+                if (error.response?.data.includes("already")) {
+                    form.setError("name", { message: error.response?.data });
+                }
+            }
         } finally {
             setIsLoading(false);
         }
@@ -86,6 +93,10 @@ const StoreModal = () => {
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
                                         <Input
+                                            className={`${
+                                                form.formState.errors.name?.message &&
+                                                "&& border-red-500 focus-visible:ring-red-500"
+                                            }`}
                                             disabled={isLoading}
                                             placeholder="E-Commerce"
                                             {...field}
