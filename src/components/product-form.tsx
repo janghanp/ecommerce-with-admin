@@ -34,6 +34,7 @@ import {
 } from "@/src/components/ui/select";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { cn } from "@/src/lib/utils";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
     initialData:
@@ -64,6 +65,7 @@ const formSchema = z.object({
 const ProductForm = ({ initialData, categories, colors }: Props) => {
     const params = useParams();
     const router = useRouter();
+    const { getToken } = useAuth();
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -118,9 +120,13 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
             setIsLoading(true);
 
             if (initialData) {
-                await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data);
+                await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data, {
+                    headers: { Authorization: `Bearer ${await getToken()}` },
+                });
             } else {
-                await axios.post(`/api/${params.storeId}/products`, data);
+                await axios.post(`/api/${params.storeId}/products`, data, {
+                    headers: { Authorization: `Bearer ${await getToken()}` },
+                });
             }
 
             router.refresh();
@@ -137,7 +143,9 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
     const onDelete = async () => {
         try {
             setIsLoading(true);
-            await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
+            await axios.delete(`/api/${params.storeId}/products/${params.productId}`, {
+                headers: { Authorization: `Bearer ${await getToken()}` },
+            });
 
             router.refresh();
             router.push(`/${params.storeId}/products`);

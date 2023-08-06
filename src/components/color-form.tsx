@@ -23,6 +23,7 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import AlertModal from "@/src/components/alert-modal";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
     initialData: Color | null;
@@ -40,6 +41,7 @@ const formSchema = z.object({
 const ColorForm = ({ initialData }: Props) => {
     const params = useParams();
     const router = useRouter();
+    const { getToken } = useAuth();
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -59,9 +61,13 @@ const ColorForm = ({ initialData }: Props) => {
             setIsLoading(true);
 
             if (initialData) {
-                await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data);
+                await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data, {
+                    headers: { Authorization: `Bearer ${await getToken()}` },
+                });
             } else {
-                await axios.post(`/api/${params.storeId}/colors`, data);
+                await axios.post(`/api/${params.storeId}/colors`, data, {
+                    headers: { Authorization: `Bearer ${await getToken()}` },
+                });
             }
 
             router.refresh();
@@ -77,7 +83,9 @@ const ColorForm = ({ initialData }: Props) => {
     const onDelete = async () => {
         try {
             setIsLoading(true);
-            await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`);
+            await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`, {
+                headers: { Authorization: `Bearer ${await getToken()}` },
+            });
 
             router.refresh();
             router.push(`/${params.storeId}/colors`);

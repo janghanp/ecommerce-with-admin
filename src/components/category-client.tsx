@@ -11,6 +11,7 @@ import { DataTable } from "@/src/components/data-table";
 import axios from "axios";
 import { format } from "date-fns";
 import { Prisma } from "@prisma/client";
+import { useAuth } from "@clerk/nextjs";
 
 type CategoryWithBillboard = Prisma.CategoryGetPayload<{
     include: {
@@ -25,6 +26,7 @@ interface Props {
 const CategoryClient = ({ categories }: Props) => {
     const router = useRouter();
     const { storeId } = useParams();
+    const { getToken } = useAuth();
 
     const formattedCategories: CategoryColumn[] = categories.map((category) => ({
         id: category.id,
@@ -34,7 +36,9 @@ const CategoryClient = ({ categories }: Props) => {
     }));
 
     const deleteHandler = async (categoryIds: string[]) => {
-        await axios.delete(`/api/${storeId}/categories?ids=${categoryIds.join(",")}`);
+        await axios.delete(`/api/${storeId}/categories?ids=${categoryIds.join(",")}`, {
+            headers: { Authorization: `Bearer ${await getToken()}` },
+        });
     };
 
     const updateHandler = async (categoryId: string) => {

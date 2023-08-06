@@ -11,6 +11,7 @@ import { DataTable } from "@/src/components/data-table";
 import axios from "axios";
 import { format } from "date-fns";
 import { Billboard } from "@prisma/client";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
     billboards: Billboard[];
@@ -19,6 +20,7 @@ interface Props {
 const BillboardClient = ({ billboards }: Props) => {
     const router = useRouter();
     const { storeId } = useParams();
+    const { getToken } = useAuth();
 
     const formattedBillboards: BillboardColumn[] = billboards.map((billboard) => ({
         id: billboard.id,
@@ -27,7 +29,9 @@ const BillboardClient = ({ billboards }: Props) => {
     }));
 
     const deleteHandler = async (billboardIds: string[]) => {
-        await axios.delete(`/api/${storeId}/billboards?ids=${billboardIds.join(",")}`);
+        await axios.delete(`/api/${storeId}/billboards?ids=${billboardIds.join(",")}`, {
+            headers: { Authorization: `Bearer ${await getToken()}` },
+        });
     };
 
     const updateHandler = async (billboardId: string) => {

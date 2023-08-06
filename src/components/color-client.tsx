@@ -11,6 +11,7 @@ import { Button } from "@/src/components/ui/button";
 import { Separator } from "@/src/components/ui/separator";
 import { colorColumns, ColorColumn } from "@/src/components/columns";
 import { DataTable } from "@/src/components/data-table";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
     colors: Color[];
@@ -19,6 +20,7 @@ interface Props {
 const ColorClient = ({ colors }: Props) => {
     const router = useRouter();
     const { storeId } = useParams();
+    const { getToken } = useAuth();
 
     const formattedColors: ColorColumn[] = colors.map((size) => ({
         id: size.id,
@@ -28,7 +30,9 @@ const ColorClient = ({ colors }: Props) => {
     }));
 
     const deleteHandler = async (colorIds: string[]) => {
-        await axios.delete(`/api/${storeId}/colors?ids=${colorIds.join(",")}`);
+        await axios.delete(`/api/${storeId}/colors?ids=${colorIds.join(",")}`, {
+            headers: { Authorization: `Bearer ${await getToken()}` },
+        });
     };
 
     const updateHandler = async (colorId: string) => {

@@ -10,6 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/src/components/ui/alert";
 import { Button } from "@/src/components/ui/button";
 import { Store } from "@prisma/client";
 import AlertModal from "@/src/components/alert-modal";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
     store: Store;
@@ -17,6 +18,7 @@ interface Props {
 
 const SettingsInfo = ({ store }: Props) => {
     const router = useRouter();
+    const { getToken } = useAuth();
 
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +26,9 @@ const SettingsInfo = ({ store }: Props) => {
     const onDelete = async () => {
         try {
             setIsLoading(true);
-            await axios.delete(`/api/stores/${store.id}`);
+            await axios.delete(`/api/stores/${store.id}`, {
+                headers: { Authorization: `Bearer ${await getToken()}` },
+            });
 
             router.refresh();
             router.push("/");

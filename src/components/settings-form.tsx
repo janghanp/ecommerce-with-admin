@@ -23,6 +23,7 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import AlertModal from "@/src/components/alert-modal";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
     initialData: Store;
@@ -37,6 +38,7 @@ type SettingsFormValues = z.infer<typeof formSchema>;
 const SettingsForm = ({ initialData }: Props) => {
     const params = useParams();
     const router = useRouter();
+    const { getToken } = useAuth();
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -58,7 +60,9 @@ const SettingsForm = ({ initialData }: Props) => {
 
         try {
             setIsLoading(true);
-            await axios.patch(`/api/stores/${params.storeId}`, trimmedData);
+            await axios.patch(`/api/stores/${params.storeId}`, trimmedData, {
+                headers: { Authorization: `Bearer ${await getToken()}` },
+            });
             router.refresh();
             toast.success("Successfully updated!");
         } catch (error) {
@@ -78,7 +82,9 @@ const SettingsForm = ({ initialData }: Props) => {
     const onDelete = async () => {
         try {
             setIsLoading(true);
-            await axios.delete(`/api/stores/${params.storeId}`);
+            await axios.delete(`/api/stores/${params.storeId}`, {
+                headers: { Authorization: `Bearer ${await getToken()}` },
+            });
 
             router.refresh();
             router.push("/");

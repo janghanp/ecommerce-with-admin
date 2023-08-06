@@ -20,12 +20,14 @@ import {
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import { Button } from "@/src/components/ui/button";
+import { useAuth } from "@clerk/nextjs";
 
 const formSchema = z.object({
     name: z.string().min(1),
 });
 
 const StoreModal = () => {
+    const { getToken } = useAuth();
     const storeModal = useModalState();
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,7 +52,9 @@ const StoreModal = () => {
         try {
             setIsLoading(true);
 
-            const response = await axios.post("/api/stores", trimmedData);
+            const response = await axios.post("/api/stores", trimmedData, {
+                headers: { Authorization: `Bearer ${await getToken()}` },
+            });
 
             toast.success("Store created!");
 

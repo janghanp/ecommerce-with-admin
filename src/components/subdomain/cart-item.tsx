@@ -10,6 +10,7 @@ import { SyncLoader } from "react-spinners";
 import { useCart } from "@/src/store";
 import { Button } from "@/src/components/ui/button";
 import { formatter } from "@/src/lib/utils";
+import { useAuth } from "@clerk/nextjs";
 
 type ProductWithImagesAndSizes = Prisma.ProductGetPayload<{
     include: {
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const CartItem = ({ item }: Props) => {
+    const { getToken } = useAuth();
     const removeItemInCart = useCart((state) => state.removeItem);
     const updateItemInCart = useCart((state) => state.updateItem);
 
@@ -46,6 +48,9 @@ const CartItem = ({ item }: Props) => {
                     productId: item.product.id,
                     sizeId: item.selectedSize.id,
                     quantity,
+                },
+                {
+                    headers: { Authorization: `Bearer ${await getToken()}` },
                 }
             );
 

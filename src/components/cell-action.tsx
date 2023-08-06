@@ -16,6 +16,7 @@ import { Button } from "@/src/components/ui/button";
 import { useState } from "react";
 import axios from "axios";
 import AlertModal from "./alert-modal";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
     data: BillboardColumn | CategoryColumn | ColorColumn | ProductColumn;
@@ -25,6 +26,7 @@ interface Props {
 const CellAction = ({ data, type }: Props) => {
     const router = useRouter();
     const params = useParams();
+    const { getToken } = useAuth();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -74,19 +76,27 @@ const CellAction = ({ data, type }: Props) => {
             setIsLoading(true);
 
             if (type === "billboard") {
-                await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
+                await axios.delete(`/api/${params.storeId}/billboards/${data.id}`, {
+                    headers: { Authorization: `Bearer ${await getToken()}` },
+                });
             }
 
             if (type === "category") {
-                await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
+                await axios.delete(`/api/${params.storeId}/categories/${data.id}`, {
+                    headers: { Authorization: `Bearer ${await getToken()}` },
+                });
             }
 
             if (type === "color") {
-                await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
+                await axios.delete(`/api/${params.storeId}/colors/${data.id}`, {
+                    headers: { Authorization: `Bearer ${await getToken()}` },
+                });
             }
 
             if (type === "product") {
-                await axios.delete(`/api/${params.storeId}/products/${data.id}`);
+                await axios.delete(`/api/${params.storeId}/products/${data.id}`, {
+                    headers: { Authorization: `Bearer ${await getToken()}` },
+                });
             }
 
             router.refresh();
