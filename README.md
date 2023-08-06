@@ -29,12 +29,11 @@
 -   Admin dashboard.
 -   Authentication with Clerk.
 -   Payment with Stripe.
--   Deployed to Vercel.
 
 ## Tech Stack
 
 -   **Typescript**
--   **Nextjs13 (App router)**
--   **Tailwindcss (shadecn/ui)**
+-   **NextJs13 (App router)**
+-   **Tailwindcss (ShadeCn/ui)**
 -   **Prisma**
--   **Supabase**
+-   **PlanetScale**
