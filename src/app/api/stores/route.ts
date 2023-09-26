@@ -1,15 +1,18 @@
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+
 import { prisma } from "@/src/lib/prisma";
+import { authOptions } from "@/src/app/api/auth/[...nextauth]/route";
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth();
+    const session = await getServerSession(authOptions);
+
     const body = await req.json();
 
     const { name } = body;
 
-    if (!userId) {
+    if (!session) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
@@ -30,7 +33,7 @@ export async function POST(req: Request) {
     const store = await prisma.store.create({
       data: {
         name,
-        userId,
+        userId: session.user.id,
       },
     });
 

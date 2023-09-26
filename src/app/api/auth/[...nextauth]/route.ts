@@ -14,14 +14,9 @@ export const authOptions: AuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET as string,
-  session: {
-    strategy: "jwt",
-  },
   callbacks: {
-    async session({ session, token }) {
-      console.log({ session });
-      console.log({ token });
-
+    async session({ session, token, user }) {
+      session.user.id = user.id;
       return session;
     },
   },

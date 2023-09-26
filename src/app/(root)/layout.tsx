@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
-
-// import { prisma } from "@/src/lib/prisma";
 import { getServerSession } from "next-auth/next";
+
+import { prisma } from "@/src/lib/prisma";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
 interface Props {
@@ -15,15 +15,15 @@ export default async function SetupLayout({ children }: Props) {
     redirect("/sign-in");
   }
 
-  // const store = await prisma.store.findFirst({
-  //     where: {
-  //         userId,
-  //     },
-  // });
-  //
-  // if (store) {
-  //     redirect(`/${store.id}`);
-  // }
+  const store = await prisma.store.findFirst({
+      where: {
+          userId: session.user.id,
+      },
+  });
+
+  if (store) {
+      redirect(`/${store.id}`);
+  }
 
   return <>{children}</>;
 }
