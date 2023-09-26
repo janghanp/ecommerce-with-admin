@@ -14,183 +14,179 @@ import Heading from "@/src/components/heading";
 import { Button } from "@/src/components/ui/button";
 import { Separator } from "@/src/components/ui/separator";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/src/components/ui/form";
 import { Input } from "@/src/components/ui/input";
 import AlertModal from "@/src/components/alert-modal";
 import {
-    Select,
-    SelectTrigger,
-    SelectValue,
-    SelectContent,
-    SelectItem,
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
 } from "@/src/components/ui/select";
 import { useAuth } from "@clerk/nextjs";
 
 interface Props {
-    initialData: Category | null;
-    billboards: Billboard[];
+  initialData: Category | null;
+  billboards: Billboard[];
 }
 
 type CategoryFormValue = z.infer<typeof formSchema>;
 
 const formSchema = z.object({
-    name: z.string().min(1),
-    billboardId: z.string().min(1),
+  name: z.string().min(1),
+  billboardId: z.string().min(1),
 });
 
 const CategoryForm = ({ initialData, billboards }: Props) => {
-    const params = useParams();
-    const router = useRouter();
-    const { getToken } = useAuth();
+  const params = useParams();
+  const router = useRouter();
+  const { getToken } = useAuth();
 
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const title = initialData ? "Edit category" : "Create category";
-    const description = initialData ? "Edit a category" : "Add a new category";
-    const toastMessage = initialData ? "Category updated!" : "Category created!";
-    const action = initialData ? "Save changes" : "Create category";
+  const title = initialData ? "Edit category" : "Create category";
+  const description = initialData ? "Edit a category" : "Add a new category";
+  const toastMessage = initialData ? "Category updated!" : "Category created!";
+  const action = initialData ? "Save changes" : "Create category";
 
-    const form = useForm<CategoryFormValue>({
-        resolver: zodResolver(formSchema),
-        defaultValues: initialData || { name: "", billboardId: "" },
-    });
+  const form = useForm<CategoryFormValue>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData || { name: "", billboardId: "" },
+  });
 
-    const onSubmit = async (data: CategoryFormValue) => {
-        try {
-            setIsLoading(true);
+  const onSubmit = async (data: CategoryFormValue) => {
+    try {
+      setIsLoading(true);
 
-            if (initialData) {
-                await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, data, {
-                    headers: { Authorization: `Bearer ${await getToken()}` },
-                });
-            } else {
-                await axios.post(`/api/${params.storeId}/categories`, data, {
-                    headers: { Authorization: `Bearer ${await getToken()}` },
-                });
-            }
+      if (initialData) {
+        await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, data, {
+          headers: { Authorization: `Bearer ${await getToken()}` },
+        });
+      } else {
+        await axios.post(`/api/${params.storeId}/categories`, data, {
+          headers: { Authorization: `Bearer ${await getToken()}` },
+        });
+      }
 
-            router.refresh();
-            router.push(`/${params.storeId}/categories`);
-            toast.success(toastMessage);
-        } catch (error) {
-            toast.error("Something went wrong...");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+      router.refresh();
+      router.push(`/${params.storeId}/categories`);
+      toast.success(toastMessage);
+    } catch (error) {
+      toast.error("Something went wrong...");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-    const onDelete = async () => {
-        try {
-            setIsLoading(true);
-            await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`, {
-                headers: { Authorization: `Bearer ${await getToken()}` },
-            });
+  const onDelete = async () => {
+    try {
+      setIsLoading(true);
+      await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`, {
+        headers: { Authorization: `Bearer ${await getToken()}` },
+      });
 
-            router.refresh();
-            router.push(`/${params.storeId}/categories`);
+      router.refresh();
+      router.push(`/${params.storeId}/categories`);
 
-            toast.success("Category deleted.");
-        } catch (error) {
-            toast.error("Make sure you removed all products using this category first.");
-        } finally {
-            setIsLoading(false);
-            setIsOpen(false);
-        }
-    };
+      toast.success("Category deleted.");
+    } catch (error) {
+      toast.error("Make sure you removed all products using this category first.");
+    } finally {
+      setIsLoading(false);
+      setIsOpen(false);
+    }
+  };
 
-    return (
-        <div className="flex w-full max-w-2xl flex-col items-start justify-center">
-            <AlertModal
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
-                onConfirm={onDelete}
-                isLoading={isLoading}
-            />
-            <div className="flex w-full items-center justify-between">
-                <Heading title={title} description={description} />
-                {initialData && (
-                    <Button
-                        disabled={isLoading}
-                        variant="destructive"
-                        size="icon"
-                        onClick={() => {
-                            setIsOpen(true);
-                        }}
-                    >
-                        <Trash className="h-4 w-4" />
-                    </Button>
-                )}
-            </div>
-            <Separator className="my-5" />
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="flex w-full max-w-lg flex-col items-start justify-center space-y-8"
+  return (
+    <div className="flex w-full max-w-2xl flex-col items-start justify-center">
+      <AlertModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onConfirm={onDelete}
+        isLoading={isLoading}
+      />
+      <div className="flex w-full items-center justify-between">
+        <Heading title={title} description={description} />
+        {initialData && (
+          <Button
+            disabled={isLoading}
+            variant="destructive"
+            size="icon"
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
+        )}
+      </div>
+      <Separator className="my-5" />
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex w-full max-w-lg flex-col items-start justify-center space-y-8"
+        >
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="w-full max-w-md">
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input disabled={isLoading} placeholder="Category name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="billboardId"
+            render={({ field }) => (
+              <FormItem className="w-full max-w-md">
+                <FormLabel>Billboard</FormLabel>
+                <Select
+                  disabled={isLoading}
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  defaultValue={field.value}
                 >
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                            <FormItem className="w-full max-w-md">
-                                <FormLabel>Name</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        disabled={isLoading}
-                                        placeholder="Category name"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="billboardId"
-                        render={({ field }) => (
-                            <FormItem className="w-full max-w-md">
-                                <FormLabel>Billboard</FormLabel>
-                                <Select
-                                    disabled={isLoading}
-                                    onValueChange={field.onChange}
-                                    value={field.value}
-                                    defaultValue={field.value}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                defaultValue={field.value}
-                                                placeholder="Select a billboard"
-                                            ></SelectValue>
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {billboards.map((billboard) => (
-                                            <SelectItem key={billboard.id} value={billboard.id}>
-                                                {billboard.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <Button disabled={isLoading} type="submit">
-                        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        {action}
-                    </Button>
-                </form>
-            </Form>
-        </div>
-    );
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        defaultValue={field.value}
+                        placeholder="Select a billboard"
+                      ></SelectValue>
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {billboards.map((billboard) => (
+                      <SelectItem key={billboard.id} value={billboard.id}>
+                        {billboard.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button disabled={isLoading} type="submit">
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {action}
+          </Button>
+        </form>
+      </Form>
+    </div>
+  );
 };
 
 export default CategoryForm;

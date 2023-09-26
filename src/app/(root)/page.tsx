@@ -4,16 +4,21 @@ import { useEffect } from "react";
 
 import { useModalState } from "@/src/store";
 
+import { useSession } from "next-auth/react";
+
 const SetupPage = () => {
-    const { isOpen, toggleModal } = useModalState();
+  const session = useSession();
 
-    useEffect(() => {
-        if (!isOpen) {
-            toggleModal(true);
-        }
-    }, [isOpen, toggleModal]);
+  console.log(session);
+  // const { isOpen, toggleModal } = useModalState();
 
-    return <></>;
+  // useEffect(() => {
+  //     if (!isOpen) {
+  //         toggleModal(true);
+  //     }
+  // }, [isOpen, toggleModal]);
+
+  return <>Root page</>;
 };
 
 export default SetupPage;

@@ -25,15 +25,15 @@
 
 ## Features
 
--   Multi-tenant (e.g app.jpshop.xyz, hello.jpshop.xyz etc)
--   Admin dashboard.
--   Authentication with Clerk.
--   Payment with Stripe.
+- Multi-tenant (e.g app.jpshop.xyz, hello.jpshop.xyz etc)
+- Admin dashboard.
+- Authentication with Clerk.
+- Payment with Stripe.
 
 ## Tech Stack
 
--   **Typescript**
--   **NextJs13 (App router)**
--   **Tailwindcss (ShadeCn/ui)**
--   **Prisma**
--   **PlanetScale**
+- **Typescript**
+- **NextJs13 (App router)**
+- **Tailwindcss (ShadeCn/ui)**
+- **Prisma**
+- **PlanetScale**
