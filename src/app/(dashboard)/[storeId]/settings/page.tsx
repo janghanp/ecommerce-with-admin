@@ -1,26 +1,27 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth/next";
 
 import { prisma } from "@/src/lib/prisma";
 import SettingsForm from "@/src/components/settings-form";
 import { Separator } from "@/src/components/ui/separator";
 import SettingsInfo from "@/src/components/subdomain/settings-info";
+import { authOptions } from "@/src/app/api/auth/[...nextauth]/route";
 
 interface Props {
   params: { storeId: string };
 }
 
 const SettingsPage = async ({ params }: Props) => {
-  const { userId } = auth();
+  const session = await getServerSession(authOptions);
 
-  if (!userId) {
+  if (!session) {
     redirect("/sign-in");
   }
 
   const store = await prisma.store.findFirst({
     where: {
       id: params.storeId,
-      userId,
+      userId: session.user.id,
     },
   });
 

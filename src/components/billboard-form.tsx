@@ -40,7 +40,6 @@ const formSchema = z.object({
 const BillboardForm = ({ initialData }: Props) => {
   const params = useParams();
   const router = useRouter();
-  const { getToken } = useAuth();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -60,13 +59,9 @@ const BillboardForm = ({ initialData }: Props) => {
       setIsLoading(true);
 
       if (initialData) {
-        await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data);
       } else {
-        await axios.post(`/api/${params.storeId}/billboards`, data, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.post(`/api/${params.storeId}/billboards`, data);
       }
 
       router.refresh();
@@ -82,9 +77,7 @@ const BillboardForm = ({ initialData }: Props) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`, {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
+      await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
 
       router.refresh();
       router.push(`/${params.storeId}/billboards`);

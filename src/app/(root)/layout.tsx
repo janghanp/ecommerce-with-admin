@@ -16,13 +16,13 @@ export default async function SetupLayout({ children }: Props) {
   }
 
   const store = await prisma.store.findFirst({
-      where: {
-          userId: session.user.id,
-      },
+    where: {
+      userId: session.user.id,
+    },
   });
 
   if (store) {
-      redirect(`/${store.id}`);
+    redirect(`/${store.id}`);
   }
 
   return <>{children}</>;

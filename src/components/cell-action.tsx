@@ -26,7 +26,6 @@ interface Props {
 const CellAction = ({ data, type }: Props) => {
   const router = useRouter();
   const params = useParams();
-  const { getToken } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -76,27 +75,19 @@ const CellAction = ({ data, type }: Props) => {
       setIsLoading(true);
 
       if (type === "billboard") {
-        await axios.delete(`/api/${params.storeId}/billboards/${data.id}`, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
       }
 
       if (type === "category") {
-        await axios.delete(`/api/${params.storeId}/categories/${data.id}`, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
       }
 
       if (type === "color") {
-        await axios.delete(`/api/${params.storeId}/colors/${data.id}`, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
       }
 
       if (type === "product") {
-        await axios.delete(`/api/${params.storeId}/products/${data.id}`, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.delete(`/api/${params.storeId}/products/${data.id}`);
       }
 
       router.refresh();

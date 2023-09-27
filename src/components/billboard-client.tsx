@@ -20,7 +20,6 @@ interface Props {
 const BillboardClient = ({ billboards }: Props) => {
   const router = useRouter();
   const { storeId } = useParams();
-  const { getToken } = useAuth();
 
   const formattedBillboards: BillboardColumn[] = billboards.map((billboard) => ({
     id: billboard.id,
@@ -29,9 +28,7 @@ const BillboardClient = ({ billboards }: Props) => {
   }));
 
   const deleteHandler = async (billboardIds: string[]) => {
-    await axios.delete(`/api/${storeId}/billboards?ids=${billboardIds.join(",")}`, {
-      headers: { Authorization: `Bearer ${await getToken()}` },
-    });
+    await axios.delete(`/api/${storeId}/billboards?ids=${billboardIds.join(",")}`);
   };
 
   const updateHandler = async (billboardId: string) => {

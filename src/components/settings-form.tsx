@@ -38,7 +38,6 @@ type SettingsFormValues = z.infer<typeof formSchema>;
 const SettingsForm = ({ initialData }: Props) => {
   const params = useParams();
   const router = useRouter();
-  const { getToken } = useAuth();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -60,9 +59,7 @@ const SettingsForm = ({ initialData }: Props) => {
 
     try {
       setIsLoading(true);
-      await axios.patch(`/api/stores/${params.storeId}`, trimmedData, {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
+      await axios.patch(`/api/stores/${params.storeId}`, trimmedData);
       router.refresh();
       toast.success("Successfully updated!");
     } catch (error) {
@@ -82,9 +79,7 @@ const SettingsForm = ({ initialData }: Props) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`, {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
+      await axios.delete(`/api/stores/${params.storeId}`);
 
       router.refresh();
       router.push("/");

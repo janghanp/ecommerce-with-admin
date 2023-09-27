@@ -26,7 +26,6 @@ interface Props {
 const CategoryClient = ({ categories }: Props) => {
   const router = useRouter();
   const { storeId } = useParams();
-  const { getToken } = useAuth();
 
   const formattedCategories: CategoryColumn[] = categories.map((category) => ({
     id: category.id,
@@ -36,9 +35,7 @@ const CategoryClient = ({ categories }: Props) => {
   }));
 
   const deleteHandler = async (categoryIds: string[]) => {
-    await axios.delete(`/api/${storeId}/categories?ids=${categoryIds.join(",")}`, {
-      headers: { Authorization: `Bearer ${await getToken()}` },
-    });
+    await axios.delete(`/api/${storeId}/categories?ids=${categoryIds.join(",")}`);
   };
 
   const updateHandler = async (categoryId: string) => {

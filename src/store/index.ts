@@ -10,6 +10,18 @@ type ProductWithImagesAndSizes = Prisma.ProductGetPayload<{
   };
 }>;
 
+interface UserInfo {
+  id: string;
+  email: string;
+  name: string;
+  image?: string;
+}
+
+interface useCurrentUserState {
+  currentUser?: UserInfo;
+  setCurrentUser: (value: UserInfo) => void;
+}
+
 interface useModalState {
   isOpen: boolean;
   toggleModal: (value: boolean) => void;
@@ -27,6 +39,11 @@ interface CartState {
   removeItem: (id: string) => void;
   emptyCart: () => void;
 }
+
+export const useCurrentUser = create<useCurrentUserState>((set) => ({
+  currentUser: undefined,
+  setCurrentUser: (value: UserInfo) => set({ currentUser: value }),
+}));
 
 export const useModalState = create<useModalState>((set) => ({
   isOpen: false,

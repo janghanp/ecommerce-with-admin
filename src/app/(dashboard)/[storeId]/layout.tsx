@@ -1,24 +1,25 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth/next";
 
 import { prisma } from "@/src/lib/prisma";
 import Navbar from "@/src/components/navbar";
 import MobileSidebar from "@/src/components/mobile-sidebar";
+import { authOptions } from "@/src/app/api/auth/[...nextauth]/route";
 
 interface Props {
   children: React.ReactNode;
 }
 
 export default async function DashboardLayout({ children }: Props) {
-  const { userId } = auth();
+  const session = await getServerSession(authOptions);
 
-  if (!userId) {
+  if (!session) {
     redirect("/sign-in");
   }
 
   const stores = await prisma.store.findMany({
     where: {
-      userId,
+      userId: session.user.id,
     },
   });
 

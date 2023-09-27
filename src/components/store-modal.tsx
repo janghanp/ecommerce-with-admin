@@ -41,32 +41,32 @@ const StoreModal = () => {
 
   const submitHandler = async (data: z.infer<typeof formSchema>) => {
     const trimmedData = {
-        name: data.name.trim(),
+      name: data.name.trim(),
     };
 
     if (trimmedData.name.includes(" ")) {
-        form.setError("name", { message: "Store name can't have space between letters. " });
-        return;
+      form.setError("name", { message: "Store name can't have space between letters. " });
+      return;
     }
 
     try {
-        setIsLoading(true);
+      setIsLoading(true);
 
-        const response = await axios.post("/api/stores", trimmedData);
+      const response = await axios.post("/api/stores", trimmedData);
 
-        toast.success("Store created!");
+      toast.success("Store created!");
 
-        window.location.href = `/${response.data.id}`;
+      window.location.href = `/${response.data.id}`;
     } catch (error) {
-        if (error instanceof AxiosError) {
-            console.log(error);
+      if (error instanceof AxiosError) {
+        console.log(error);
 
-            if (error.response?.data.includes("already")) {
-                form.setError("name", { message: error.response?.data });
-            }
+        if (error.response?.data.includes("already")) {
+          form.setError("name", { message: error.response?.data });
         }
+      }
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 

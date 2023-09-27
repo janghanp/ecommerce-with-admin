@@ -41,7 +41,6 @@ const formSchema = z.object({
 const ColorForm = ({ initialData }: Props) => {
   const params = useParams();
   const router = useRouter();
-  const { getToken } = useAuth();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -61,13 +60,9 @@ const ColorForm = ({ initialData }: Props) => {
       setIsLoading(true);
 
       if (initialData) {
-        await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.patch(`/api/${params.storeId}/colors/${params.colorId}`, data);
       } else {
-        await axios.post(`/api/${params.storeId}/colors`, data, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.post(`/api/${params.storeId}/colors`, data);
       }
 
       router.refresh();
@@ -83,9 +78,7 @@ const ColorForm = ({ initialData }: Props) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`, {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
+      await axios.delete(`/api/${params.storeId}/colors/${params.colorId}`);
 
       router.refresh();
       router.push(`/${params.storeId}/colors`);

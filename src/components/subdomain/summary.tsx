@@ -13,7 +13,6 @@ import { useAuth } from "@clerk/nextjs";
 
 const Summary = () => {
   const searchParams = useSearchParams();
-  const { getToken } = useAuth();
 
   const cartItems = useCart((state) => state.items);
   const emptyCart = useCart((state) => state.emptyCart);
@@ -43,9 +42,6 @@ const Summary = () => {
         {
           cartItems,
           subdomain,
-        },
-        {
-          headers: { Authorization: `Bearer ${await getToken()}` },
         }
       );
 

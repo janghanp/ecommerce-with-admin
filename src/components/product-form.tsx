@@ -65,7 +65,6 @@ const formSchema = z.object({
 const ProductForm = ({ initialData, categories, colors }: Props) => {
   const params = useParams();
   const router = useRouter();
-  const { getToken } = useAuth();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -120,13 +119,9 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
       setIsLoading(true);
 
       if (initialData) {
-        await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.patch(`/api/${params.storeId}/products/${params.productId}`, data);
       } else {
-        await axios.post(`/api/${params.storeId}/products`, data, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.post(`/api/${params.storeId}/products`, data);
       }
 
       router.refresh();
@@ -143,9 +138,7 @@ const ProductForm = ({ initialData, categories, colors }: Props) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/${params.storeId}/products/${params.productId}`, {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
+      await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
 
       router.refresh();
       router.push(`/${params.storeId}/products`);

@@ -18,7 +18,6 @@ interface Props {
 
 const SettingsInfo = ({ store }: Props) => {
   const router = useRouter();
-  const { getToken } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -26,9 +25,7 @@ const SettingsInfo = ({ store }: Props) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/stores/${store.id}`, {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
+      await axios.delete(`/api/stores/${store.id}`);
 
       router.refresh();
       router.push("/");

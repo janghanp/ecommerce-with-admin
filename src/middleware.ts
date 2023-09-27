@@ -8,9 +8,7 @@ export const config = {
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
-  function middleware(req) {
-
-  },
+  function middleware(req) {},
   {
     callbacks: {
       authorized: ({ token }) => true,

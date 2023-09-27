@@ -29,7 +29,6 @@ interface Props {
 const ProductClient = ({ products }: Props) => {
   const router = useRouter();
   const { storeId } = useParams();
-  const { getToken } = useAuth();
 
   const formattedProducts: ProductColumn[] = products.map((product) => {
     const stock = product.sizes.map((size) => size.quantity).reduce((acc, curr) => acc + curr, 0);
@@ -49,9 +48,7 @@ const ProductClient = ({ products }: Props) => {
   });
 
   const deleteHandler = async (productIds: string[]) => {
-    await axios.delete(`/api/${storeId}/products?ids=${productIds.join(",")}`, {
-      headers: { Authorization: `Bearer ${await getToken()}` },
-    });
+    await axios.delete(`/api/${storeId}/products?ids=${productIds.join(",")}`);
   };
 
   const updateHandler = async (productId: string) => {

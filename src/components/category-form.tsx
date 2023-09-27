@@ -47,7 +47,6 @@ const formSchema = z.object({
 const CategoryForm = ({ initialData, billboards }: Props) => {
   const params = useParams();
   const router = useRouter();
-  const { getToken } = useAuth();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -67,13 +66,9 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
       setIsLoading(true);
 
       if (initialData) {
-        await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, data, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, data);
       } else {
-        await axios.post(`/api/${params.storeId}/categories`, data, {
-          headers: { Authorization: `Bearer ${await getToken()}` },
-        });
+        await axios.post(`/api/${params.storeId}/categories`, data);
       }
 
       router.refresh();
@@ -89,9 +84,7 @@ const CategoryForm = ({ initialData, billboards }: Props) => {
   const onDelete = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`, {
-        headers: { Authorization: `Bearer ${await getToken()}` },
-      });
+      await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`);
 
       router.refresh();
       router.push(`/${params.storeId}/categories`);

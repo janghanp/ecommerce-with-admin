@@ -1,15 +1,18 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs";
+import { getServerSession } from "next-auth/next";
+
 import { prisma } from "@/src/lib/prisma";
+import { authOptions } from "@/src/app/api/auth/[...nextauth]/route";
 
 export async function PATCH(req: Request, { params }: { params: { storeId: string } }) {
   try {
-    const { userId } = auth();
+    const session = await getServerSession(authOptions);
+
     const body = await req.json();
 
     const { name } = body;
 
-    if (!userId) {
+    if (!session) {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
 
@@ -34,7 +37,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
     const updatedStore = await prisma.store.update({
       where: {
         id: params.storeId,
-        userId,
+        userId: session.user.id,
       },
       data: {
         name,
@@ -50,9 +53,9 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
 
 export async function DELETE(req: Request, { params }: { params: { storeId: string } }) {
   try {
-    const { userId } = auth();
+    const session = await getServerSession(authOptions);
 
-    if (!userId) {
+    if (!session) {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
 
@@ -63,7 +66,7 @@ export async function DELETE(req: Request, { params }: { params: { storeId: stri
     const store = await prisma.store.delete({
       where: {
         id: params.storeId,
-        userId,
+        userId: session.user.id,
       },
     });
 

@@ -10,9 +10,9 @@ const SetupPage = () => {
   const { isOpen, toggleModal } = useModalState();
 
   useEffect(() => {
-      if (!isOpen) {
-          toggleModal(true);
-      }
+    if (!isOpen) {
+      toggleModal(true);
+    }
   }, [isOpen, toggleModal]);
 
   return <></>;

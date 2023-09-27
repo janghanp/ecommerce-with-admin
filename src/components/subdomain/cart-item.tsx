@@ -24,7 +24,6 @@ interface Props {
 }
 
 const CartItem = ({ item }: Props) => {
-  const { getToken } = useAuth();
   const removeItemInCart = useCart((state) => state.removeItem);
   const updateItemInCart = useCart((state) => state.updateItem);
 
@@ -48,9 +47,6 @@ const CartItem = ({ item }: Props) => {
           productId: item.product.id,
           sizeId: item.selectedSize.id,
           quantity: isIncrement ? quantity : quantity - 1,
-        },
-        {
-          headers: { Authorization: `Bearer ${await getToken()}` },
         }
       );
 

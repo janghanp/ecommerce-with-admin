@@ -4,6 +4,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/src/lib/prisma";
 import cloudinary from "cloudinary";
 import { getPublicIdFromUrl } from "@/src/lib/utils";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/src/app/api/auth/[...nextauth]/route";
 
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
   try {
@@ -52,13 +54,14 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
   try {
-    const { userId } = auth();
+    const session = await getServerSession(authOptions);
+
     const body = await req.json();
 
     const { name, price, categoryId, colorId, images, isFeatured, isArchived, sizes, quantities } =
       body;
 
-    if (!userId) {
+    if (!session) {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
 
@@ -97,7 +100,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     const storeByUserId = await prisma.store.findFirst({
       where: {
         id: params.storeId,
-        userId,
+        userId: session.user.id,
       },
     });
 

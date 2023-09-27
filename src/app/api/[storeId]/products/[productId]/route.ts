@@ -1,9 +1,10 @@
 import cloudinary from "cloudinary";
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs";
+import { getServerSession } from "next-auth/next";
 
 import { prisma } from "@/src/lib/prisma";
 import { getPublicIdFromUrl } from "@/src/lib/utils";
+import { authOptions } from "@/src/app/api/auth/[...nextauth]/route";
 
 export async function GET(req: Request, { params }: { params: { productId: string } }) {
   try {
@@ -35,13 +36,14 @@ export async function PATCH(
   { params }: { params: { storeId: string; productId: string } }
 ) {
   try {
-    const { userId } = auth();
+    const session = await getServerSession(authOptions);
+
     const body = await req.json();
 
     const { name, price, categoryId, colorId, images, isFeatured, isArchived, sizes, quantities } =
       body;
 
-    if (!userId) {
+    if (!session) {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
 
@@ -84,7 +86,7 @@ export async function PATCH(
     const storeByUserId = await prisma.store.findFirst({
       where: {
         id: params.storeId,
-        userId,
+        userId: session.user.id,
       },
     });
 
@@ -163,9 +165,9 @@ export async function DELETE(
   });
 
   try {
-    const { userId } = auth();
+    const session = await getServerSession(authOptions);
 
-    if (!userId) {
+    if (!session) {
       return new NextResponse("Unauthenticated", { status: 401 });
     }
 
@@ -176,7 +178,7 @@ export async function DELETE(
     const storeByUserId = await prisma.store.findFirst({
       where: {
         id: params.storeId,
-        userId,
+        userId: session.user.id,
       },
     });
 

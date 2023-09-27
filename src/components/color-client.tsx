@@ -20,7 +20,6 @@ interface Props {
 const ColorClient = ({ colors }: Props) => {
   const router = useRouter();
   const { storeId } = useParams();
-  const { getToken } = useAuth();
 
   const formattedColors: ColorColumn[] = colors.map((size) => ({
     id: size.id,
@@ -30,9 +29,7 @@ const ColorClient = ({ colors }: Props) => {
   }));
 
   const deleteHandler = async (colorIds: string[]) => {
-    await axios.delete(`/api/${storeId}/colors?ids=${colorIds.join(",")}`, {
-      headers: { Authorization: `Bearer ${await getToken()}` },
-    });
+    await axios.delete(`/api/${storeId}/colors?ids=${colorIds.join(",")}`);
   };
 
   const updateHandler = async (colorId: string) => {
